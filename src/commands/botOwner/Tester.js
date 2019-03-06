@@ -11,9 +11,6 @@ class Tester {
 	async execute(message, kirCore) {
 		const [command, args] = KiramekiHelper.tailedArgs(message.content, ' ', 1);
 		
-		message.channel.createEmbed(new KiramekiHelper.Embed().setColor("RED").setTitle("XDD").setDescription("XDDDdioasjdk")).catch(e => {
-			message.channel.createMessage("beep boop");
-		});
 	}
 }
 
