@@ -1,0 +1,34 @@
+{
+  "name": "kirameki",
+  "version": "1.0.0",
+  "description": "Powerful multi purpose Discord and Twitch bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "RIya",
+  "license": "MIT",
+  "dependencies": {
+    "bufferutil": "^4.0.1",
+    "chalk": "^2.4.2",
+    "countrynames": "^0.1.1",
+    "eris": "^0.9.0",
+    "eris-additions": "^1.2.5",
+    "erlpack": "github:abalabahaha/erlpack",
+    "eventemitter3": "^3.1.0",
+    "fs-readdir-recursive": "^1.1.0",
+    "get-urls": "^8.0.0",
+    "harmonia-osu": "^1.0.7",
+    "mysql": "^2.16.0",
+    "mysql2": "^1.6.4",
+    "node-fetch": "^2.3.0",
+    "node-opus": "^0.3.1",
+    "nodesu": "^0.6.4",
+    "ojsama": "^1.2.1",
+    "pako": "^1.0.8",
+    "recursive-readdir": "^2.2.2",
+    "sodium-native": "^2.2.4",
+    "uws": "^99.0.0",
+    "zlib-sync": "^0.1.4"
+  }
+}
