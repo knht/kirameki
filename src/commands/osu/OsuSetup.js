@@ -1,5 +1,4 @@
 const KiramekiHelper = require('../../KiramekiHelper');
-const KiramekiConfig = require('../../../config/KiramekiConfig');
 
 class OsuSetup {
     constructor() {
