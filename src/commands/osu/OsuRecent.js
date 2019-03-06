@@ -55,26 +55,28 @@ class OsuRecent {
                     let beatmapStars = new ojsama.diff().calc({ map: beatmapMap, mods: enabledMods });
                     let recentMaxCombo = parseInt(userRecentResults[0].maxcombo);
                     let recentMisses = parseInt(userRecentResults[0].countmiss);
+                    
                     let recentAccuracy = parseFloat((((
-                        (parseInt(userRecentResults[0].count300) * 300) +
-                        (parseInt(userRecentResults[0].count100) * 100) +
-                        (parseInt(userRecentResults[0].count50) * 50) +
-                        (parseInt(userRecentResults[0].countmiss) * 0)) /
+                        (parseInt(userRecentResults[0].count300)  * 300) +
+                        (parseInt(userRecentResults[0].count100)  * 100) +
+                        (parseInt(userRecentResults[0].count50)   * 50)  +
+                        (parseInt(userRecentResults[0].countmiss) * 0))  /
                         ((
-                            parseInt(userRecentResults[0].count300) +
-                            parseInt(userRecentResults[0].count100) +
-                            parseInt(userRecentResults[0].count50) +
+                            parseInt(userRecentResults[0].count300)      +
+                            parseInt(userRecentResults[0].count100)      +
+                            parseInt(userRecentResults[0].count50)       +
                             parseInt(userRecentResults[0].countmiss)
                         ) * 300)) * 100));
+
                     let recentAccuracyForFC = parseFloat((((
-                        (parseInt(userRecentResults[0].count300) * 300) +
+                        (parseInt(userRecentResults[0].count300) * 300)  +
                         ((parseInt(userRecentResults[0].count100) + parseInt(userRecentResults[0].countmiss)) * 100) +
-                        (parseInt(userRecentResults[0].count50) * 50) +
+                        (parseInt(userRecentResults[0].count50) * 50)    +
                         (parseInt(0) * 0)) /
                         ((
-                            parseInt(userRecentResults[0].count300) +
-                            parseInt(userRecentResults[0].count100) +
-                            parseInt(userRecentResults[0].count50) +
+                            parseInt(userRecentResults[0].count300)      +
+                            parseInt(userRecentResults[0].count100)      +
+                            parseInt(userRecentResults[0].count50)       +
                             parseInt(userRecentResults[0].countmiss)
                         ) * 300)) * 100));
 
