@@ -11,6 +11,11 @@ class Tester {
     async execute(message, kirCore) {
         const [command, args] = KiramekiHelper.tailedArgs(message.content, ' ', 1);
 
+        if (message.mentions.length) {
+            message.channel.createMessage("yes");
+        } else {
+            message.channel.createMessage("nope");
+        }
     }
 }
 
