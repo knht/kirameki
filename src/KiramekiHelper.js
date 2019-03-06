@@ -4,17 +4,63 @@ const util              = require('util');
 const fs                = require('fs');
 const fetch             = require('node-fetch');
 const Embed             = require('./extensions/Embed');
-const ojsama            = require("ojsama");
+const ojsama            = require('ojsama');
+const KiramekiImages    = require('./constants/Images');
+const md5               = require('md5');
 
 class KiramekiHelper {
     constructor() {
         this.Embed = Embed;
+        this.images = KiramekiImages;
         this.LogLevel = {
             EVENT: 0,
             COMMAND: 1,
             ERROR: 2,
             DEBUG: 3
         };
+    }
+
+    async updateOsuLeaderboards(kirAPI_DB, message) {
+        try {
+            const osuDiscordLinks = await this.query(kirAPI_DB, 'SELECT * FROM osu_discord_links;');
+
+            // Fetch all guild members
+            message.guild.fetchAllMembers();
+
+            let memberIDsWithLinkage = [];
+
+            for (let i = 0; i < osuDiscordLinks.length; i++) {
+                let guildMemberID = message.guild.members.find(member => member.id == osuDiscordLinks[i].discord_id);
+
+                if (guildMemberID) memberIDsWithLinkage.push(guildMemberID.id);
+            }
+
+            const guildID       = message.guild.id;
+            const guildName     = message.guild.name.replace(/[^\x00-\x7F]/g, "");
+            const guildAvatar   = (message.guild.iconURL) ? message.guild.iconURL : this.images.DEFAULT_DISCORD;
+            const memberIDs     = memberIDsWithLinkage.join(';');
+            const hashedIDs     = md5(memberIDs);
+            const guildLB       = await this.preparedQuery(kirAPI_DB, 'SELECT * FROM osu_leaderboards WHERE guild_id = ?;', [guildID]);
+
+            // Check if the guild already has a leaderboard
+            if (guildLB.length > 0) {
+                // Guild already has a leaderboard, update their members and guild data
+                this.preparedQuery(
+                    kirAPI_DB,
+                    'UPDATE `osu_leaderboards` SET `osu_ids` = ?, `osu_ids_hash` = ?, `guild_name` = ?, `guild_avatar` = ? WHERE `osu_leaderboards`.`guild_id` = ?;',
+                    [memberIDs, hashedIDs, guildName, guildAvatar, guildID]
+                );
+            } else {
+                // Guild has no leaderboard yet, create one
+                this.preparedQuery(
+                    kirAPI_DB,
+                    'INSERT IGNORE INTO `osu_leaderboards` (`id`, `guild_id`, `guild_name`, `guild_avatar`, `osu_ids`, `osu_ids_hash`) VALUES (NULL, ?, ?, ?, ?, ?);',
+                    [guildID, guildName, guildAvatar, memberIDs, hashedIDs]
+                );
+            }
+        } catch (osuLeaderboardUpdateError) {
+            this.log(this.LogLevel.ERROR, 'osu! LEADERBOARD UPDATE ERROR', `Updating the osu! leaderboards failed because of: ${osuLeaderboardUpdateError}`);
+        }
     }
 
     numberWithCommas(x) {
