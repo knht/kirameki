@@ -46,7 +46,7 @@ class KiramekiHelper {
     async getOsuUser(kirAPI_DB, userId) {
         const result = await this.preparedQuery(kirAPI_DB, 'SELECT * FROM osu_discord_links WHERE discord_id = ? LIMIT 1;', [userId]);
 
-        return result[0];
+        return (result) ? result[0] : [];
     }
 
     async updateOsuUser(kirAPI_DB, userObject) {

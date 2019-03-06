@@ -29,11 +29,11 @@ class Kirameki extends Eris.Client {
     }
 
     _catchUnhandledRejections() {
-        process.on('unhandledRejection', (err, p) => {
+        /*process.on('unhandledRejection', (err, p) => {
             console.log('An unhandledRejection occurred');
             console.log(`Rejected Promise: ${p}`);
             console.log(`Rejection: ${err}`);
-        });
+        });*/
     }
 
     _initKiramekiDatabase(connectionError) {

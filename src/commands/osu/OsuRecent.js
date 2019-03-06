@@ -8,7 +8,7 @@ class OsuRecent {
     constructor() {
         this.name = 'osur';
         this.aliases = ['osurecent', 'recent', 'r'];
-        this.owner = true;
+        this.owner = false;
     }
 
     async execute(message, kirCore) {
@@ -16,8 +16,9 @@ class OsuRecent {
 
         const [command, osuName] = KiramekiHelper.tailedArgs(message.content, ' ', 1);
         const userLinkage = await KiramekiHelper.getOsuUser(kirCore.DB, message.author.id);
+        let userToLookup;
 
-        if (!osuName && userLinkage.length < 1) {
+        if (!osuName && !userLinkage) {
             return message.channel.createEmbed(new KiramekiHelper.Embed()
                 .setColor(0xF06DA8)
                 .setAuthor("osu! Most Recent", "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Osulogo.png/286px-Osulogo.png")
@@ -26,8 +27,29 @@ class OsuRecent {
                 )
             );
         }
+        
+        if (osuName) {
+            if (message.mentions.length) {
+                const mentionedUser = message.mentions[0];
+                const mentionedUserLinkage = await KiramekiHelper.getOsuUser(kirCore.DB, mentionedUser.id);
 
-        const userToLookup = (osuName) ? osuName : userLinkage.osu_username;
+                if (!mentionedUserLinkage) {
+                    return message.channel.createEmbed(new KiramekiHelper.Embed()
+                        .setColor(0xF06DA8)
+                        .setAuthor("osu! Most Recent", "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Osulogo.png/286px-Osulogo.png")
+                        .setDescription(
+                            "The user you have mentioned hasn't linked their osu! account with Kirameki!"
+                        )
+                    );
+                } else {
+                    userToLookup = mentionedUserLinkage.osu_username;
+                }
+            } else {
+                userToLookup = osuName;
+            }
+        } else {
+            userToLookup = userLinkage.osu_username;
+        }
 
         try {
             const userResults = await kirCore.osu.user.get(userToLookup, 0, undefined, 'string');
@@ -55,7 +77,7 @@ class OsuRecent {
                     let beatmapStars = new ojsama.diff().calc({ map: beatmapMap, mods: enabledMods });
                     let recentMaxCombo = parseInt(userRecentResults[0].maxcombo);
                     let recentMisses = parseInt(userRecentResults[0].countmiss);
-                    
+
                     let recentAccuracy = parseFloat((((
                         (parseInt(userRecentResults[0].count300)  * 300) +
                         (parseInt(userRecentResults[0].count100)  * 100) +
