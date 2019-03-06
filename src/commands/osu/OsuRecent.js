@@ -1,22 +1,22 @@
-const KiramekiHelper = require('../../KiramekiHelper');
-const KiramekiConfig = require('../../../config/KiramekiConfig');
-const countrynames = require('countrynames');
-const chalk = require('chalk');
-const ojsama = require('ojsama');
+const KiramekiHelper    = require('../../KiramekiHelper');
+const KiramekiConfig    = require('../../../config/KiramekiConfig');
+const countrynames      = require('countrynames');
+const chalk             = require('chalk');
+const ojsama            = require('ojsama');
 
 class OsuRecent {
-	constructor() {
-		this.name = 'osur';
+    constructor() {
+        this.name = 'osur';
         this.aliases = ['osurecent', 'recent', 'r'];
         this.owner = true;
-	}
+    }
 
-	async execute(message, kirCore) {
+    async execute(message, kirCore) {
         message.channel.sendTyping();
 
-		const [command, osuName] = KiramekiHelper.tailedArgs(message.content, ' ', 1);
+        const [command, osuName] = KiramekiHelper.tailedArgs(message.content, ' ', 1);
         const userLinkage = await KiramekiHelper.getOsuUser(kirCore.DB, message.author.id);
-        
+
         if (!osuName && userLinkage.length < 1) {
             return message.channel.createEmbed(new KiramekiHelper.Embed()
                 .setColor(0xF06DA8)
@@ -28,14 +28,14 @@ class OsuRecent {
         }
 
         const userToLookup = (osuName) ? osuName : userLinkage.osu_username;
-        
+
         try {
             const userResults = await kirCore.osu.user.get(userToLookup, 0, undefined, 'string');
             const osuUsername = userResults.username;
             const osuUserID = userResults.user_id;
             const osuUserDisplayname = ':flag_' + userResults.country.toLowerCase() + ': ' + userResults.username;
             const userWrittenName = countrynames.getName(userResults.country).charAt(0).toUpperCase() + countrynames.getName(userResults.country).slice(1).toLowerCase();
-            
+
             try {
                 const userRecentResults = await kirCore.osu.raw('/get_user_recent', { u: osuUserID, m: 0, type: 'id', limit: 1 });
                 const mostRecentRank = KiramekiHelper.getEmoji(kirCore, '333219713872297986', `yachty_osu_${userRecentResults[0].rank}`);
@@ -49,34 +49,34 @@ class OsuRecent {
                     const beatmapData = await KiramekiHelper.obtainAndCacheOsuFile(mostRecentBMID);
 
                     let beatmapParser = new ojsama.parser();
-                        beatmapParser.feed(beatmapData);
+                    beatmapParser.feed(beatmapData);
                     let beatmapMap = beatmapParser.map;
                     let enabledMods = parseInt(userRecentResults[0].enabled_mods);
                     let beatmapStars = new ojsama.diff().calc({ map: beatmapMap, mods: enabledMods });
                     let recentMaxCombo = parseInt(userRecentResults[0].maxcombo);
                     let recentMisses = parseInt(userRecentResults[0].countmiss);
                     let recentAccuracy = parseFloat((((
-                        (parseInt(userRecentResults[0].count300)  * 300) +
-                        (parseInt(userRecentResults[0].count100)  * 100) +
-                        (parseInt(userRecentResults[0].count50)   * 50)  +
-                        (parseInt(userRecentResults[0].countmiss) * 0))  /
-                    ((
-                        parseInt(userRecentResults[0].count300)   +
-                        parseInt(userRecentResults[0].count100)   +
-                        parseInt(userRecentResults[0].count50)    +
-                        parseInt(userRecentResults[0].countmiss)
-                    ) * 300)) * 100));
+                        (parseInt(userRecentResults[0].count300) * 300) +
+                        (parseInt(userRecentResults[0].count100) * 100) +
+                        (parseInt(userRecentResults[0].count50) * 50) +
+                        (parseInt(userRecentResults[0].countmiss) * 0)) /
+                        ((
+                            parseInt(userRecentResults[0].count300) +
+                            parseInt(userRecentResults[0].count100) +
+                            parseInt(userRecentResults[0].count50) +
+                            parseInt(userRecentResults[0].countmiss)
+                        ) * 300)) * 100));
                     let recentAccuracyForFC = parseFloat((((
-                        (parseInt(userRecentResults[0].count300)  * 300) +
+                        (parseInt(userRecentResults[0].count300) * 300) +
                         ((parseInt(userRecentResults[0].count100) + parseInt(userRecentResults[0].countmiss)) * 100) +
-                        (parseInt(userRecentResults[0].count50)   * 50)  +
+                        (parseInt(userRecentResults[0].count50) * 50) +
                         (parseInt(0) * 0)) /
-                    ((
-                        parseInt(userRecentResults[0].count300)   +
-                        parseInt(userRecentResults[0].count100)   +
-                        parseInt(userRecentResults[0].count50)    +
-                        parseInt(userRecentResults[0].countmiss)
-                    ) * 300)) * 100));
+                        ((
+                            parseInt(userRecentResults[0].count300) +
+                            parseInt(userRecentResults[0].count100) +
+                            parseInt(userRecentResults[0].count50) +
+                            parseInt(userRecentResults[0].countmiss)
+                        ) * 300)) * 100));
 
                     let beatmapPP = ojsama.ppv2({ stars: beatmapStars, combo: recentMaxCombo, nmiss: recentMisses, acc_percent: recentAccuracy });
                     let maxPPPossible = ojsama.ppv2({ map: beatmapMap, stars: beatmapStars });
@@ -89,7 +89,7 @@ class OsuRecent {
                     let mapModifiers = (KiramekiHelper.numberToMod(userRecentResults[0].enabled_mods).length > 0) ? "+" + KiramekiHelper.numberToMod(userRecentResults[0].enabled_mods).join(',') : "Nomod";
                     let allHits = parseInt(userRecentResults[0].count50) + parseInt(userRecentResults[0].count100) + parseInt(userRecentResults[0].count300) + parseInt(userRecentResults[0].countmiss);
                     let mapCompletion = parseFloat(KiramekiHelper.map_completion(beatmapData, allHits)).toFixed(2) + '%';
-                    
+
                     message.channel.createEmbed({
                         title: "Most recent play in osu! **Standard** by **" + osuUserDisplayname + "**",
                         description: "[" + beatmapRender + "](https://osu.ppy.sh/b/" + mostRecentBMID + "&m=0)",
@@ -99,38 +99,38 @@ class OsuRecent {
                             url: "https://b.ppy.sh/thumb/" + beatmapSetID + "l.jpg?uts=" + Math.floor(new Date() / 1000)
                         },
                         fields: [{
-                                name: "Play Information",
-                                value: beatmapStars.toString().split(" ", 1)[0] + mostRecentDiffIcon + mostRecentRank + " **" + formattedCalcAcc + "%** ***" + mapModifiers + "*** *(Score: " + KiramekiHelper.numberWithCommas(parseInt(userRecentResults[0].score)) + ")*\n" +
-                                    "**Total Hits:** " +
-                                    `${KiramekiHelper.getEmoji(kirCore, '333219713872297986', `yachty_osu_300`)} ${userRecentResults[0].count300} ` +
-                                    `${KiramekiHelper.getEmoji(kirCore, '333219713872297986', `yachty_osu_100`)} ${userRecentResults[0].count100} ` +
-                                    `${KiramekiHelper.getEmoji(kirCore, '333219713872297986', `yachty_osu_50`)} ${userRecentResults[0].count50} ` +
-                                    `${KiramekiHelper.getEmoji(kirCore, '333219713872297986', `yachty_osu_x`)} ${userRecentResults[0].countmiss}`
-                            },
-                            {
-                                name: "Beatmap Information",
-                                value: "Length: **" + KiramekiHelper.secToMin(userRecentScore[0].total_length) + "**, AR: **" + userRecentScore[0].diff_approach + "**, OD: **" + userRecentScore[0].diff_overall + "**, CS: **" + userRecentScore[0].diff_size + "**, BPM: **" + userRecentScore[0].bpm + "**, HP: **" + userRecentScore[0].diff_drain + "**"
-                            },
-                            {
-                                name: "Performance",
-                                value: "**" + formattedPPmin + "pp** / *" + formattedPPMax + "pp*",
-                                inline: true
-                            },
-                            {
-                                name: "Combo",
-                                value: "**" + userRecentResults[0].maxcombo + "x** / *" + max_combo + "x*",
-                                inline: true
-                            },
-                            {
-                                name: "Potential Performance",
-                                value: "**" + potentialPP + "pp** for **" + recentAccuracyForFC.toFixed(2) + "%**",
-                                inline: true
-                            },
-                            {
-                                name: "Map Completion",
-                                value: "**" + mapCompletion + "**",
-                                inline: true
-                            }
+                            name: "Play Information",
+                            value: beatmapStars.toString().split(" ", 1)[0] + mostRecentDiffIcon + mostRecentRank + " **" + formattedCalcAcc + "%** ***" + mapModifiers + "*** *(Score: " + KiramekiHelper.numberWithCommas(parseInt(userRecentResults[0].score)) + ")*\n" +
+                                "**Total Hits:** " +
+                                `${KiramekiHelper.getEmoji(kirCore, '333219713872297986', `yachty_osu_300`)} ${userRecentResults[0].count300} ` +
+                                `${KiramekiHelper.getEmoji(kirCore, '333219713872297986', `yachty_osu_100`)} ${userRecentResults[0].count100} ` +
+                                `${KiramekiHelper.getEmoji(kirCore, '333219713872297986', `yachty_osu_50`)} ${userRecentResults[0].count50} ` +
+                                `${KiramekiHelper.getEmoji(kirCore, '333219713872297986', `yachty_osu_x`)} ${userRecentResults[0].countmiss}`
+                        },
+                        {
+                            name: "Beatmap Information",
+                            value: "Length: **" + KiramekiHelper.secToMin(userRecentScore[0].total_length) + "**, AR: **" + userRecentScore[0].diff_approach + "**, OD: **" + userRecentScore[0].diff_overall + "**, CS: **" + userRecentScore[0].diff_size + "**, BPM: **" + userRecentScore[0].bpm + "**, HP: **" + userRecentScore[0].diff_drain + "**"
+                        },
+                        {
+                            name: "Performance",
+                            value: "**" + formattedPPmin + "pp** / *" + formattedPPMax + "pp*",
+                            inline: true
+                        },
+                        {
+                            name: "Combo",
+                            value: "**" + userRecentResults[0].maxcombo + "x** / *" + max_combo + "x*",
+                            inline: true
+                        },
+                        {
+                            name: "Potential Performance",
+                            value: "**" + potentialPP + "pp** for **" + recentAccuracyForFC.toFixed(2) + "%**",
+                            inline: true
+                        },
+                        {
+                            name: "Map Completion",
+                            value: "**" + mapCompletion + "**",
+                            inline: true
+                        }
                         ],
                         footer: {
                             icon_url: 'https://a.ppy.sh/' + userResults.user_id + '?uts=' + Math.floor(new Date() / 1000),
