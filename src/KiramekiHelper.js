@@ -18,25 +18,25 @@ class KiramekiHelper {
     }
 
     numberWithCommas(x) {
-		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-	}
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
 
     map_completion(beatmapData, totalHits) {
         var beatmapParser = new ojsama.parser();
         beatmapParser.feed(beatmapData);
-        var beatmapMap  = beatmapParser.map;
+        var beatmapMap = beatmapParser.map;
 
-        var hitObjects  = [];
-        var hits        = (totalHits == 0) ? parseInt(beatmapMap.objects.length) : parseInt(totalHits);
-        var numObj      = hits - 1;
-        var num         = parseInt(beatmapMap.objects.length);
+        var hitObjects = [];
+        var hits = (totalHits == 0) ? parseInt(beatmapMap.objects.length) : parseInt(totalHits);
+        var numObj = hits - 1;
+        var num = parseInt(beatmapMap.objects.length);
 
         for (var i = 0; i < beatmapMap.objects.length; i++) {
             hitObjects.push(parseInt(beatmapMap.objects[i].time));
         }
 
-        var timing          = parseInt(hitObjects[num - 1]) - parseInt(hitObjects[0]);
-        var point           = parseInt(hitObjects[numObj]) - parseInt(hitObjects[0]);
+        var timing = parseInt(hitObjects[num - 1]) - parseInt(hitObjects[0]);
+        var point = parseInt(hitObjects[numObj]) - parseInt(hitObjects[0]);
 
         const mapCompletion = (point / timing) * 100;
 
@@ -57,8 +57,8 @@ class KiramekiHelper {
         if (osuUserExists.length > 0) {
             try {
                 this.preparedQuery(
-                    kirAPI_DB, 
-                    'UPDATE `osu_accounts` SET `username` = ?, `country` = ?, `pp_raw` = ?, `pp_rank` = ?, `accuracy` = ?, `playcount` = ?, `score_ss` = ?, `score_s` = ?, `score_a` = ?, `last_update` = ? WHERE `osu_accounts`.`user_id` = ?', 
+                    kirAPI_DB,
+                    'UPDATE `osu_accounts` SET `username` = ?, `country` = ?, `pp_raw` = ?, `pp_rank` = ?, `accuracy` = ?, `playcount` = ?, `score_ss` = ?, `score_s` = ?, `score_a` = ?, `last_update` = ? WHERE `osu_accounts`.`user_id` = ?',
                     [osuUsername, userObject.country, userObject.pp_raw, userObject.pp_rank, userObject.accuracy, userObject.playcount, parseInt(userObject.count_rank_ss) + parseInt(userObject.count_rank_ssh), parseInt(userObject.count_rank_s) + parseInt(userObject.count_rank_sh), userObject.count_rank_a, new Date().toISOString(), userObject.user_id]
                 );
             } catch (osuUserUpdateError) {
@@ -92,33 +92,33 @@ class KiramekiHelper {
     }
 
     async updateOsuBeatmaps(kirAPI_DB, mapObject) {
-		try {
-			const mapAlreadyExists = await this.preparedQuery(kirAPI_DB, 'SELECT * FROM osu_beatmaps_vt WHERE beatmap_id = ? AND mods = ? and beatmapset_id = ?;', [mapObject.beatmap_id, mapObject.mods, mapObject.beatmapset_id]);
+        try {
+            const mapAlreadyExists = await this.preparedQuery(kirAPI_DB, 'SELECT * FROM osu_beatmaps_vt WHERE beatmap_id = ? AND mods = ? and beatmapset_id = ?;', [mapObject.beatmap_id, mapObject.mods, mapObject.beatmapset_id]);
 
-			if (mapAlreadyExists.length > 0) {
-				return;
-			} else {
-				await this.preparedQuery(
-					kirAPI_DB, 
-					'INSERT INTO osu_beatmaps_vt (id, mods, beatmap_id, pp, beatmapset_id, beatmap_artist, beatmap_title, beatmap_difficulty, beatmap_length, beatmap_bpm, beatmap_stars) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);', 
-					[
-						mapObject.mods, 
-						mapObject.beatmap_id, 
-						mapObject.pp, 
-						mapObject.beatmapset_id, 
-						mapObject.beatmap_artist,
-						mapObject.beatmap_title,
-						mapObject.beatmap_difficulty,
-						mapObject.beatmap_length,
-						mapObject.beatmap_bpm,
-						mapObject.beatmap_stars 
-					]
-				);
-			}
-		} catch (error) {
+            if (mapAlreadyExists.length > 0) {
+                return;
+            } else {
+                await this.preparedQuery(
+                    kirAPI_DB,
+                    'INSERT INTO osu_beatmaps_vt (id, mods, beatmap_id, pp, beatmapset_id, beatmap_artist, beatmap_title, beatmap_difficulty, beatmap_length, beatmap_bpm, beatmap_stars) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
+                    [
+                        mapObject.mods,
+                        mapObject.beatmap_id,
+                        mapObject.pp,
+                        mapObject.beatmapset_id,
+                        mapObject.beatmap_artist,
+                        mapObject.beatmap_title,
+                        mapObject.beatmap_difficulty,
+                        mapObject.beatmap_length,
+                        mapObject.beatmap_bpm,
+                        mapObject.beatmap_stars
+                    ]
+                );
+            }
+        } catch (error) {
             this.log(this.LogLevel.ERROR, "BEATMAP CACHE UPDATE ERROR", `Updating the beatmap cache failed because of: ${error}`);
-		}
-	}
+        }
+    }
 
     async obtainAndCacheOsuFile(beatmapID) {
         const osuFile = `${__dirname}/../beatmaps/${beatmapID}.osu`;
@@ -138,31 +138,31 @@ class KiramekiHelper {
     }
 
     secToMin(s) {
-		return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;
-	}
+        return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;
+    }
 
     getOsuDiffIconDesc(diff) {
-		var diffDesc = '';
-		const diffSanitized = parseFloat(diff);
+        var diffDesc = '';
+        const diffSanitized = parseFloat(diff);
 
-		if (diffSanitized > 0 && diffSanitized <= 1.5) {
-			diffDesc = 'easy';
-		} else if (diffSanitized >= 1.51 && diffSanitized <= 2.25) {
-			diffDesc = 'normal';
-		} else if (diffSanitized >= 2.26 && diffSanitized <= 3.75) {
-			diffDesc = 'hard';
-		} else if (diffSanitized >= 3.76 && diffSanitized <= 5.25) {
-			diffDesc = 'insane';
-		} else if (diffSanitized >= 5.26 && diffSanitized <= 6.75) {
-			diffDesc = 'expert';
-		} else if (diffSanitized >= 6.76) {
-			diffDesc = 'expertplus';
-		} else {
-			diffDesc = 'invalid';
-		}
+        if (diffSanitized > 0 && diffSanitized <= 1.5) {
+            diffDesc = 'easy';
+        } else if (diffSanitized >= 1.51 && diffSanitized <= 2.25) {
+            diffDesc = 'normal';
+        } else if (diffSanitized >= 2.26 && diffSanitized <= 3.75) {
+            diffDesc = 'hard';
+        } else if (diffSanitized >= 3.76 && diffSanitized <= 5.25) {
+            diffDesc = 'insane';
+        } else if (diffSanitized >= 5.26 && diffSanitized <= 6.75) {
+            diffDesc = 'expert';
+        } else if (diffSanitized >= 6.76) {
+            diffDesc = 'expertplus';
+        } else {
+            diffDesc = 'invalid';
+        }
 
-		return diffDesc;
-	}
+        return diffDesc;
+    }
 
     getBeatmapIDFromLink(link) {
         const parsedLink = this.obtainLink(link)[0];
@@ -198,20 +198,20 @@ class KiramekiHelper {
 
     numberToMod(givenNumber) {
         const number = parseInt(givenNumber);
-        let mod_list  = [];
+        let mod_list = [];
 
-        if (number & 1<<0)      mod_list.push('NF');
-        if (number & 1<<1)      mod_list.push('EZ');
-        if (number & 1<<3)      mod_list.push('HD');
-        if (number & 1<<4)      mod_list.push('HR');
-        if (number & 1<<5)      mod_list.push('SD');
-        if (number & 1<<9)      mod_list.push('NC');
-        if (number & 1<<6)      mod_list.push('DT');
-        if (number & 1<<7)      mod_list.push('RX');
-        if (number & 1<<8)      mod_list.push('HT');
-        if (number & 1<<10)     mod_list.push('FL');
-        if (number & 1<<12)     mod_list.push('SO');
-        if (number & 1<<14)     mod_list.push('PF');
+        if (number & 1 << 0) mod_list.push('NF');
+        if (number & 1 << 1) mod_list.push('EZ');
+        if (number & 1 << 3) mod_list.push('HD');
+        if (number & 1 << 4) mod_list.push('HR');
+        if (number & 1 << 5) mod_list.push('SD');
+        if (number & 1 << 9) mod_list.push('NC');
+        if (number & 1 << 6) mod_list.push('DT');
+        if (number & 1 << 7) mod_list.push('RX');
+        if (number & 1 << 8) mod_list.push('HT');
+        if (number & 1 << 10) mod_list.push('FL');
+        if (number & 1 << 12) mod_list.push('SO');
+        if (number & 1 << 14) mod_list.push('PF');
 
         if (mod_list.includes('NC')) {
             let dtIndex = mod_list.indexOf('DT');
@@ -225,12 +225,12 @@ class KiramekiHelper {
     }
 
     addslashes(str) {
-		str = str.replace(/\\/g, '\\\\');
-		str = str.replace(/\'/g, '\\\'');
-		str = str.replace(/\"/g, '\\"');
-		str = str.replace(/\0/g, '\\0');
-		return str;
-	}
+        str = str.replace(/\\/g, '\\\\');
+        str = str.replace(/\'/g, '\\\'');
+        str = str.replace(/\"/g, '\\"');
+        str = str.replace(/\0/g, '\\0');
+        return str;
+    }
 
     async preparedQuery(database, userQuery, bindings) {
         const query = util.promisify(database.query).bind(database);
@@ -247,9 +247,9 @@ class KiramekiHelper {
     }
 
     tailedArgs(string, delimeter, count) {
-        const parts     = string.split(delimeter);
-        const tail      = parts.slice(count).join(delimeter);
-        const result    = parts.slice(0, count);
+        const parts = string.split(delimeter);
+        const tail = parts.slice(count).join(delimeter);
+        const result = parts.slice(0, count);
 
         result.push(tail);
 
@@ -273,13 +273,13 @@ class KiramekiHelper {
     }
 
     currentTime() {
-        const now       = new Date();
-        const day       = this.forcePad(now.getDate());
-        const month     = this.forcePad(now.getMonth() + 1);
-        const year      = this.forcePad(now.getFullYear());
-        const hour      = this.forcePad(now.getHours());
-        const minute    = this.forcePad(now.getMinutes());
-        const second    = this.forcePad(now.getSeconds());
+        const now = new Date();
+        const day = this.forcePad(now.getDate());
+        const month = this.forcePad(now.getMonth() + 1);
+        const year = this.forcePad(now.getFullYear());
+        const hour = this.forcePad(now.getHours());
+        const minute = this.forcePad(now.getMinutes());
+        const second = this.forcePad(now.getSeconds());
 
         return `${day}.${month}.${year} ${hour}:${minute}:${second}`;
     }
