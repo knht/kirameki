@@ -1,6 +1,6 @@
 <div align="center">
     <br>
-    <p><img src="https://img.kirameki.one/aQXaH2eh.png" height="300" alt="Kirameki"></p>
+    <p><img src="https://img.kirameki.one/2v01x5KE.png" height="300" alt="Kirameki"></p>
     <a href="https://discord.gg/kKPZdA6"><img src="https://discordapp.com/api/guilds/464440032577716238/embed.png" alt="Discord Server"/></a>
     <a href="https://www.gnu.org/licenses/gpl-3.0.en.html"><img src="https://img.shields.io/badge/license-GPL%20v3-FF9175.svg"></a>
     <a href="https://abal.moe/Eris/"><img src="https://img.shields.io/badge/library-Eris-FF9175.svg"></a>
