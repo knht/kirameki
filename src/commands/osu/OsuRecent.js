@@ -21,7 +21,7 @@ class OsuRecent {
         if (!osuName && !userLinkage) {
             return message.channel.createEmbed(new KiramekiHelper.Embed()
                 .setColor(0xF06DA8)
-                .setAuthor("osu! Most Recent", "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Osulogo.png/286px-Osulogo.png")
+                .setAuthor("osu! Most Recent", KiramekiHelper.images.OSU_LOGO)
                 .setDescription(
                     "You haven't provided an osu! username! Please link your osu! account with your Discord account or provide a username!\n\n**Usage:** `&osusetup <osuName>`\n\n**Example:** `&osusetup Riya`"
                 )
@@ -36,7 +36,7 @@ class OsuRecent {
                 if (!mentionedUserLinkage) {
                     return message.channel.createEmbed(new KiramekiHelper.Embed()
                         .setColor(0xF06DA8)
-                        .setAuthor("osu! Most Recent", "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Osulogo.png/286px-Osulogo.png")
+                        .setAuthor("osu! Most Recent", KiramekiHelper.images.OSU_LOGO)
                         .setDescription(
                             "The user you have mentioned hasn't linked their osu! account with Kirameki!"
                         )
@@ -182,7 +182,7 @@ class OsuRecent {
                 } catch (beatmapFetchError) {
                     message.channel.createEmbed(new KiramekiHelper.Embed()
                         .setColor(0xF06DA8)
-                        .setAuthor("osu! Most Recent", "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Osulogo.png/286px-Osulogo.png")
+                        .setAuthor("osu! Most Recent", KiramekiHelper.images.OSU_LOGO)
                         .setDescription(
                             "Something went wrong while calculating your potential PP. This could very well be because the osu! beatmap data API is currently down or in bad state. Please check **@osustatus** on Twitter if this problem persists."
                         )
@@ -194,7 +194,7 @@ class OsuRecent {
             } catch (osuNoRecentsError) {
                 message.channel.createEmbed(new KiramekiHelper.Embed()
                     .setColor(0xF06DA8)
-                    .setAuthor("osu! Most Recent", "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Osulogo.png/286px-Osulogo.png")
+                    .setAuthor("osu! Most Recent", KiramekiHelper.images.OSU_LOGO)
                     .setDescription(
                         `There are no recent plays for user **${userToLookup}**`
                     )
@@ -206,7 +206,7 @@ class OsuRecent {
         } catch (osuUserFetchError) {
             message.channel.createEmbed(new KiramekiHelper.Embed()
                 .setColor(0xF06DA8)
-                .setAuthor("osu! Player Lookup", "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Osulogo.png/286px-Osulogo.png")
+                .setAuthor("osu! Player Lookup", KiramekiHelper.images.OSU_LOGO)
                 .setDescription(
                     "***We couldn't find the user you were looking for. (" + userToLookup + ")***\n\n" +
                     "There are a few possible reasons for this:\n\n" +
