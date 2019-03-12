@@ -13,5 +13,6 @@ module.exports = {
         password: '',
         database: '',
         charset: ''
-    }
+    },
+    erisOptions: {}
 }
