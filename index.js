@@ -75,15 +75,6 @@ class Kirameki extends Eris.Client {
         }, 1800000);
     }
 
-    async _checkBlacklistedGuild(guild) {
-        const isBlacklisted = await KiramekiHelper.preparedQuery(this.DB, 'SELECT * FROM blacklisted_guild WHERE guild_id = ?;', [guild.id]);
-
-        if (isBlacklisted.length > 0) {
-            await this.leaveGuild(guild.id);
-            KiramekiHelper.log(KiramekiHelper.LogLevel.EVENT, "BLACKLISTED GUILD", `Someone tried to make Kirameki join a blacklisted guild: ${guild.name} (${guild.id})`);
-        }
-    }
-
     async _updateKiramekiUsers(newUser, oldUser) {
         try {
             const userExists = await KiramekiHelper.preparedQuery(this.DB, "SELECT * FROM profile_xp WHERE discord_id = ?;", [newUser.id]);
@@ -102,9 +93,9 @@ class Kirameki extends Eris.Client {
         }
     }
 
-    _moduleListener(message, wsEvent) {
+    _moduleListener(message, wsEvent, other) {
         try {
-            this.moduleHandler.handle(message, this.modules, wsEvent);
+            this.moduleHandler.handle(message, this.modules, wsEvent, other);
         } catch (moduleListenerError) {
             KiramekiHelper.log(KiramekiHelper.LogLevel.ERROR, "MODULE LISTENER ERROR", `A module couldn't be processed because of: ${moduleListenerError}`);
         }
@@ -132,10 +123,14 @@ class Kirameki extends Eris.Client {
         this._moduleListener(undefined, this.moduleHandler.wsEvents.READY);
     }
 
+    _runGuildCreateOperators(guild) {
+        this._moduleListener(undefined, this.moduleHandler.wsEvents.GUILD_CREATE, { guild });
+    }
+
     _addEventListeners() {
         this.on('ready', this._runReadyOperators);
         this.on('messageCreate', this._runMessageOperators);
-        this.on('guildCreate', this._checkBlacklistedGuild);
+        this.on('guildCreate', this._runGuildCreateOperators);
         this.on('userUpdate', this._updateKiramekiUsers);
     }
 }

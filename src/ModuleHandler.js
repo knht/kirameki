@@ -11,7 +11,7 @@ class ModuleHandler {
         }
     }
 
-    handle(message, modules, wsEvent) {
+    handle(message, modules, wsEvent, other) {
         switch(wsEvent) {
             case this.wsEvents.READY: {
                 const readyModules = modules.filter(readyModule => readyModule.wsEvent === 'READY');
@@ -25,8 +25,14 @@ class ModuleHandler {
                 if (message.content.startsWith(this.kirCore.prefix)) return;
                 if (message.content == this.kirCore.prefix) return;
 
-                const messageCreateModules = modules.filter(messageCreateModule => messageCreateModule.wsEvent == 'MESSAGE_CREATE');
+                const messageCreateModules = modules.filter(messageCreateModule => messageCreateModule.wsEvent === 'MESSAGE_CREATE');
                       messageCreateModules.forEach(mcm => mcm.execute(message, this.kirCore));
+                break;
+            }
+
+            case this.wsEvents.GUILD_CREATE: {
+                const guildCreateModules = modules.filter(guildCreateModule => guildCreateModule.wsEvent === 'GUILD_CREATE');
+                      guildCreateModules.forEach(gcm => gcm.execute(other.guild, this.kirCore));
                 break;
             }
         }
