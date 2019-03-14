@@ -75,11 +75,6 @@ class Kirameki extends Eris.Client {
         }, 1800000);
     }
 
-    _readyEmitter() {
-        this.editStatus("online", { name: 'kirameki.one | &help' });
-        KiramekiHelper.log(KiramekiHelper.LogLevel.EVENT, "STARTUP", "Kirameki was restarted successfully and is now ready!");
-    }
-
     async _checkBlacklistedGuild(guild) {
         const isBlacklisted = await KiramekiHelper.preparedQuery(this.DB, 'SELECT * FROM blacklisted_guild WHERE guild_id = ?;', [guild.id]);
 
@@ -107,14 +102,9 @@ class Kirameki extends Eris.Client {
         }
     }
 
-    _moduleListener(message) {
+    _moduleListener(message, wsEvent) {
         try {
-            if (message.channel.type != 0) return;
-            if (message.author.bot) return;
-            if (message.content.startsWith(this.prefix)) return;
-            if (message.content == this.prefix) return;
-
-            this.moduleHandler.handle(message, this.modules);
+            this.moduleHandler.handle(message, this.modules, wsEvent);
         } catch (moduleListenerError) {
             KiramekiHelper.log(KiramekiHelper.LogLevel.ERROR, "MODULE LISTENER ERROR", `A module couldn't be processed because of: ${moduleListenerError}`);
         }
@@ -135,11 +125,15 @@ class Kirameki extends Eris.Client {
 
     _runMessageOperators(message) {
         this._messageListener(message);
-        this._moduleListener(message);
+        this._moduleListener(message, this.moduleHandler.wsEvents.MESSAGE_CREATE);
+    }
+
+    _runReadyOperators() {
+        this._moduleListener(undefined, this.moduleHandler.wsEvents.READY);
     }
 
     _addEventListeners() {
-        this.on('ready', this._readyEmitter);
+        this.on('ready', this._runReadyOperators);
         this.on('messageCreate', this._runMessageOperators);
         this.on('guildCreate', this._checkBlacklistedGuild);
         this.on('userUpdate', this._updateKiramekiUsers);

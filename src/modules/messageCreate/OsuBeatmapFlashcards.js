@@ -4,7 +4,7 @@ const ojsama            = require("ojsama");
 class OsuBeatmapFlashcards {
     constructor() {
         this.name = 'osubmfc';
-        this.wsEvent = 'messageCreate';
+        this.wsEvent = 'MESSAGE_CREATE';
     }
 
     async execute(message, kirCore) {
