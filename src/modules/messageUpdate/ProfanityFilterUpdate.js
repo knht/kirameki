@@ -1,14 +1,15 @@
 const KiramekiHelper = require('../../KiramekiHelper');
 
-class ProfanityFilter {
+class ProfanityFilterUpdate {
     constructor() {
-        this.name = 'profanityfilterMC';
-        this.wsEvent = 'MESSAGE_CREATE';
+        this.name = 'profanityfilterUC';
+        this.wsEvent = 'MESSAGE_UPDATE';
     }
 
-    async execute(message, kirCore) {
+    async execute(message, oldMessage, kirCore) {
         if (message.channel.type != 0) return;
         if (message.author.bot) return;
+        if (oldMessage === null) return;
 
         const wordExists        = await KiramekiHelper.preparedQuery(kirCore.DB, 'SELECT * FROM word_blacklist WHERE guild_id = ?;', [message.guild.id]);
         const sanitizedContent  = KiramekiHelper.sanitizeMarkdown(message.content);
@@ -23,4 +24,4 @@ class ProfanityFilter {
     }
 }
 
-module.exports = new ProfanityFilter();
+module.exports = new ProfanityFilterUpdate();

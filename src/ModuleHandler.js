@@ -7,7 +7,8 @@ class ModuleHandler {
             READY: 0,
             MESSAGE_CREATE: 1,
             USER_UPDATE: 2,
-            GUILD_CREATE: 3
+            GUILD_CREATE: 3,
+            MESSAGE_UPDATE: 4
         }
     }
 
@@ -20,11 +21,6 @@ class ModuleHandler {
             }
 
             case this.wsEvents.MESSAGE_CREATE: {
-                if (message.channel.type != 0) return;
-                if (message.author.bot) return;
-                if (message.content.startsWith(this.kirCore.prefix)) return;
-                if (message.content == this.kirCore.prefix) return;
-
                 const messageCreateModules = modules.filter(messageCreateModule => messageCreateModule.wsEvent === 'MESSAGE_CREATE');
                       messageCreateModules.forEach(mcm => mcm.execute(message, this.kirCore));
                 break;
@@ -33,6 +29,12 @@ class ModuleHandler {
             case this.wsEvents.GUILD_CREATE: {
                 const guildCreateModules = modules.filter(guildCreateModule => guildCreateModule.wsEvent === 'GUILD_CREATE');
                       guildCreateModules.forEach(gcm => gcm.execute(other.guild, this.kirCore));
+                break;
+            }
+
+            case this.wsEvents.MESSAGE_UPDATE: {
+                const messageUpdateModules = modules.filter(messageUpdateModule => messageUpdateModule.wsEvent === 'MESSAGE_UPDATE');
+                      messageUpdateModules.forEach(mum => mum.execute(message, other.oldMessage, this.kirCore));
                 break;
             }
         }

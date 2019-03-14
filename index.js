@@ -127,11 +127,16 @@ class Kirameki extends Eris.Client {
         this._moduleListener(undefined, this.moduleHandler.wsEvents.GUILD_CREATE, { guild });
     }
 
+    _runMessageUpdateOperators(message, oldMessage) {
+        this._moduleListener(message, this.moduleHandler.wsEvents.MESSAGE_UPDATE, { oldMessage });
+    }
+
     _addEventListeners() {
         this.on('ready', this._runReadyOperators);
         this.on('messageCreate', this._runMessageOperators);
         this.on('guildCreate', this._runGuildCreateOperators);
         this.on('userUpdate', this._updateKiramekiUsers);
+        this.on('messageUpdate', this._runMessageUpdateOperators);
     }
 }
 
