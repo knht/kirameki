@@ -73,24 +73,6 @@ class Kirameki extends Eris.Client {
         }, 1800000);
     }
 
-    async _updateKiramekiUsers(newUser, oldUser) {
-        try {
-            const userExists = await KiramekiHelper.preparedQuery(this.DB, "SELECT * FROM profile_xp WHERE discord_id = ?;", [newUser.id]);
-
-            if (userExists.length < 1) return;
-
-            await KiramekiHelper.preparedQuery(
-				this.DB, 
-				'UPDATE profile_xp SET discord_id = ?, discord_tag = ?, discord_avatar = ? WHERE discord_id = ?;',
-				[newUser.id, KiramekiHelper.getUserTag(newUser), newUser.staticAvatarURL, newUser.id]
-			);
-
-            KiramekiHelper.log(KiramekiHelper.LogLevel.DEBUG, "USER UPDATE", `${KiramekiHelper.userLogCompiler(newUser)} updated their Discord profile. Changes have been synced to the database!`);
-        } catch (updatingUsersError) {
-            KiramekiHelper.log(KiramekiHelper.LogLevel.ERROR, "USER UPDATE ERROR", `The user update event was fired but the database update failed because of: ${updatingUsersError}`);
-        }
-    }
-
     _moduleListener(message, wsEvent, other) {
         try {
             this.moduleHandler.handle(message, this.modules, wsEvent, other);
@@ -129,11 +111,15 @@ class Kirameki extends Eris.Client {
         this._moduleListener(message, this.moduleHandler.wsEvents.MESSAGE_UPDATE, { oldMessage });
     }
 
+    _runUserUpdateOperators(newUser, oldUser) {
+        this._moduleListener(undefined, this.moduleHandler.wsEvents.USER_UPDATE, { newUser });
+    }
+
     _addEventListeners() {
         this.on('ready', this._runReadyOperators);
         this.on('messageCreate', this._runMessageOperators);
         this.on('guildCreate', this._runGuildCreateOperators);
-        this.on('userUpdate', this._updateKiramekiUsers);
+        this.on('userUpdate', this._runUserUpdateOperators);
         this.on('messageUpdate', this._runMessageUpdateOperators);
     }
 }

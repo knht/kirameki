@@ -37,6 +37,12 @@ class ModuleHandler {
                       messageUpdateModules.forEach(mum => mum.execute(message, other.oldMessage, this.kirCore));
                 break;
             }
+
+            case this.wsEvents.USER_UPDATE: {
+                const userUpdateModules = modules.filter(userUpdateModule => userUpdateModule.wsEvent === 'USER_UPDATE');
+                      userUpdateModules.forEach(uum => uum.execute(other.newUser, this.kirCore));
+                break;
+            }
         }
     }
 }
