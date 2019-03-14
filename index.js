@@ -46,11 +46,9 @@ class Kirameki extends Eris.Client {
     }
 
     _catchUnhandledRejections() {
-        /*process.on('unhandledRejection', (err, p) => {
-            console.log('An unhandledRejection occurred');
-            console.log(`Rejected Promise: ${p}`);
-            console.log(`Rejection: ${err}`);
-        });*/
+        process.on('unhandledRejection', (error, promise) => {
+            KiramekiHelper.log(KiramekiHelper.LogLevel.ERROR, 'UNHANDLED PROMISE REJECTION', `An unhandled promise rejection occurred. Promise: ${promise} | Rejection: ${error}`);
+        });
     }
 
     _initKiramekiDatabase(connectionError) {
