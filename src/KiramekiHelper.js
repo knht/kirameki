@@ -20,6 +20,16 @@ class KiramekiHelper {
         };
     }
 
+    sanitizeMarkdown(text) {
+        return text
+            .toLowerCase()
+            .replace(/\*/g, '')
+            .replace(/~/g, '')
+            .replace(/-/g, '')
+            .replace(/_/g, '')
+            .replace(/\|/g, '');
+    }
+
     async updateOsuLeaderboards(kirAPI_DB, message) {
         try {
             const osuDiscordLinks = await this.query(kirAPI_DB, 'SELECT * FROM osu_discord_links;');
