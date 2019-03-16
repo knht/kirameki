@@ -19,7 +19,7 @@ This repository is ***not*** meant for self hosting purposes, as Kirameki heavil
 The Kirameki community is delighted about any single one of its valuable community members. Come [join us on Discord](https://discord.gg/kKPZdA6) and have a chat with us!
 
 # License
-Kirameki is released under the [GNU GPL v3](https://www.gnu.org/licenses/gpl-3.0.en.html) license.
+Kirameki is released under the [GNU AGPL v3](https://www.gnu.org/licenses/agpl-3.0.html) license.
 
 This software makes use of the Discord API library **Eris** provided by [abalabahaha](https://github.com/abalabahaha/eris), which is licensed under the [MIT License.](https://opensource.org/licenses/MIT)
 
