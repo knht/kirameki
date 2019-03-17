@@ -7,12 +7,20 @@ class MessageHandler {
         this.cooldowns = new Eris.Collection();
     }
 
+    /**
+     * The main method which is running for each message received that's passed the initial filtration
+     * @param {object} message The message object emitted from Discord 
+     * @param {object} commands An Eris collection containing all loaded commands
+     */
     async handle(message, commands) {
         const commandArguments  = message.content.slice(this.kirCore.prefix.length).split(/ +/);
         const commandName       = commandArguments.shift().toLowerCase();
         const command           = commands.get(commandName) || commands.find(kirCommand => kirCommand.aliases && kirCommand.aliases.includes(commandName));
 
+        // Stop handling if no registered command was found
         if (!command) return;
+
+        // Check if the command is restricted to the bot owner 
         if (command.owner && !KiramekiHelper.checkIfOwner(message.author.id)) {
             return message.channel.sendEmbed({
                 title: "Insufficient permissions!",
@@ -20,6 +28,7 @@ class MessageHandler {
             });
         }
 
+        // Command cooldowns 
         if (!this.cooldowns.has(command.name)) {
             this.cooldowns.set(command.name, new Eris.Collection());
         }
@@ -44,6 +53,7 @@ class MessageHandler {
         timestamps.set(message.author.id, now);
         setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
+        // Execute the command and register statistics in the database
         try {
             command.execute(message, this.kirCore);
 
