@@ -1,8 +1,10 @@
 const KiramekiHelper = require('./KiramekiHelper');
+const Eris           = require('eris');
 
 class MessageHandler {
     constructor(kirCore) {
         this.kirCore = kirCore;
+        this.cooldowns = new Eris.Collection();
     }
 
     async handle(message, commands) {
@@ -17,6 +19,30 @@ class MessageHandler {
                 color: 0xFF0000
             });
         }
+
+        if (!this.cooldowns.has(command.name)) {
+            this.cooldowns.set(command.name, new Eris.Collection());
+        }
+
+        const now = Date.now();
+        const timestamps = this.cooldowns.get(command.name);
+        const cooldownAmount = (command.cooldown || 2) * 1000;
+
+        if (timestamps.has(message.author.id)) {
+            const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+
+            if (now < expirationTime) {
+                const timeLeft = (expirationTime - now) / 1000;
+
+                return message.channel.createEmbed(new KiramekiHelper.Embed()
+                    .setColor(0xFF9185)
+                    .setTitle(`Please wait **${timeLeft.toFixed(1)}** seconds before using **${command.name}** again`)
+                );
+            }
+        }
+
+        timestamps.set(message.author.id, now);
+        setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
         try {
             command.execute(message, this.kirCore);
