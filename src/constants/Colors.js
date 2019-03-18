@@ -1,5 +1,5 @@
 module.exports = {
-    DEFAULT: 0x000000,
+    DEFAULT: 0xFF9185,
     WHITE: 0xFFFFFF,
     AQUA: 0x1ABC9C,
     GREEN: 0x2ECC71,
