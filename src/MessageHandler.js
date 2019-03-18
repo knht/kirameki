@@ -23,11 +23,16 @@ class MessageHandler {
 
         // Check if the bot has adequate permissions
         const pendingPermissions = (!command.permissions.length) ? this.minimumPermissions : this.minimumPermissions.concat(command.permissions);
-        
+        let missingPermissions = [];
+
         for (let i = 0; i < pendingPermissions.length; i++) {
             if (!message.channel.permissionsOf(this.kirCore.user.id).has(pendingPermissions[i])) {
-                return message.channel.createMessage(`Can't run command **${command.name}** because I lack permissions. Please make sure I have all of the following permissions: **${pendingPermissions.join(', ')}**`);
+                missingPermissions.push(pendingPermissions[i]);
             }
+        }
+
+        if (missingPermissions.length) {
+            return message.channel.createMessage(`Can't run command **${command.name}** because I lack following permissions: **${missingPermissions.join(', ')}**`);
         }
 
         // Check if the command is restricted to the bot owner 
