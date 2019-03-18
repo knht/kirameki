@@ -8,7 +8,7 @@ class OsuRecent {
     constructor() {
         this.name = 'osur';
         this.aliases = ['osurecent', 'recent', 'r'];
-        this.owner = false;
+        this.permissions = ['externalEmojis'];
     }
 
     async execute(message, kirCore) {
@@ -214,7 +214,7 @@ class OsuRecent {
                     "*• The account may be temporarily unavailable.*\n" +
                     "*• You may have made a typo!*\n"
                 )
-                .setThumbnail('https://i.imgur.com/Wa00gFg.png')
+                .setThumbnail(KiramekiHelper.images.OSU_PIPPI_SAD)
             );
 
             KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, "osu! RECENTS LOOKUP", `Fetching the user from the osu! API failed because of: ${chalk.bold(osuUserFetchError)}`);

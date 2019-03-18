@@ -5,6 +5,7 @@ class MessageHandler {
     constructor(kirCore) {
         this.kirCore = kirCore;
         this.cooldowns = new Eris.Collection();
+        this.minimumPermissions = ['readMessages', 'sendMessages', 'embedLinks'];
     }
 
     /**
@@ -19,6 +20,15 @@ class MessageHandler {
 
         // Stop handling if no registered command was found
         if (!command) return;
+
+        // Check if the bot has adequate permissions
+        const pendingPermissions = (!command.permissions.length) ? this.minimumPermissions : this.minimumPermissions.concat(command.permissions);
+        
+        for (let i = 0; i < pendingPermissions.length; i++) {
+            if (!message.channel.permissionsOf(this.kirCore.user.id).has(pendingPermissions[i])) {
+                return message.channel.createMessage(`Can't run command **${command.name}** because I lack permissions. Please make sure I have all of the following permissions: **${pendingPermissions.join(', ')}**`);
+            }
+        }
 
         // Check if the command is restricted to the bot owner 
         if (command.owner && !KiramekiHelper.checkIfOwner(message.author.id)) {
