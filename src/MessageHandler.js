@@ -39,7 +39,7 @@ class MessageHandler {
         if (command.owner && !KiramekiHelper.checkIfOwner(message.author.id)) {
             return message.channel.sendEmbed({
                 title: "Insufficient permissions!",
-                color: 0xFF0000
+                color: 0xE74C3C
             });
         }
 
