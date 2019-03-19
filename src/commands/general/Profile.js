@@ -42,17 +42,17 @@ class Profile {
 
         try {
             // Profile card data
-            const bgImg = await Canvas.loadImage(userObject[0].bg_img);
-            const avatar = await Canvas.loadImage(message.author.dynamicAvatarURL('jpg', 128));
-            const dbLevel = userObject[0].level;
-            const dbXP = userObject[0].xp;
-            const dbLevelMinPoints = 0.01 * (Math.pow((dbLevel * 100), 2));
-            const dbLevelNextLevelPoints = 0.01 * (Math.pow(((dbLevel + 1) * 100), 2));
-            const xpNeededForLevelUp = dbLevelNextLevelPoints - dbLevelMinPoints;
-            const currentXPToBeginWith = dbXP - dbLevelMinPoints;
-            const levelPercentageComplete = Math.floor((currentXPToBeginWith / xpNeededForLevelUp) * 100);
-            const scorebarWidth = levelPercentageComplete * 2.8;
-            const rankBajs = userObject[0].rank;
+            const bgImg                     = await Canvas.loadImage(userObject[0].bg_img);
+            const avatar                    = await Canvas.loadImage(message.author.dynamicAvatarURL('jpg', 128));
+            const dbLevel                   = userObject[0].level;
+            const dbXP                      = userObject[0].xp;
+            const dbLevelMinPoints          = 0.01 * (Math.pow((dbLevel * 100), 2));
+            const dbLevelNextLevelPoints    = 0.01 * (Math.pow(((dbLevel + 1) * 100), 2));
+            const xpNeededForLevelUp        = dbLevelNextLevelPoints - dbLevelMinPoints;
+            const currentXPToBeginWith      = dbXP - dbLevelMinPoints;
+            const levelPercentageComplete   = Math.floor((currentXPToBeginWith / xpNeededForLevelUp) * 100);
+            const scorebarWidth             = levelPercentageComplete * 2.8;
+            const leaderboardRank           = userObject[0].rank;
 
             // Background Fill
             ctx.fillStyle = '#2d2d37';
@@ -106,7 +106,7 @@ class Profile {
             ctx.font = '16px Exo';
             ctx.textAlign = 'center';
             ctx.fillStyle = '#FFFFFF';
-            ctx.fillText(rankBajs, 150, 152);
+            ctx.fillText(leaderboardRank, 150, 152);
 
             // Age Label
             ctx.font = "10px Exo";
