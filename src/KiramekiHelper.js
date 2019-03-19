@@ -1,12 +1,12 @@
-const KiramekiConfig    = require('../config/KiramekiConfig');
-const chalk             = require('chalk');
-const util              = require('util');
-const fs                = require('fs');
-const fetch             = require('node-fetch');
-const Embed             = require('./extensions/Embed');
-const ojsama            = require('ojsama');
-const KiramekiImages    = require('./constants/Images');
-const md5               = require('md5');
+const KiramekiConfig = require('../config/KiramekiConfig');
+const chalk = require('chalk');
+const util = require('util');
+const fs = require('fs');
+const fetch = require('node-fetch');
+const Embed = require('./extensions/Embed');
+const ojsama = require('ojsama');
+const KiramekiImages = require('./constants/Images');
+const md5 = require('md5');
 
 class KiramekiHelper {
     constructor() {
@@ -21,8 +21,8 @@ class KiramekiHelper {
     }
 
     randomIntFromInterval(min, max) {
-		return parseInt(Math.floor(Math.random() * (max - min + 1) + min));
-	}
+        return parseInt(Math.floor(Math.random() * (max - min + 1) + min));
+    }
 
     sanitizeMarkdown(text) {
         return text
@@ -49,12 +49,12 @@ class KiramekiHelper {
                 if (guildMemberID) memberIDsWithLinkage.push(guildMemberID.id);
             }
 
-            const guildID       = message.guild.id;
-            const guildName     = message.guild.name.replace(/[^\x00-\x7F]/g, "");
-            const guildAvatar   = (message.guild.iconURL) ? message.guild.iconURL : this.images.DEFAULT_DISCORD;
-            const memberIDs     = memberIDsWithLinkage.join(';');
-            const hashedIDs     = md5(memberIDs);
-            const guildLB       = await this.preparedQuery(kirAPI_DB, 'SELECT * FROM osu_leaderboards WHERE guild_id = ?;', [guildID]);
+            const guildID = message.guild.id;
+            const guildName = message.guild.name.replace(/[^\x00-\x7F]/g, "");
+            const guildAvatar = (message.guild.iconURL) ? message.guild.iconURL : this.images.DEFAULT_DISCORD;
+            const memberIDs = memberIDsWithLinkage.join(';');
+            const hashedIDs = md5(memberIDs);
+            const guildLB = await this.preparedQuery(kirAPI_DB, 'SELECT * FROM osu_leaderboards WHERE guild_id = ?;', [guildID]);
 
             // Check if the guild already has a leaderboard
             if (guildLB.length > 0) {
