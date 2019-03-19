@@ -2,7 +2,9 @@ module.exports = {
     OSU_LOGO: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Osulogo.png/286px-Osulogo.png',
     OSU_PIPPI_SAD: 'https://i.imgur.com/Wa00gFg.png',
     DEFAULT_DISCORD: 'https://img.kirameki.one/tJIX0aeZ.png',
+    LEVEL_UP_OVERLAY: 'https://img.kirameki.one/9XzqmSAt.png',
     PROFILE_CARD: {
+        DEFAULT_BACKGROUND: 'https://img.kirameki.one/LTqHsfYS.jpg',
         GURU_BADGE: 'https://img.kirameki.one/gBd284Hs.png',
         PEACEKEEPER_BADGE: 'https://img.kirameki.one/GGaghPuT.png',
         OWNER_BADGE: 'https://img.kirameki.one/8A5fZRMN.png',
