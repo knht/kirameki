@@ -3,8 +3,8 @@ const uniqid = require('uniqid');
 const Canvas = require('canvas');
 
 class Profile {
-	constructor() {
-		this.name = 'profile';
+    constructor() {
+        this.name = 'profile';
         this.aliases = ['level', 'lvl'];
         this.permissions = ['attachFiles'];
         this.cooldown = 15;
@@ -15,7 +15,7 @@ class Profile {
      * @param {object} message Message object emitted from the Discord API
      * @param {object} kirCore Kirameki instance 
      */
-	async execute(message, kirCore) {
+    async execute(message, kirCore) {
         // Register all needed fonts
         Canvas.registerFont(__dirname + '/../../../fonts/ARIAL.TTF', { family: 'Arial' });
         Canvas.registerFont(__dirname + '/../../../fonts/ARIALBD.TTF', { family: 'Arial Bold' });
@@ -25,10 +25,10 @@ class Profile {
         message.channel.sendTyping();
 
         // Create canvas and its context
-        const canvas        = Canvas.createCanvas(400, 170);
-        const ctx           = canvas.getContext('2d');
-        const userObject    = await KiramekiHelper.preparedQuery(kirCore.DB, 'SELECT *, ( SELECT COUNT(*) FROM profile_xp AS x WHERE xp > profile_xp.xp ) + 1 AS rank FROM profile_xp WHERE discord_id = ?;', [message.author.id]);
-        const isGuruObject  = await KiramekiHelper.preparedQuery(kirCore.DB, 'SELECT * FROM gurus WHERE discord_id = ? LIMIT 1;', [message.author.id]);
+        const canvas = Canvas.createCanvas(400, 170);
+        const ctx = canvas.getContext('2d');
+        const userObject = await KiramekiHelper.preparedQuery(kirCore.DB, 'SELECT *, ( SELECT COUNT(*) FROM profile_xp AS x WHERE xp > profile_xp.xp ) + 1 AS rank FROM profile_xp WHERE discord_id = ?;', [message.author.id]);
+        const isGuruObject = await KiramekiHelper.preparedQuery(kirCore.DB, 'SELECT * FROM gurus WHERE discord_id = ? LIMIT 1;', [message.author.id]);
         const isPeacekeeper = await KiramekiHelper.preparedQuery(kirCore.DB, 'SELECT * FROM peacekeepers WHERE discord_id = ? LIMIT 1;', [message.author.id]);
 
         // If the user never has spoken before abort
@@ -42,17 +42,17 @@ class Profile {
 
         try {
             // Profile card data
-            const bgImg                     = await Canvas.loadImage(userObject[0].bg_img);
-            const avatar                    = await Canvas.loadImage(message.author.dynamicAvatarURL('jpg', 128));
-            const dbLevel                   = userObject[0].level;
-            const dbXP                      = userObject[0].xp;
-            const dbLevelMinPoints          = 0.01 * (Math.pow((dbLevel * 100), 2));
-            const dbLevelNextLevelPoints    = 0.01 * (Math.pow(((dbLevel + 1) * 100), 2));
-            const xpNeededForLevelUp        = dbLevelNextLevelPoints - dbLevelMinPoints;
-            const currentXPToBeginWith      = dbXP - dbLevelMinPoints;
-            const levelPercentageComplete   = Math.floor((currentXPToBeginWith / xpNeededForLevelUp) * 100);
-            const scorebarWidth             = levelPercentageComplete * 2.8;
-            const rankBajs                  = userObject[0].rank;
+            const bgImg = await Canvas.loadImage(userObject[0].bg_img);
+            const avatar = await Canvas.loadImage(message.author.dynamicAvatarURL('jpg', 128));
+            const dbLevel = userObject[0].level;
+            const dbXP = userObject[0].xp;
+            const dbLevelMinPoints = 0.01 * (Math.pow((dbLevel * 100), 2));
+            const dbLevelNextLevelPoints = 0.01 * (Math.pow(((dbLevel + 1) * 100), 2));
+            const xpNeededForLevelUp = dbLevelNextLevelPoints - dbLevelMinPoints;
+            const currentXPToBeginWith = dbXP - dbLevelMinPoints;
+            const levelPercentageComplete = Math.floor((currentXPToBeginWith / xpNeededForLevelUp) * 100);
+            const scorebarWidth = levelPercentageComplete * 2.8;
+            const rankBajs = userObject[0].rank;
 
             // Background Fill
             ctx.fillStyle = '#2d2d37';
@@ -207,7 +207,7 @@ class Profile {
 
             KiramekiHelper.log(KiramekiHelper.LogLevel.ERROR, 'PROFILE CARD ERROR', `Generating a profile card failed because of: ${profileGeneratorError}`);
         }
-	}
+    }
 }
 
 module.exports = new Profile();
