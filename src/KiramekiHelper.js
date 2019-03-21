@@ -113,21 +113,21 @@ class KiramekiHelper {
      * @returns {number} The map completion in percent 
      */
     map_completion(beatmapData, totalHits) {
-        var beatmapParser = new ojsama.parser();
+        let beatmapParser = new ojsama.parser();
         beatmapParser.feed(beatmapData);
-        var beatmapMap = beatmapParser.map;
+        let beatmapMap = beatmapParser.map;
 
-        var hitObjects = [];
-        var hits = (totalHits == 0) ? parseInt(beatmapMap.objects.length) : parseInt(totalHits);
-        var numObj = hits - 1;
-        var num = parseInt(beatmapMap.objects.length);
+        let hitObjects = [];
+        let hits = (totalHits == 0) ? parseInt(beatmapMap.objects.length) : parseInt(totalHits);
+        let numObj = hits - 1;
+        let num = parseInt(beatmapMap.objects.length);
 
-        for (var i = 0; i < beatmapMap.objects.length; i++) {
+        for (let i = 0; i < beatmapMap.objects.length; i++) {
             hitObjects.push(parseInt(beatmapMap.objects[i].time));
         }
 
-        var timing = parseInt(hitObjects[num - 1]) - parseInt(hitObjects[0]);
-        var point = parseInt(hitObjects[numObj]) - parseInt(hitObjects[0]);
+        let timing = parseInt(hitObjects[num - 1]) - parseInt(hitObjects[0]);
+        let point = parseInt(hitObjects[numObj]) - parseInt(hitObjects[0]);
 
         const mapCompletion = (point / timing) * 100;
 
@@ -233,7 +233,7 @@ class KiramekiHelper {
     }
 
     getOsuDiffIconDesc(diff) {
-        var diffDesc = '';
+        let diffDesc = '';
         const diffSanitized = parseFloat(diff);
 
         if (diffSanitized > 0 && diffSanitized <= 1.5) {
