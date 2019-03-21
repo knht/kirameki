@@ -8,6 +8,9 @@ const ojsama = require('ojsama');
 const KiramekiImages = require('./constants/Images');
 const md5 = require('md5');
 
+/**
+ * Helper class for Kirameki.
+ */
 class KiramekiHelper {
     constructor() {
         this.Embed = Embed;
@@ -20,10 +23,21 @@ class KiramekiHelper {
         };
     }
 
+    /**
+     * Get a random number from a set interval
+     * @param {number} min Starting point 
+     * @param {number} max Ending point
+     * @returns {number} A random number from a given interval
+     */
     randomIntFromInterval(min, max) {
         return parseInt(Math.floor(Math.random() * (max - min + 1) + min));
     }
 
+    /**
+     * Removes any markdown characters from a given string 
+     * @param {string} text Text to be sanitized
+     * @returns {string} Markdown-free text 
+     */
     sanitizeMarkdown(text) {
         return text
             .toLowerCase()
@@ -34,6 +48,12 @@ class KiramekiHelper {
             .replace(/\|/g, '');
     }
 
+    /**
+     * Update the osu! Leaderboard for the guild part of the message object
+     * @async
+     * @param {object} kirAPI_DB The Kirameki Database instance 
+     * @param {object} message The message object emitted from the Discord API 
+     */
     async updateOsuLeaderboards(kirAPI_DB, message) {
         try {
             const osuDiscordLinks = await this.query(kirAPI_DB, 'SELECT * FROM osu_discord_links;');
@@ -77,10 +97,21 @@ class KiramekiHelper {
         }
     }
 
+    /**
+     * Takes a number and returns a string with separating commas for thousands
+     * @param {number} x The number to format 
+     * @returns {string} The formatted number with commas
+     */
     numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
 
+    /**
+     * Calculates how far a map was completed during a recent run 
+     * @param {string} beatmapData An .osu beatmap metadata file content 
+     * @param {number} totalHits The total amount of hits a player has made throughout the play
+     * @returns {number} The map completion in percent 
+     */
     map_completion(beatmapData, totalHits) {
         var beatmapParser = new ojsama.parser();
         beatmapParser.feed(beatmapData);
