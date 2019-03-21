@@ -134,12 +134,25 @@ class KiramekiHelper {
         return mapCompletion;
     }
 
+    /**
+     * Retrieves an osu! Discord link user from the database
+     * @async
+     * @param {object} kirAPI_DB The Kirameki Database instance
+     * @param {number} userId A Discord user ID snowflake
+     * @returns {Promise} The resolved user or an empty array if none was found
+     */
     async getOsuUser(kirAPI_DB, userId) {
         const result = await this.preparedQuery(kirAPI_DB, 'SELECT * FROM osu_discord_links WHERE discord_id = ? LIMIT 1;', [userId]);
 
         return (result) ? result[0] : [];
     }
 
+    /**
+     * Update an osu! user profile in the internal database
+     * @async
+     * @param {object} kirAPI_DB The Kirameki Database instance
+     * @param {*} userObject An osu! user object from the osu!api
+     */
     async updateOsuUser(kirAPI_DB, userObject) {
         const osuUsername = userObject.username;
         const osuUserID = userObject.user_id;
@@ -168,6 +181,14 @@ class KiramekiHelper {
         }
     }
 
+    /**
+     * Saves the last checked beatmap ID in the database for later use e.g. comparing scores
+     * @async
+     * @param {object} kirAPI_DB The Kirameki Database instance
+     * @param {string} messageAuthorID An original author's ID as a Discord snowflake 
+     * @param {number} beatmapID A beatmap ID to be inserted into the database
+     * @param {string} messageChannelID A message channel ID as a Discord snowflake
+     */
     async updateLastOsuRecentBMID(kirAPI_DB, messageAuthorID, beatmapID, messageChannelID) {
         try {
             const usedInChannel = await this.preparedQuery(kirAPI_DB, 'SELECT * FROM osu_recents WHERE channel_id = ? ORDER BY ID DESC LIMIT 1;', [messageChannelID]);
@@ -182,6 +203,12 @@ class KiramekiHelper {
         }
     }
 
+    /**
+     * Update the Kirameki beatmap database for fast internal lookups to be able to reduce the amount of (relatively slow) osu!api calls
+     * @async
+     * @param {object} kirAPI_DB The Kirameki Database instance
+     * @param {object} mapObject An object containing all vital beatmap information for insertion 
+     */
     async updateOsuBeatmaps(kirAPI_DB, mapObject) {
         try {
             const mapAlreadyExists = await this.preparedQuery(kirAPI_DB, 'SELECT * FROM osu_beatmaps_vt WHERE beatmap_id = ? AND mods = ? and beatmapset_id = ?;', [mapObject.beatmap_id, mapObject.mods, mapObject.beatmapset_id]);
@@ -211,6 +238,14 @@ class KiramekiHelper {
         }
     }
 
+    /**
+     * Get an .osu beatmap file's metadata content needed for custom PP calculations.
+     * If a beatmap file already exists it's read from cache for super fast lookups.
+     * If it isn't cached yet, the file gets retrieved from the osu!api and then cached for further use.
+     * @async
+     * @param {number} beatmapID An osu! beatmap ID
+     * @returns {string} A beatmap's metadata 
+     */
     async obtainAndCacheOsuFile(beatmapID) {
         const osuFile = `${__dirname}/../beatmaps/${beatmapID}.osu`;
 
@@ -228,10 +263,20 @@ class KiramekiHelper {
         }
     }
 
+    /**
+     * Convert seconds to minutes
+     * @param {number} s A number representating seconds
+     * @returns {string} A minute representation in the style of mm:ss
+     */
     secToMin(s) {
         return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;
     }
 
+    /**
+     * Parse a beatmap's difficulty to a simple textual representation
+     * @param {number} diff A beatmap's difficulty rating
+     * @returns {string} An internal textual representation of the difficulty needed for embed emojis. 
+     */
     getOsuDiffIconDesc(diff) {
         let diffDesc = '';
         const diffSanitized = parseFloat(diff);
@@ -255,6 +300,11 @@ class KiramekiHelper {
         return diffDesc;
     }
 
+    /**
+     * Retrieve the beatmap ID from an osu! beatmap URL supporting both the old and new website
+     * @param {string} link A potential osu! beatmap URL 
+     * @returns {string} A beatmap ID
+     */
     getBeatmapIDFromLink(link) {
         const parsedLink = this.obtainLink(link)[0];
 
@@ -273,56 +323,93 @@ class KiramekiHelper {
         }
     }
 
+    /**
+     * Obtains all links from a string
+     * @param {string} text A string to search for links in
+     * @returns {string[]|null} An array of all URLs found in a string or null if none were found  
+     */
     obtainLink(text) {
         return text.match(/\bhttps?:\/\/\S+/gi);
     }
 
+    /**
+     * Check if a message possibly contains an osu! beatmap link
+     * @param {string} message A Discord message's content
+     * @returns {boolean} True if it is an osu! beatmap link 
+     */
     containsBeatmapLink(message) {
         return message.includes('osu.ppy.sh/b/') || message.includes('osu.ppy.sh/beatmapsets/');
     }
 
+    /**
+     * Find an emoji on a specified guild for immediate use with proper emoji formatting
+     * @param {object} kirCore The main bot instance 
+     * @param {string} guildID A Discord guild ID snowflake 
+     * @param {string} emojiName An emoji name to search for on the guild
+     * @returns {string} Ready to input formatted emoji string 
+     */
     getEmoji(kirCore, guildID, emojiName) {
         const emoji = kirCore.guilds.get(guildID).emojis.find(emoji => emoji.name == emojiName);
 
         return `<:${emoji.name}:${emoji.id}>`;
     }
 
+    /**
+     * Parse osu! mod bitflags to actual text with easy bit shifting operations.
+     * NOTE: If Nightcore as a mod was picked, this automatically also includes Double Time. This implementation removes Double Time from the modList if Nightcore was picked.
+     * @param {number|string} givenNumber A bitflag representation of applied game mods
+     * @returns {string[]} An array with each mod in its shorthand syntax (e.g. "HR" for Hard Rock) 
+     */
     numberToMod(givenNumber) {
         const number = parseInt(givenNumber);
-        let mod_list = [];
+        let modList = [];
 
-        if (number & 1 << 0) mod_list.push('NF');
-        if (number & 1 << 1) mod_list.push('EZ');
-        if (number & 1 << 3) mod_list.push('HD');
-        if (number & 1 << 4) mod_list.push('HR');
-        if (number & 1 << 5) mod_list.push('SD');
-        if (number & 1 << 9) mod_list.push('NC');
-        if (number & 1 << 6) mod_list.push('DT');
-        if (number & 1 << 7) mod_list.push('RX');
-        if (number & 1 << 8) mod_list.push('HT');
-        if (number & 1 << 10) mod_list.push('FL');
-        if (number & 1 << 12) mod_list.push('SO');
-        if (number & 1 << 14) mod_list.push('PF');
+        if (number & 1 << 0) modList.push('NF');
+        if (number & 1 << 1) modList.push('EZ');
+        if (number & 1 << 3) modList.push('HD');
+        if (number & 1 << 4) modList.push('HR');
+        if (number & 1 << 5) modList.push('SD');
+        if (number & 1 << 9) modList.push('NC');
+        if (number & 1 << 6) modList.push('DT');
+        if (number & 1 << 7) modList.push('RX');
+        if (number & 1 << 8) modList.push('HT');
+        if (number & 1 << 10) modList.push('FL');
+        if (number & 1 << 12) modList.push('SO');
+        if (number & 1 << 14) modList.push('PF');
 
-        if (mod_list.includes('NC')) {
-            let dtIndex = mod_list.indexOf('DT');
+        if (modList.includes('NC')) {
+            let dtIndex = modList.indexOf('DT');
 
             if (dtIndex > -1) {
-                mod_list.splice(dtIndex, 1);
+                modList.splice(dtIndex, 1);
             }
         }
 
-        return mod_list;
+        return modList;
     }
 
+    /**
+     * Adds basic slash escaping for raw database insertions 
+     * @param {string} str A string which needs to be escaped
+     * @returns {string} The escaped string
+     */
     addslashes(str) {
         str = str.replace(/\\/g, '\\\\');
         str = str.replace(/\'/g, '\\\'');
         str = str.replace(/\"/g, '\\"');
         str = str.replace(/\0/g, '\\0');
+
         return str;
     }
 
+    /**
+     * Utility method to promisify the regular mysql driver with bindings which originally uses callbacks
+     * @async
+     * @param {object} database A Kirameki database instance
+     * @param {string} userQuery A raw SQL query to be executed
+     * @param {string[]} bindings All associated bindings
+     * @returns {Promise} The found rows after doing the query asynchronously
+     */
     async preparedQuery(database, userQuery, bindings) {
         const query = util.promisify(database.query).bind(database);
         const rows = await query(userQuery, bindings);
@@ -330,6 +417,13 @@ class KiramekiHelper {
         return rows;
     }
 
+    /**
+     * Utility method to promisify the regular mysql driver which originally uses callbacks
+     * @async
+     * @param {object} database A Kirameki database instance
+     * @param {string} userQuery A raw SQL query to be executed
+     * @returns {Promise} The found rows after doing the query asynchronously
+     */
     async query(database, userQuery) {
         const query = util.promisify(database.query).bind(database);
         const rows = await query(userQuery);
@@ -337,6 +431,13 @@ class KiramekiHelper {
         return rows;
     }
 
+    /**
+     * Simple argument handler for getting tailed arguments with custom length and delimeters
+     * @param {string} string A string to be used 
+     * @param {string} delimeter A delimeter to split a text by 
+     * @param {number} count How often a string should be split by the delimeter before merging the contents
+     * @returns {string[]} An array of all collected arguments
+     */
     tailedArgs(string, delimeter, count) {
         const parts = string.split(delimeter);
         const tail = parts.slice(count).join(delimeter);
@@ -347,22 +448,46 @@ class KiramekiHelper {
         return result;
     }
 
+    /**
+     * A simple utility method to retrieve a user's Discord tag
+     * @param {object} user An Eris#User object
+     * @returns {string} The user's tag (Username#Discriminator)
+     */
     getUserTag(user) {
         return `${user.username}#${user.discriminator}`;
     }
 
+    /**
+     * A simple utility method to get a custom user log description
+     * @param {object} user An Eris#User object
+     * @returns {string} A ready to log user description  
+     */
     userLogCompiler(user) {
-        return `${user.username}#${user.discriminator} (${user.id})`;
+        return `${this.getUserTag(user)} (${user.id})`;
     }
 
+    /**
+     * Check if a passed ID is the same as the predefined owner ID
+     * @param {string} id A Discord user ID snowflake
+     * @returns {boolean} True if the passed ID is equal to the bot's owner pre-configured in the config file
+     */
     checkIfOwner(id) {
         return id == KiramekiConfig.botOwner;
     }
 
+    /**
+     * Pads a single digit number accordingly with 0's to align perfectly in logs
+     * @param {number} number A number which should be force padded
+     * @returns {string} A padded number 
+     */
     forcePad(number) {
         return (number < 10 ? '0' : '') + number;
     }
 
+    /**
+     * Get the system's current time in days, months, years, hours, minutes & seconds
+     * @returns {string} The system's current time
+     */
     currentTime() {
         const now = new Date();
         const day = this.forcePad(now.getDate());
@@ -375,6 +500,12 @@ class KiramekiHelper {
         return `${day}.${month}.${year} ${hour}:${minute}:${second}`;
     }
 
+    /**
+     * Simple but effective custom logger with custom loglevels and corresponding colors
+     * @param {number} level A KiramekiHelper#LogLevel for categorization of the log
+     * @param {string} label A label or "heading" for a log entry
+     * @param {string} text A string which should be logged as the main log's message
+     */
     log(level, label, text) {
         if (level === 0) {
             console.log(chalk.yellow.bold(`[ ${this.currentTime()} ] [ ${label} ] `) + text);
