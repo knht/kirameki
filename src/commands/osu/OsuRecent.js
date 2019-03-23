@@ -112,7 +112,7 @@ class OsuRecent {
                     let formattedPPMax = maxPPPossible.toString().split(" ", 1)[0];
                     let mapModifiers = (KiramekiHelper.numberToMod(userRecentResults[0].enabled_mods).length > 0) ? "+" + KiramekiHelper.numberToMod(userRecentResults[0].enabled_mods).join(',') : "Nomod";
                     let allHits = parseInt(userRecentResults[0].count50) + parseInt(userRecentResults[0].count100) + parseInt(userRecentResults[0].count300) + parseInt(userRecentResults[0].countmiss);
-                    let mapCompletion = parseFloat(KiramekiHelper.map_completion(beatmapData, allHits)).toFixed(2) + '%';
+                    let mapCompletion = parseFloat(KiramekiHelper.getMapCompletion(beatmapData, allHits)).toFixed(2) + '%';
 
                     message.channel.createEmbed({
                         title: "Most recent play in osu! **Standard** by **" + osuUserDisplayname + "**",

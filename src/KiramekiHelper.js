@@ -112,26 +112,21 @@ class KiramekiHelper {
      * @param {number} totalHits The total amount of hits a player has made throughout the play
      * @returns {number} The map completion in percent 
      */
-    map_completion(beatmapData, totalHits) {
+    getMapCompletion(beatmapData, totalHits) {
         let beatmapParser = new ojsama.parser();
-        beatmapParser.feed(beatmapData);
-        let beatmapMap = beatmapParser.map;
+            beatmapParser.feed(beatmapData);
 
-        let hitObjects = [];
-        let hits = (totalHits == 0) ? parseInt(beatmapMap.objects.length) : parseInt(totalHits);
-        let numObj = hits - 1;
-        let num = parseInt(beatmapMap.objects.length);
+        let parsedBeatmap       = beatmapParser.map;
+        let beatmapHitObjects   = [];
+        let parsedHits          = (!totalHits) ? parseInt(parsedBeatmap.objects.length) : parseInt(totalHits);
+        let generalCount        = parseInt(parsedBeatmap.objects.length);
 
-        for (let i = 0; i < beatmapMap.objects.length; i++) {
-            hitObjects.push(parseInt(beatmapMap.objects[i].time));
-        }
+        parsedBeatmap.objects.forEach(singleObject => beatmapHitObjects.push(parseInt(singleObject.time)));
 
-        let timing = parseInt(hitObjects[num - 1]) - parseInt(hitObjects[0]);
-        let point = parseInt(hitObjects[numObj]) - parseInt(hitObjects[0]);
+        const hitTiming     = parseInt(beatmapHitObjects[generalCount - 1]) - parseInt(beatmapHitObjects[0]);
+        const hitPoint      = parseInt(beatmapHitObjects[parsedHits - 1]) - parseInt(beatmapHitObjects[0]);
 
-        const mapCompletion = (point / timing) * 100;
-
-        return mapCompletion;
+        return (hitPoint / hitTiming) * 100;
     }
 
     /**
