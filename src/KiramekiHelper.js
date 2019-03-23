@@ -24,6 +24,54 @@ class KiramekiHelper {
     }
 
     /**
+     * Calculate the beatmap strain with customizable mods.
+     * @param {string} beatmapData A .osu beatmap metadata file's content 
+     * @param {number} mods Map modifiers. MUST BE A NUMBER!!
+     */
+    getBeatmapStrain(beatmapData, mods) {
+        let speedStrain     = [];
+        let aimStrain       = [];
+        let totalStrain     = [];
+        let strainTimings   = [];
+        let seekingPoint    = 0;
+
+        let beatmapParser   = new ojsama.parser();
+            beatmapParser.feed(beatmapData);
+
+        const parsedBeatmap = beatmapParser.map;
+        const beatmapStars  = new ojsama.diff().calc({ map: parsedBeatmap, mods: mods });
+
+        while (seekingPoint <= beatmapStars.objects[parsedBeatmap.objects.length - 1].obj.time) {
+            let window = [];
+
+            beatmapStars.objects.forEach(singleObject => {
+                if (singleObject.obj.time >= seekingPoint && singleObject.obj.time <= seekingPoint + 3000) {
+                    window.push(singleObject.strains);
+                }
+            });
+
+            let windowSpeed = [];
+            let windowAim   = [];
+            let windowTotal = [];
+
+            window.forEach(singleStrain => {
+                windowSpeed.push(singleStrain[0]);
+                windowAim.push(singleStrain[1]);
+                windowTotal.push(singleStrain.reduce((a, b) => { return a + b; }, 0));
+            });
+
+            speedStrain.push(windowSpeed.reduce((a, b) => { return a + b; }, 0) / Math.max(window.length, 1));
+            aimStrain.push(windowAim.reduce((a, b) => { return a + b; }, 0) / Math.max(window.length, 1));
+            totalStrain.push(windowTotal.reduce((a, b) => { return a + b; }, 0) / Math.max(window.length, 1));
+            strainTimings.push(seekingPoint);
+
+            seekingPoint += 500;
+        }
+
+        return { speed: speedStrain, aim: aimStrain, total: totalStrain, timing: strainTimings };
+    }
+
+    /**
      * Get a random number from a set interval
      * @param {number} min Starting point 
      * @param {number} max Ending point
