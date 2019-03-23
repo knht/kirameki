@@ -2,6 +2,7 @@
 beatmaps
 config/KiramekiConfig.js
 src/commands/botOwner/Tester.js
+tmp/
 
 # Logs
 logs
