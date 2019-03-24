@@ -83,7 +83,7 @@ class OsuStrain {
 
         const modCanvas     = Canvas.createCanvas(800, 450);
         const ctx           = modCanvas.getContext('2d');
-        const bgImage       = await Canvas.loadImage('https://img.kirameki.one/IizpW6sj.jpg');
+        const bgImage       = await Canvas.loadImage(KiramekiHelper.images.OSU_STRAIN_GRAPH_BACKGROUND);
         const graphImage    = await Canvas.loadImage(graphBuffer);
 
         // Draw background image
