@@ -72,9 +72,11 @@ class Kirameki extends Eris.Client {
      * Catches all unhandled promise rejections in case any were to pop up 
      */
     _catchUnhandledRejections() {
-        process.on('unhandledRejection', (error, promise) => {
-            KiramekiHelper.log(KiramekiHelper.LogLevel.ERROR, 'UNHANDLED PROMISE REJECTION', `An unhandled promise rejection occurred. Promise: ${promise} | Rejection: ${error}`);
-        });
+        if (!KiramekiConfig.debug) {
+            process.on('unhandledRejection', (error, promise) => {
+                KiramekiHelper.log(KiramekiHelper.LogLevel.ERROR, 'UNHANDLED PROMISE REJECTION', `An unhandled promise rejection occurred. Promise: ${promise} | Rejection: ${error}`);
+            });
+        }
     }
 
     /**
