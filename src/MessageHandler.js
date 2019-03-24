@@ -22,7 +22,7 @@ class MessageHandler {
         if (!command) return;
 
         // Check if the bot has adequate permissions
-        const pendingPermissions = (!command.permissions.length) ? this.minimumPermissions : this.minimumPermissions.concat(command.permissions);
+        const pendingPermissions = (!command.permissions) ? this.minimumPermissions : this.minimumPermissions.concat(command.permissions);
         let missingPermissions = [];
 
         for (let i = 0; i < pendingPermissions.length; i++) {
