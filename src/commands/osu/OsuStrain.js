@@ -80,6 +80,7 @@ class OsuStrain {
 
         message.channel.createMessage(undefined, { file: graphBuffer, name: `${uniqid()}.png` });
         KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, 'osu! STRAIN', `${KiramekiHelper.userLogCompiler(message.author)} used the osu! Strain command!`);
+        chartNode.destroy();
     }
 }
 
