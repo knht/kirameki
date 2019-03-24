@@ -6,6 +6,7 @@ class HotReload {
 	constructor() {
 		this.name = 'reload';
 		this.owner = true;
+		this.permissions = ['manageMessages'];
 	}
 
 	async execute(message, kirCore) {
