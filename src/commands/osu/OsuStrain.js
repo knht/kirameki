@@ -1,6 +1,7 @@
 const KiramekiHelper = require('../../KiramekiHelper');
 const ChartjsNode = require('chartjs-node');
 const uniqid = require('uniqid');
+const Canvas = require('canvas');
 
 class OsuStrain {
     constructor() {
@@ -13,7 +14,7 @@ class OsuStrain {
 
     async execute(message, kirCore) {
         const [command, args]   = KiramekiHelper.tailedArgs(message.content, ' ', 1);
-        const loadingMessage    = message.channel.sendTyping();
+        const loadingMessage    = await message.channel.createEmbed(new KiramekiHelper.Embed().setColor("GREEN").setTitle("Calculating ..."));
         const strainMods        = (args) ? KiramekiHelper.modToNumbers(args) : 0;
         const beatmapID         = await KiramekiHelper.getLatestBMID(kirCore.DB, message.channel.id);
 
@@ -59,18 +60,18 @@ class OsuStrain {
                 ]
             },
             options: {
-                plugins: {
-                    beforeDraw: async (chartInstance) => {
-                        var ctx = chartInstance.chart.ctx;
-                        ctx.fillStyle = "white";
-                        ctx.fillRect(0, 0, chartInstance.chart.width, chartInstance.chart.height);
-                    }
-                },
                 title: {
                     display: true,
-                    fontSize: 16,
+                    fontColor: '#d2d9dc',
+                    fontSize: 18,
                     padding: 20,
                     text: `${beatmapStrainObject.map.artist} - ${beatmapStrainObject.map.title} [${beatmapStrainObject.map.version}] ${modStringParsed}`
+                },
+                legend: {
+                    labels: {
+                        fontColor: '#d2d9dc',
+                        fontSize: 16
+                    }
                 }
             }
         }
@@ -78,9 +79,22 @@ class OsuStrain {
         const graphInstance = await chartNode.drawChart(graphingOptions);
         const graphBuffer   = await chartNode.getImageBuffer('image/png');
 
-        message.channel.createMessage(undefined, { file: graphBuffer, name: `${uniqid()}.png` });
-        KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, 'osu! STRAIN', `${KiramekiHelper.userLogCompiler(message.author)} used the osu! Strain command!`);
         chartNode.destroy();
+
+        const modCanvas     = Canvas.createCanvas(800, 450);
+        const ctx           = modCanvas.getContext('2d');
+        const bgImage       = await Canvas.loadImage('https://img.kirameki.one/IizpW6sj.jpg');
+        const graphImage    = await Canvas.loadImage(graphBuffer);
+
+        // Draw background image
+        ctx.drawImage(bgImage, 0, 0, 800, 450);
+
+        // Draw graph
+        ctx.drawImage(graphImage, 0, 0, 800, 450);
+
+        await message.channel.createMessage(undefined, { file: modCanvas.toBuffer(), name: `${uniqid()}.png` });
+        loadingMessage.edit({ embed: new KiramekiHelper.Embed().setColor("GREEN").setTitle(`Finished processing **${beatmapStrainObject.map.title}**`) });
+        KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, 'osu! STRAIN', `${KiramekiHelper.userLogCompiler(message.author)} used the osu! Strain command!`);
     }
 }
 
