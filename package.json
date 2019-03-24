@@ -9,9 +9,12 @@
   "author": "Riya",
   "license": "GLP-3.0",
   "dependencies": {
+    "asciichart": "^1.5.7",
     "bufferutil": "^4.0.1",
     "canvas": "^2.4.0",
     "chalk": "^2.4.2",
+    "chart.js": "^2.8.0",
+    "chartjs-node": "^1.7.1",
     "countrynames": "^0.1.1",
     "d3node-linechart": "^0.1.2",
     "d3node-output": "^1.0.2",

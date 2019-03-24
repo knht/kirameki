@@ -24,6 +24,65 @@ class KiramekiHelper {
     }
 
     /**
+     * Retrieve the latest registered beatmap ID of a channel
+     * @async
+     * @param {object} kirCore The main bot instance
+     * @param {string} channelId A Discord channel ID snowflake
+     */
+    async getLatestBMID(kirAPI_DB, channelId) {
+        const result = await this.preparedQuery(kirAPI_DB, 'SELECT * FROM osu_recents WHERE channel_id = ? ORDER BY id DESC LIMIT 1;', [channelId]);
+
+        return (!result.length) ? -1 : result[0].beatmap_id;
+    }
+
+    /**
+     * Convert a mod string into mod bitflag numbers
+     * @param {string} str A string to be parsed for osu! mods
+     * @returns {number} The converted modbit
+     */
+    modToNumbers(str) {
+        let modMask         = 0;
+        let sanitizedString = str.toLowerCase();
+        let modBits         = {
+            nomod: 0,
+            nf: 1 << 0,
+            ez: 1 << 1,
+            td: 1 << 2,
+            hd: 1 << 3,
+            hr: 1 << 4,
+            dt: 1 << 6,
+            ht: 1 << 8,
+            nc: 1 << 9,
+            fl: 1 << 10,
+            so: 1 << 12
+        };
+
+        while (sanitizedString) {
+            let nChars = 1;
+
+            for (let property in modBits) {
+                if (property.length != 2) {
+                    continue;
+                }
+
+                if (!modBits.hasOwnProperty(property)) {
+                    continue;
+                }
+
+                if (sanitizedString.startsWith(property)) {
+                    modMask |= modBits[property];
+                    nChars = 2;
+                    break;
+                }
+            }
+
+            sanitizedString = sanitizedString.slice(nChars);
+        }
+
+        return modMask;
+    }
+
+    /**
      * Calculate the beatmap strain with customizable mods.
      * @param {string} beatmapData A .osu beatmap metadata file's content 
      * @param {number} mods Map modifiers. MUST BE A NUMBER!!
@@ -68,7 +127,7 @@ class KiramekiHelper {
             seekingPoint += 500;
         }
 
-        return { speed: speedStrain, aim: aimStrain, total: totalStrain, timing: strainTimings };
+        return { speed: speedStrain, aim: aimStrain, total: totalStrain, timing: strainTimings, map: parsedBeatmap};
     }
 
     /**
