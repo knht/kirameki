@@ -7,6 +7,7 @@ const Embed = require('./extensions/Embed');
 const ojsama = require('ojsama');
 const KiramekiImages = require('./constants/Images');
 const md5 = require('md5');
+const KiramekiLinks = require('./constants/Links');
 
 /**
  * Helper class for Kirameki.
@@ -15,6 +16,7 @@ class KiramekiHelper {
     constructor() {
         this.Embed = Embed;
         this.images = KiramekiImages;
+        this.links = 
         this.LogLevel = {
             EVENT: 0,
             COMMAND: 1,

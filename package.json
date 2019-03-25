@@ -25,6 +25,7 @@
     "fs-readdir-recursive": "^1.1.0",
     "get-urls": "^8.0.0",
     "harmonia-osu": "^1.0.7",
+    "juration": "^0.1.0",
     "md5": "^2.2.1",
     "mysql": "^2.16.0",
     "mysql2": "^1.6.4",
