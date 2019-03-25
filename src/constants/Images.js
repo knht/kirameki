@@ -4,6 +4,7 @@ module.exports = {
     OSU_STRAIN_GRAPH_BACKGROUND: 'https://img.kirameki.one/IizpW6sj.jpg',
     DEFAULT_DISCORD: 'https://img.kirameki.one/tJIX0aeZ.png',
     LEVEL_UP_OVERLAY: 'https://img.kirameki.one/9XzqmSAt.png',
+    KIRAMEKI_MASCOT: 'https://kirameki.one/images/kirameki.png',
     PROFILE_CARD: {
         DEFAULT_BACKGROUND: 'https://img.kirameki.one/LTqHsfYS.jpg',
         GURU_BADGE: 'https://img.kirameki.one/gBd284Hs.png',
