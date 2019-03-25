@@ -16,7 +16,7 @@ class KiramekiHelper {
     constructor() {
         this.Embed = Embed;
         this.images = KiramekiImages;
-        this.links = 
+        this.links = KiramekiLinks;
         this.LogLevel = {
             EVENT: 0,
             COMMAND: 1,
