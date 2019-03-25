@@ -48,6 +48,10 @@ class Embed {
         return this;
     }
 
+    addBlankField(inline = false) {
+        return this.addField('\u200B', '\u200B', inline);
+    }
+
     attachFile(file) {
         this.file = file;
 
