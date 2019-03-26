@@ -11,5 +11,11 @@ module.exports = {
         PEACEKEEPER_BADGE: 'https://img.kirameki.one/GGaghPuT.png',
         OWNER_BADGE: 'https://img.kirameki.one/8A5fZRMN.png',
         OHK_BADGE: 'https://img.kirameki.one/gB9anVUA.png'
+    },
+    GAMBLING: {
+        COINFLIP: {
+            HEADS: 'https://img.kirameki.one/NjGmSO7u.png',
+            TAILS: 'https://img.kirameki.one/Sv8jworZ.png'
+        }
     }
 };
