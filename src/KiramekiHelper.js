@@ -26,6 +26,16 @@ class KiramekiHelper {
     }
 
     /**
+     * Generate a random hex color ready to plug in anywhere hexadecimal colors are supported
+     * @returns {string} Random color in hex
+     */
+    getRandomColor() {
+        return "#000000".replace(/0/g, () => {
+            return (~~(Math.random() * 16)).toString(16);
+        }).toUpperCase();
+    }
+
+    /**
      * Retrieve the latest registered beatmap ID of a channel
      * @async
      * @param {object} kirCore The main bot instance
