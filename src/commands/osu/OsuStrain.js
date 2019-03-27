@@ -14,19 +14,18 @@ class OsuStrain {
 
     async execute(message, kirCore) {
         const [command, args]   = KiramekiHelper.tailedArgs(message.content, ' ', 1);
-        const loadingMessage    = await message.channel.createEmbed(new KiramekiHelper.Embed().setColor("GREEN").setTitle("Calculating ..."));
         const strainMods        = (args) ? KiramekiHelper.modToNumbers(args) : 0;
         const beatmapID         = await KiramekiHelper.getLatestBMID(kirCore.DB, message.channel.id);
 
         if (beatmapID === -1) {
-            return loadingMessage.edit({
-                embed: new KiramekiHelper.Embed()
+            return message.channel.createEmbed(new KiramekiHelper.Embed()
                 .setColor(0xF06DA8)
                 .setAuthor("osu! Strain Graph", KiramekiHelper.images.OSU_LOGO)
                 .setDescription("It appears there hasn't been any recent beatmap interaction in this particular channel before! To use this command a recent score or beatmap link must have been published at least once in this channel!")
-            });
+            );
         }
 
+        const loadingMessage        = await message.channel.createEmbed(new KiramekiHelper.Embed().setColor("GREEN").setTitle("Calculating ..."));
         const chartNode             = new ChartjsNode(800, 450);
         const beatmapOsuFile        = await KiramekiHelper.obtainAndCacheOsuFile(beatmapID);
         const beatmapStrainObject   = KiramekiHelper.getBeatmapStrain(beatmapOsuFile, strainMods);
