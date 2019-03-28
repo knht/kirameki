@@ -33,12 +33,24 @@ class KiramekiHelper {
      * @param {string} helpObject.example A simple example of the command
      */
     generateHelpEmbed(helpObject) {
+        let exampleText;
+
+        if (Array.isArray(helpObject.example)) {
+            for (let i = 0; i < helpObject.example.length; i++) {
+                helpObject.example[i] = `\`${KiramekiConfig.prefix}${helpObject.example[i]}\``;
+            }
+
+            exampleText = helpObject.example.join('\n');
+        } else {
+            exampleText = `\`${KiramekiConfig.prefix}${helpObject.example}\``;
+        }
+
         const helpEmbed = new this.Embed()
             .setAuthor("Kirameki Help", this.images.KIRAMEKI_MASCOT)
             .setColor("DEFAULT")
             .setDescription(helpObject.message)
             .addField("Usage", `\`${KiramekiConfig.prefix}${helpObject.usage}\``, false)
-            .addField("Example", `\`${KiramekiConfig.prefix}${helpObject.example}\``, false);
+            .addField(Array.isArray(helpObject.example) ? 'Examples' : 'Example', `${exampleText}`, false);
 
         return helpEmbed;
     }

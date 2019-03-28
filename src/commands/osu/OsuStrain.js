@@ -10,6 +10,11 @@ class OsuStrain {
         this.cooldown = 15;
         this.permissions = ['attachFiles'];
         this.aliases = ['osustrain'];
+        this.help = {
+		    message: 'Calculate different strains of a previously posted osu! beatmap',
+		    usage: 'strain [mods]',
+		    example: ['strain', 'strain +HD,HR', 'strain +HD,HR,DT,FL']
+		}
     }
 
     async execute(message, kirCore) {
