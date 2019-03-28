@@ -35,12 +35,29 @@ class MessageHandler {
             return message.channel.createMessage(`Can't run command **${command.name}** because I lack following permissions: **${missingPermissions.join(', ')}**`);
         }
 
+        // Check if the user has adequate permissions
+        const pendingUserPermissions = (!command.userPermissions) ? false : command.userPermissions;
+        let missingUserPermissions = [];
+
+        if (pendingUserPermissions) {
+            for (let x = 0; x < pendingUserPermissions.length; x++) {
+                if (!message.member.permission.has(pendingUserPermissions[x])) {
+                    missingUserPermissions.push(pendingUserPermissions[x]);
+                }
+            }
+
+            if (missingUserPermissions.length) {
+                return message.channel.createEmbed(new KiramekiHelper.Embed()
+                    .setColor("RED")
+                    .setTitle("Insufficient Permissions!")
+                    .setDescription(`You lack following permissions to use this command: **${missingUserPermissions.join(', ')}**`)
+                );
+            }
+        } 
+
         // Check if the command is restricted to the bot owner 
         if (command.owner && !KiramekiHelper.checkIfOwner(message.author.id)) {
-            return message.channel.sendEmbed({
-                title: "Insufficient permissions!",
-                color: 0xE74C3C
-            });
+            return message.channel.createEmbed(new KiramekiHelper.Embed().setColor("RED").setTitle("Insufficient Permissions!"));
         }
 
         // Command cooldowns 
