@@ -4,7 +4,16 @@ const KiramekiConfig = require('../../../config/KiramekiConfig');
 class CommandClassName {
 	constructor() {
 		this.name = '';
+		this.category = '';
+		this.owner = false;
 		this.aliases = [''];
+		this.permissions = [''];
+		this.userPermissions = [''];
+		this.help = {
+			message: '',
+			usage: '',
+			example: ''
+		}
 	}
 
 	async execute(message, kirCore) {
