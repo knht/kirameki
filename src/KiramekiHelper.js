@@ -25,6 +25,17 @@ class KiramekiHelper {
         };
     }
 
+    generateHelpEmbed(kirCore, helpObject) {
+        const helpEmbed = new this.Embed()
+            .setAuthor("Kirameki Help", this.images.KIRAMEKI_MASCOT)
+            .setColor("DEFAULT")
+            .setDescription(helpObject.message)
+            .addField("Usage", `\`${kirCore.prefix}${helpObject.usage}\``, false)
+            .addField("Example", `\`${kirCore.prefix}${helpObject.example}\``, false);
+
+        return helpEmbed;
+    }
+
     /**
      * Generate a random hex color ready to plug in anywhere hexadecimal colors are supported
      * @returns {string} Random color in hex
