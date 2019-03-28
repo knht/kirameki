@@ -25,6 +25,14 @@ class KiramekiHelper {
         };
     }
 
+    /**
+     * Generate a help embed for command help
+     * @param {object} kirCore The main bot instance 
+     * @param {object} helpObject A help object whith information about the command
+     * @param {string} helpObject.message A brief description about the command
+     * @param {string} helpObject.usage A clear usage of the command
+     * @param {string} helpObject.example A simple example of the command
+     */
     generateHelpEmbed(kirCore, helpObject) {
         const helpEmbed = new this.Embed()
             .setAuthor("Kirameki Help", this.images.KIRAMEKI_MASCOT)
