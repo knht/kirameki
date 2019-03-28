@@ -1,5 +1,4 @@
 const KiramekiHelper = require('../../KiramekiHelper');
-const KiramekiConfig = require('../../../config/KiramekiConfig');
 
 class BirthdaySystemMuter {
     constructor() {
@@ -17,7 +16,7 @@ class BirthdaySystemMuter {
         const [command, option] = KiramekiHelper.tailedArgs(message.content, ' ', 1);
         
         if (!option) {
-            return message.channel.createEmbed(KiramekiHelper.generateHelpEmbed(kirCore, this.help));
+            return message.channel.createEmbed(KiramekiHelper.generateHelpEmbed(this.help));
         }
 
         // TODO: Write the birthday message muter

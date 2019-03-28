@@ -36,7 +36,7 @@ class Help {
                 );
             }
 
-            const helpEmbed = KiramekiHelper.generateHelpEmbed(kirCore, foundCommand.help);
+            const helpEmbed = KiramekiHelper.generateHelpEmbed(foundCommand.help);
             message.channel.createEmbed(helpEmbed);
         }
 
