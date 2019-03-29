@@ -8,6 +8,8 @@ const ojsama = require('ojsama');
 const KiramekiImages = require('./constants/Images');
 const md5 = require('md5');
 const KiramekiLinks = require('./constants/Links');
+const KiramekiCategories = require('./constants/Categories');
+const KiramekiLogLevels = require('./constants/LogLevels');
 
 /**
  * Helper class for Kirameki.
@@ -17,12 +19,8 @@ class KiramekiHelper {
         this.Embed = Embed;
         this.images = KiramekiImages;
         this.links = KiramekiLinks;
-        this.LogLevel = {
-            EVENT: 0,
-            COMMAND: 1,
-            ERROR: 2,
-            DEBUG: 3
-        };
+        this.LogLevel = KiramekiLogLevels;
+        this.categories = KiramekiCategories;
     }
 
     /**
@@ -31,8 +29,9 @@ class KiramekiHelper {
      * @param {string} helpObject.message A brief description about the command
      * @param {string} helpObject.usage A clear usage of the command
      * @param {string} helpObject.example A simple example of the command
+     * @param {boolean} inline Whether the usage and example fields should be inline or not
      */
-    generateHelpEmbed(helpObject) {
+    generateHelpEmbed(helpObject, inline = false) {
         let exampleText;
 
         if (Array.isArray(helpObject.example)) {
@@ -40,7 +39,7 @@ class KiramekiHelper {
                 helpObject.example[i] = `\`${KiramekiConfig.prefix}${helpObject.example[i]}\``;
             }
 
-            exampleText = helpObject.example.join('\n');
+            exampleText = helpObject.example.join(', ');
         } else {
             exampleText = `\`${KiramekiConfig.prefix}${helpObject.example}\``;
         }
@@ -49,8 +48,8 @@ class KiramekiHelper {
             .setAuthor("Kirameki Help", this.images.KIRAMEKI_MASCOT)
             .setColor("DEFAULT")
             .setDescription(helpObject.message)
-            .addField("Usage", `\`${KiramekiConfig.prefix}${helpObject.usage}\``, false)
-            .addField(Array.isArray(helpObject.example) ? 'Examples' : 'Example', `${exampleText}`, false);
+            .addField("Usage", `\`${KiramekiConfig.prefix}${helpObject.usage}\``, inline)
+            .addField(Array.isArray(helpObject.example) ? 'Examples' : 'Example', `${exampleText}`, inline);
 
         return helpEmbed;
     }
