@@ -1,25 +1,25 @@
 const KiramekiHelper = require('../../KiramekiHelper');
-const KiramekiConfig = require('../../../config/KiramekiConfig');
 
 class CommandClassName {
-	constructor() {
-		this.name = '';
-		this.category = '';
-		this.owner = false;
-		this.aliases = [''];
-		this.permissions = [''];
-		this.userPermissions = [''];
-		this.help = {
-			message: '',
-			usage: '',
-			example: ''
-		}
-	}
+    constructor() {
+        this.name = '';
+        this.category = KiramekiHelper.categories.?;
+        this.owner = false;
+        this.aliases = [''];
+        this.permissions = [''];
+        this.userPermissions = [''];
+        this.help = {
+            message: '',
+            usage: '',
+            example: '',
+            inline: false
+        }
+    }
 
-	async execute(message, kirCore) {
-		const [command, args] = KiramekiHelper.tailedArgs(message.content, ' ', 1);
-        
-	}
+    async execute(message, kirCore) {
+        const [command, args] = KiramekiHelper.tailedArgs(message.content, ' ', 1);
+
+    }
 }
 
 module.exports = new CommandClassName();

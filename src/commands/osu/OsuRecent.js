@@ -7,8 +7,8 @@ const ojsama            = require('ojsama');
 class OsuRecent {
     constructor() {
         this.category = KiramekiHelper.categories.OSU;
-        this.name = 'osur';
-        this.aliases = ['osurecent', 'recent', 'r'];
+        this.name = 'recent';
+        this.aliases = ['osurecent', 'osur', 'r'];
         this.permissions = ['externalEmojis'];
         this.help = {
             message: 'Get the most recent osu! Standard play for yourself or a specified player.\nSpecifying a username is optional if an osu! Linkage exists.',
