@@ -2,8 +2,15 @@ const KiramekiHelper = require('../../KiramekiHelper');
 
 class Coinflip {
     constructor() {
+        this.category = KiramekiHelper.categories.GAMBLING;
         this.name = 'coinflip';
         this.aliases = ['cf'];
+        this.help = {
+            message: 'Flip a virtual coin with a graphical representation of the result.',
+            usage: 'coinflip',
+            example: 'coinflip',
+            inline: true
+        }
     }
 
     async execute(message, kirCore) {

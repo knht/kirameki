@@ -2,6 +2,7 @@ const KiramekiHelper = require('../../KiramekiHelper');
 
 class BirthdaySystemMuter {
     constructor() {
+        this.category = KiramekiHelper.categories.MANAGEMENT;
         this.name = 'birthdaymessages';
         this.aliases = ['bdaymessages', 'xpmessages', 'xpmsgs', 'bdmsgs'];
         this.userPermissions = ['administrator'];

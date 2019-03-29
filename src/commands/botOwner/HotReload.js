@@ -4,6 +4,7 @@ const chalk = require('chalk');
 
 class HotReload {
 	constructor() {
+		this.category = KiramekiHelper.categories.OWNER;
 		this.name = 'reload';
 		this.owner = true;
 		this.permissions = ['manageMessages'];
@@ -12,7 +13,7 @@ class HotReload {
 	async execute(message, kirCore) {
 		const [command, args] = KiramekiHelper.tailedArgs(message.content, ' ', 1);
 		
-		if (!args) return message.channel.createEmbed(new KiramekiHelper.Embed().setColor(0xFF0000).setTitle("Please specify a command!"));
+		if (!args) return message.channel.createEmbed(new KiramekiHelper.Embed().setColor("RED").setTitle("Please specify a command!"));
 
 		try {
 			delete require.cache[require.resolve(`./../${args}.js`)];

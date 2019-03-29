@@ -6,9 +6,15 @@ const ojsama            = require('ojsama');
 
 class OsuRecent {
     constructor() {
+        this.category = KiramekiHelper.categories.OSU;
         this.name = 'osur';
         this.aliases = ['osurecent', 'recent', 'r'];
         this.permissions = ['externalEmojis'];
+        this.help = {
+            message: 'Get the most recent osu! Standard play for yourself or a specified player.\nSpecifying a username is optional if an osu! Linkage exists.',
+            usage: 'r [username]',
+            example: ['r', 'r Riya', 'r @Riya#0001']
+        }
     }
 
     async execute(message, kirCore) {

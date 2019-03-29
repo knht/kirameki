@@ -3,7 +3,14 @@ const juration = require('juration');
 
 class About {
     constructor() {
+        this.category = KiramekiHelper.categories.GENERAL;
         this.name = 'about';
+        this.help = {
+            message: 'Get general information about Kirameki and its infrastructure.',
+            usage: 'about',
+            example: 'about',
+            inline: true
+        }
     }
 
     async execute(message, kirCore) {

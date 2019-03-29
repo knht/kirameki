@@ -2,7 +2,14 @@ const KiramekiHelper = require('../../KiramekiHelper');
 
 class Roll {
     constructor() {
+        this.category = KiramekiHelper.categories.GAMBLING;
         this.name = 'roll';
+        this.help = {
+            message: 'Roll a random number between **1** and **100** to settle disputes once and for all!\nInspired by the `!roll` command found on osu!\'s BanchoBot.',
+            usage: 'roll',
+            example: 'roll',
+            inline: true
+        }
     }
 
     async execute(message, kirCore) {

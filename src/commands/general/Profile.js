@@ -4,10 +4,17 @@ const Canvas = require('canvas');
 
 class Profile {
     constructor() {
+        this.category = KiramekiHelper.categories.GENERAL;
         this.name = 'profile';
         this.aliases = ['level', 'lvl'];
         this.permissions = ['attachFiles'];
         this.cooldown = 15;
+        this.help = {
+            message: 'Generate a customizable profile card for the Birthday system',
+            usage: 'profile',
+            example: 'profile',
+            inline: true
+        }
     }
 
     /**

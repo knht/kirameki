@@ -5,13 +5,14 @@ const Canvas = require('canvas');
 
 class OsuStrain {
     constructor() {
+        this.category = KiramekiHelper.categories.OSU;
         this.name = 'strain';
-        this.owner = true;
+        this.owner = false;
         this.cooldown = 15;
         this.permissions = ['attachFiles'];
         this.aliases = ['osustrain'];
         this.help = {
-		    message: 'Calculate different strains of a previously posted osu! beatmap',
+		    message: 'Calculate the aim, speed and total strain of a previously posted osu! beatmap. Providing mods is optional defaulting to no mods.',
 		    usage: 'strain [mods]',
 		    example: ['strain', 'strain +HD,HR', 'strain +HD,HR,DT,FL']
 		}

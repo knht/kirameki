@@ -2,8 +2,14 @@ const KiramekiHelper = require('../../KiramekiHelper');
 
 class OsuSetup {
     constructor() {
+        this.category = KiramekiHelper.categories.OSU;
         this.name = 'osusetup';
         this.aliases = ['osulink'];
+        this.help = {
+            message: 'Link your osu! account to your Discord account with Kirameki.',
+            usage: 'osusetup <osuUsername>',
+            example: 'osusetup BeasttrollMC'
+        }
     }
 
     async execute(message, kirCore) {

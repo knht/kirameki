@@ -1,8 +1,8 @@
 const KiramekiHelper = require('../../KiramekiHelper');
-const KiramekiConfig = require('../../../config/KiramekiConfig');
 
 class Eval {
 	constructor() {
+        this.category = KiramekiHelper.categories.OWNER;
 		this.name = 'eval';
         this.owner = true;
     }

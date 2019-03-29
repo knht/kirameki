@@ -32,14 +32,12 @@ class KiramekiHelper {
      * @param {boolean} inline Whether the usage and example fields should be inline or not
      */
     generateHelpEmbed(helpObject, inline = false) {
-        let exampleText;
+        let helpArray = [];
+        let exampleText = '';
 
         if (Array.isArray(helpObject.example)) {
-            for (let i = 0; i < helpObject.example.length; i++) {
-                helpObject.example[i] = `\`${KiramekiConfig.prefix}${helpObject.example[i]}\``;
-            }
-
-            exampleText = helpObject.example.join(', ');
+            helpArray = helpObject.example.map(helpItem => `\`${KiramekiConfig.prefix}${helpItem}\``);
+            exampleText = helpArray.join(', ');
         } else {
             exampleText = `\`${KiramekiConfig.prefix}${helpObject.example}\``;
         }
