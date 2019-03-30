@@ -24,6 +24,21 @@ class KiramekiHelper {
     }
 
     /**
+     * Send an embed and delete it automatically after a set amount of time
+     * @async
+     * @param {object} message A message object emitted from the Discord API 
+     * @param {KiramekiHelper#Embed} embed A new Kirameki Embed
+     * @param {number} time A number in seconds when to delete the message
+     */
+    async createFlashEmbed(message, time, embed) {
+        const createdMessage = await message.channel.createEmbed(embed);
+
+        setTimeout(() => {
+            createdMessage.delete();
+        }, time * 1000);
+    }
+
+    /**
      * Generate a help embed for command help
      * @param {object} helpObject A help object whith information about the command
      * @param {string} helpObject.message A brief description about the command
