@@ -38,6 +38,8 @@ class CommandList {
             .addField('Translations & TTS', (translationCommands.length) ? translationCommands.join(', ') : 'No commands yet', false)
             .addField('Management', (managementCommands.length) ? managementCommands.join(', ') : 'No commands yet', false)
         );
+
+        KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, 'COMMANDS', `${KiramekiHelper.userLogCompiler(message.author)} requested the command list!`);
     }
 }
 
