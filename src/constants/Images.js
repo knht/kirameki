@@ -16,6 +16,11 @@ module.exports = {
         COINFLIP: {
             HEADS: 'https://img.kirameki.one/NjGmSO7u.png',
             TAILS: 'https://img.kirameki.one/Sv8jworZ.png'
+        },
+        DICE: {
+            getFace: (number) => {
+                return `https://kirameki.one/api/dice/${number}.png`;
+            }
         }
     }
 };
