@@ -16,9 +16,17 @@ class CommandClassName {
     }
 
     async execute(message, kirCore) {
-        const [command, args] = KiramekiHelper.tailedArgs(message.content, ' ', 1);
+        const rolledFace = KiramekiHelper.randomIntFromInterval(1, 6);
 
-        // TODO: implement feature
+        message.channel.createEmbed(new KiramekiHelper.Embed()
+            .setColor(KiramekiHelper.getRandomColor())
+            .setTitle("🎲 Roll the Dice")
+            .setDescription(`You rolled a **${rolledFace}**!`)
+            .setImage(KiramekiHelper.images.GAMBLING.DICE.getFace(rolledFace))
+            .setFooter(`Rolled by: ${message.author.username}`, message.author.avatarURL)
+        );
+
+        KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, 'DICE', `${KiramekiHelper.userLogCompiler(message.author)} rolled the dice and threw a ${rolledFace}!`)
     }
 }
 
