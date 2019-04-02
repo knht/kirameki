@@ -9,6 +9,7 @@ class CommandClassName {
         this.category = KiramekiHelper.categories.?;
         this.owner = false;
         this.nsfw = false;
+        this.cooldown = 2;
         this.help = {
             message: '',
             usage: '',
