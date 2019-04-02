@@ -3,11 +3,12 @@ const KiramekiHelper = require('../../KiramekiHelper');
 class CommandClassName {
     constructor() {
         this.name = '';
-        this.category = KiramekiHelper.categories.?;
-        this.owner = false;
         this.aliases = [''];
         this.permissions = [''];
         this.userPermissions = [''];
+        this.category = KiramekiHelper.categories.?;
+        this.owner = false;
+        this.nsfw = false;
         this.help = {
             message: '',
             usage: '',
