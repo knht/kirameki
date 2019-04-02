@@ -1,6 +1,6 @@
 const KiramekiHelper = require('../../KiramekiHelper');
 
-class CommandClassName {
+class Meme {
     constructor() {
         this.name = 'meme';
         this.aliases = ['memes', 'getmeme'];
@@ -29,4 +29,4 @@ class CommandClassName {
     }
 }
 
-module.exports = new CommandClassName();
+module.exports = new Meme();
