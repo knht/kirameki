@@ -60,6 +60,11 @@ class MessageHandler {
             return message.channel.createEmbed(new KiramekiHelper.Embed().setColor("RED").setTitle("Insufficient Permissions!"));
         }
 
+        // Check if an NSFW command is only used in an NSFW channel
+        if (command.nsfw && !message.channel.nsfw) {
+            return message.channel.createEmbed(new KiramekiHelper.Embed().setColor("RED").setTitle(`Command **${command.name}** is only available in NSFW channels!`));
+        }
+
         // Command cooldowns 
         if (!this.cooldowns.has(command.name)) {
             this.cooldowns.set(command.name, new Eris.Collection());
