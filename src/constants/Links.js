@@ -3,6 +3,14 @@ module.exports = {
     WEBSITE: {
         BASE: 'https://kirameki.one/',
         DASHBOARD: 'https://dashboard.kirameki.one',
-        COMMANDS: 'https://kirameki.one/commands.php'
+        COMMANDS: 'https://kirameki.one/commands.php',
+        LEADERBOARDS: {
+            XP: 'https://kirameki.one/leaderboard.php',
+            OSU: {
+                getLeaderboardURL: (guildID) => {
+                    return `https://kirameki.one/osuleaderboard.php?guild=${Buffer.from(guildID).toString('base64')}`;
+                }
+            }
+        }
     }
 };
