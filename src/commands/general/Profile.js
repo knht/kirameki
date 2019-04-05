@@ -203,7 +203,7 @@ class Profile {
                 .setColor("#" + userObject[0].accent_color)
             );
 
-            await message.channel.createMessage(undefined, { file: canvas.toBuffer(), name: `${uniqid()}.png` });
+            message.channel.createMessage(undefined, { file: canvas.toBuffer(), name: `${uniqid()}.png` });
             KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, 'PROFILE CARD', `${KiramekiHelper.userLogCompiler(message.author)} requested his profile card on Guild ${message.channel.guild.name} (${message.channel.name}).`);
         } catch (profileGeneratorError) {
             message.channel.createEmbed(new KiramekiHelper.Embed()
