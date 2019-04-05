@@ -24,6 +24,15 @@ class KiramekiHelper {
     }
 
     /**
+     * Obtain the first user mentioned from a message
+     * @param {object} message A message emitted from the Discord API
+     * @returns {object|false} The mentioned user or false if no user was mentioned
+     */
+    getFirstMention(message) {
+        return (message.mentions.length) ? message.mentions[0] : false;
+    }
+
+    /**
      * Send an embed and delete it automatically after a set amount of time
      * @async
      * @param {object} message A message object emitted from the Discord API 
@@ -45,6 +54,7 @@ class KiramekiHelper {
      * @param {string} helpObject.usage A clear usage of the command
      * @param {string} helpObject.example A simple example of the command
      * @param {boolean} inline Whether the usage and example fields should be inline or not
+     * @returns {object} A finished help Rich Embed
      */
     generateHelpEmbed(helpObject, inline = false) {
         let helpArray = [];
