@@ -1,14 +1,14 @@
 const KiramekiHelper = require('../../KiramekiHelper');
 
-class WeebCuddle {
+class WeebKiss {
     constructor() {
-        this.name = 'cuddle';
+        this.name = 'kiss';
         this.category = KiramekiHelper.categories.ANIME;
         this.cooldown = 7.5;
         this.help = {
-            message: 'Cuddle with someone very dear to you lovely.',
-            usage: 'cuddle <target>',
-            example: 'cuddle @Dory#0001',
+            message: 'Kiss someone very dear to you passionately.',
+            usage: 'kiss <target>',
+            example: 'kiss @Soleriel#5984',
             inline: true
         }
     }
@@ -21,46 +21,46 @@ class WeebCuddle {
         if (!target) {
             return message.channel.createEmbed(new KiramekiHelper.Embed()
                 .setColor('RED')
-                .setTitle('Please specify a user you want to cuddle with (✿˶◕‿◕˶人◕ᴗ◕✿)')
+                .setTitle('Please specify a user you want to kiss (ɔˆ ³(ˆ⌣ˆc)')
             );
         }
 
-        const userToCuddle = KiramekiHelper.getFirstMention(message) || message.channel.guild.members.find(member => member.username.toLowerCase() === target.toLowerCase());
+        const userToKiss = KiramekiHelper.getFirstMention(message) || message.channel.guild.members.find(member => member.username.toLowerCase() === target.toLowerCase());
 
         // Check if either a user was mentioned or found by text based search
-        if (!userToCuddle) {
+        if (!userToKiss) {
             return message.channel.createEmbed(new KiramekiHelper.Embed()
                 .setColor('RED')
-                .setTitle('I couldn\'t find the user you want to cuddle with  (︶ω︶)')
+                .setTitle('I couldn\'t find the user you want to kiss  (︶ω︶)')
             );
         }
 
         // Check if the author wants to selftag
-        if (userToCuddle.id === message.author.id) {
+        if (userToKiss.id === message.author.id) {
             return message.channel.createEmbed(new KiramekiHelper.Embed()
                 .setColor('RED')
-                .setTitle('You can\'t cuddle with yourself, B..Baka!  (︶ω︶)')
+                .setTitle('You can\'t kiss yourself, B..Baka!  (︶ω︶)')
             );
         }
 
         // Check if the target is Kirameki
-        if (userToCuddle.id === kirCore.user.id) {
+        if (userToKiss.id === kirCore.user.id) {
             return message.channel.createEmbed(new KiramekiHelper.Embed()
                 .setColor('RED')
-                .setTitle('I..I don\'t want to cuddle with humans! Thanks ( •⌄• ू )✧')
+                .setTitle('I..I don\'t want to kiss with humans! Thanks ( •⌄• ू )✧')
             );
         }
 
-        const randomImage = await KiramekiHelper.getRandomAnimeImage('cuddle');
+        const randomImage = await KiramekiHelper.getRandomAnimeImage('kiss');
 
         message.channel.createEmbed(new KiramekiHelper.Embed()
             .setColor(KiramekiHelper.getRandomColor())
-            .setDescription(`**${message.author.username}** cuddles with **${userToCuddle.mention}** ${adverb} (✿˶◕‿◕˶人◕ᴗ◕✿)`)
+            .setDescription(`**${message.author.username}** kisses **${userToKiss.mention}** ${adverb} (ɔˆ ³(ˆ⌣ˆc)`)
             .setImage(randomImage.url)
         );
 
-        KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, 'WEEB CUDDLE', `${KiramekiHelper.userLogCompiler(message.author)} used the cuddle command.`);
+        KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, 'WEEB KISS', `${KiramekiHelper.userLogCompiler(message.author)} used the kiss command.`);
     }
 }
 
-module.exports = new WeebCuddle();
+module.exports = new WeebKiss();
