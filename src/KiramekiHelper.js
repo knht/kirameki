@@ -10,6 +10,7 @@ const md5 = require('md5');
 const KiramekiLinks = require('./constants/Links');
 const KiramekiCategories = require('./constants/Categories');
 const KiramekiLogLevels = require('./constants/LogLevels');
+const Taihou = require('taihou');
 
 /**
  * Helper class for Kirameki.
@@ -21,6 +22,17 @@ class KiramekiHelper {
         this.links = KiramekiLinks;
         this.LogLevel = KiramekiLogLevels;
         this.categories = KiramekiCategories;
+        this.weebSH = new Taihou(KiramekiConfig.weebSHApiKey, true, { userAgent: KiramekiConfig.userAgent });
+    }
+
+    /**
+     * Get a random image from the weeb.sh Toph image API
+     * @async
+     * @param {string} category The weeb.sh image category to fetch from
+     * @returns {object} A weeb.sh image result
+     */
+    async getRandomAnimeImage(category) {
+        return await this.weebSH.toph.getRandomImage(category);
     }
 
     /**

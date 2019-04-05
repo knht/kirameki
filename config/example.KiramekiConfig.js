@@ -5,6 +5,8 @@ module.exports = {
     overwatchApiKey: "",
     fortniteApiKey: "",
     riotApiKey: "",
+    weebSHApiKey: "",
+    userAgent: "",
     botOwner: "",
     debug: true,
     mysqlOptions: {
