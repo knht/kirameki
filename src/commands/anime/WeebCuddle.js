@@ -4,7 +4,7 @@ class WeebCuddle {
     constructor() {
         this.name = 'cuddle';
         this.category = KiramekiHelper.categories.ANIME;
-        this.cooldown = 7.5;
+        this.cooldown = 5;
         this.help = {
             message: 'Cuddle with someone very dear to you lovely.',
             usage: 'cuddle <target>',

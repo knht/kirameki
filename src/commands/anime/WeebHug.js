@@ -4,7 +4,7 @@ class WeebHug {
     constructor() {
         this.name = 'hug';
         this.category = KiramekiHelper.categories.ANIME;
-        this.cooldown = 7.5;
+        this.cooldown = 5;
         this.help = {
             message: 'Hug someone very dear to you gracefully.',
             usage: 'hug <target>',
