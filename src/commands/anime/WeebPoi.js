@@ -1,27 +1,29 @@
 const KiramekiHelper = require('../../KiramekiHelper');
 
-class CommandClassName {
+class WeebPoi {
     constructor() {
         this.name = 'poi';
-        this.aliases = [''];
-        this.permissions = [''];
-        this.userPermissions = [''];
+        this.aliases = ['yuudachi'];
         this.category = KiramekiHelper.categories.ANIME;
-        this.owner = false;
-        this.nsfw = false;
-        this.cooldown = 2;
+        this.cooldown = 5;
         this.help = {
-            message: '',
-            usage: '',
-            example: '',
-            inline: false
+            message: 'Get a random image of Yuudachi from Kancolle.',
+            usage: 'poi',
+            example: 'poi',
+            inline: true
         }
     }
 
     async execute(message, kirCore) {
-        const [command, args] = KiramekiHelper.tailedArgs(message.content, ' ', 1);
+        const result = await KiramekiHelper.getRandomAnimeImage('poi');
 
+        message.channel.createEmbed(new KiramekiHelper.Embed()
+            .setColor(KiramekiHelper.getRandomColor())
+            .setImage(result.url)
+        );
+
+        KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, 'WEEB POI', `${KiramekiHelper.userLogCompiler(message.author)} used the poi command.`);
     }
 }
 
-module.exports = new CommandClassName();
+module.exports = new WeebPoi();
