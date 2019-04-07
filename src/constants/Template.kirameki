@@ -21,6 +21,7 @@ class CommandClassName {
     async execute(message, kirCore) {
         const [command, args] = KiramekiHelper.tailedArgs(message.content, ' ', 1);
 
+        KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, '', `${KiramekiHelper.userLogCompiler(message.author)} used the ${this.name} command.`);
     }
 }
 
