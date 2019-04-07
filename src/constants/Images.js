@@ -6,6 +6,7 @@ module.exports = {
     LEVEL_UP_OVERLAY: 'https://img.kirameki.one/9XzqmSAt.png',
     KIRAMEKI_MASCOT: 'https://kirameki.one/images/kirameki.png',
     LOVE_METER_OVERLAY: 'https://img.kirameki.one/n1p9sOzq.png',
+    PSIKWOW: 'https://i.imgur.com/P5ikWow.jpg',
     PROFILE_CARD: {
         DEFAULT_BACKGROUND: 'https://img.kirameki.one/LTqHsfYS.jpg',
         GURU_BADGE: 'https://img.kirameki.one/gBd284Hs.png',
