@@ -10,6 +10,7 @@ const md5 = require('md5');
 const KiramekiLinks = require('./constants/Links');
 const KiramekiCategories = require('./constants/Categories');
 const KiramekiLogLevels = require('./constants/LogLevels');
+const KiramekiEmojis = require('./constants/Emojis');
 const Taihou = require('taihou');
 
 /**
@@ -20,6 +21,7 @@ class KiramekiHelper {
         this.Embed = Embed;
         this.images = KiramekiImages;
         this.links = KiramekiLinks;
+        this.emojis = KiramekiEmojis;
         this.LogLevel = KiramekiLogLevels;
         this.categories = KiramekiCategories;
         this.weebSH = new Taihou(KiramekiConfig.weebSHApiKey, true, { userAgent: KiramekiConfig.userAgent });
