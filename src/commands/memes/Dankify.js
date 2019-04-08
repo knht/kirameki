@@ -30,11 +30,13 @@ class Dankify {
         let dankifiedText = [];
 
         for (let i = 0; i < text.length; i++) {
-            dankifiedText.push((text.charAt(i) === ' ')
+            dankifiedText.push(
+                (text.charAt(i) === ' ')
                 ? ':black_large_square: '
                 : (KiramekiHelper.emojis.REGIONAL_INDICATORS[text.charAt(i).toUpperCase()])
                 ? `${KiramekiHelper.emojis.REGIONAL_INDICATORS[text.charAt(i).toUpperCase()]} `
-                : '');
+                : ''
+            );
         }
 
         message.channel.createMessage(dankifiedText.join(''));
