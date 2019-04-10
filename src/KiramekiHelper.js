@@ -437,7 +437,13 @@ class KiramekiHelper {
             const beatmapFetch = await fetch(`https://osu.ppy.sh/osu/${beatmapID}`);
             const result = await beatmapFetch.text();
 
-            fs.writeFileSync(osuFile, result);
+            fs.writeFile(osuFile, result, (err) => {
+                if (err) {
+                    this.log(this.LogLevel.ERROR, 'osu! BEATMAP CACHE ERROR', `Caching a new osu! Beatmap file failed because of: ${err}`);
+                }
+
+                this.log(this.LogLevel.EVENT, 'osu! BEATMAP CACHE', 'Successfully cached a new osu! Beatmap file!');
+            });
 
             return result;
         }
