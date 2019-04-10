@@ -21,6 +21,11 @@ class MessageHandler {
         // Stop handling if no registered command was found
         if (!command) return;
 
+        // Check if the channel is currently being ignored
+        const isChannelIgnored = await KiramekiHelper.preparedQuery(this.kirCore.DB, 'SELECT * FROM ignored_channels WHERE channel_id = ?;', [message.channel.id]);
+        
+        if ((isChannelIgnored.length > 0) && !message.member.permission.has('administrator')) return;
+
         // Check if the bot has adequate permissions
         const pendingPermissions = (!command.permissions) ? this.minimumPermissions : this.minimumPermissions.concat(command.permissions);
         let missingPermissions = [];
