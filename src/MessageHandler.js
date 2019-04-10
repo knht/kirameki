@@ -26,6 +26,19 @@ class MessageHandler {
         
         if ((isChannelIgnored.length > 0) && !message.member.permission.has('administrator')) return;
 
+        // Check if the user is banned from using Kirameki
+        const isBanned = await KiramekiHelper.preparedQuery(this.kirCore.DB, 'SELECT * FROM banned WHERE user_id = ? LIMIT 1;', [message.author.id]);
+
+        if (isBanned.length > 0) {
+            return message.channel.createEmbed(new KiramekiHelper.Embed()
+                .setColor('DEFAULT')
+                .setTitle('You are banned from using Kirameki!')
+                .setDescription(`It appears you have been banned from using **Kirameki** indefinitely. A complete exclusion of Kirameki takes only place when the bot and/or its infrastructure have been heavily abused.\n\nIf you feel like this is an error, you may feel free to appeal over the [Contact Form on Kirameki's Website](${KiramekiHelper.links.WEBSITE.CONTACT})`)
+                .setThumbnail(KiramekiHelper.images.KIRAMEKI_SAD)
+                .addField('Reason', `\`\`\`${isBanned[0].ban_reason}\`\`\``, false)
+            );
+        }
+        
         // Check if the bot has adequate permissions
         const pendingPermissions = (!command.permissions) ? this.minimumPermissions : this.minimumPermissions.concat(command.permissions);
         let missingPermissions = [];
