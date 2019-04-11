@@ -25,5 +25,9 @@ module.exports = {
                 return `https://kirameki.one/api/dice/${number}.png`;
             }
         }
+    },
+    MAGIC_CONCH_SHELL: {
+        ICON: 'https://i.imgur.com/0KUTNHb.png',
+        THUMBNAIL: 'https://i.imgur.com/6aMnknd.jpg'
     }
 };
