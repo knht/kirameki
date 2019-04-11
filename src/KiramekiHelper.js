@@ -11,6 +11,7 @@ const KiramekiLinks = require('./constants/Links');
 const KiramekiCategories = require('./constants/Categories');
 const KiramekiLogLevels = require('./constants/LogLevels');
 const KiramekiEmojis = require('./constants/Emojis');
+const KiramekiOther = require('./constants/Other');
 const Taihou = require('taihou');
 
 /**
@@ -22,6 +23,7 @@ class KiramekiHelper {
         this.images = KiramekiImages;
         this.links = KiramekiLinks;
         this.emojis = KiramekiEmojis;
+        this.other = KiramekiOther;
         this.LogLevel = KiramekiLogLevels;
         this.categories = KiramekiCategories;
         this.weebSH = new Taihou(KiramekiConfig.weebSHApiKey, true, { userAgent: KiramekiConfig.userAgent });
