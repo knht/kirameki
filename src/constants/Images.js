@@ -8,6 +8,7 @@ module.exports = {
     KIRAMEKI_SAD: 'https://img.kirameki.one/oL0cbCuW.gif',
     LOVE_METER_OVERLAY: 'https://img.kirameki.one/n1p9sOzq.png',
     PSIKWOW: 'https://i.imgur.com/P5ikWow.jpg',
+    KAEDE_BACKGROUND: 'https://img.kirameki.one/YGWA7GoH.jpg',
     PROFILE_CARD: {
         DEFAULT_BACKGROUND: 'https://img.kirameki.one/LTqHsfYS.jpg',
         GURU_BADGE: 'https://img.kirameki.one/gBd284Hs.png',
