@@ -38,7 +38,7 @@ class Kaede {
 
         message.channel.createMessage(undefined, { file: canvas.toBuffer(), name: `${uniqid()}.png` });
 
-        KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, '', `${KiramekiHelper.userLogCompiler(message.author)} used the ${this.name} command.`);
+        KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, 'KAEDE CANVAS', `${KiramekiHelper.userLogCompiler(message.author)} used the ${this.name} command.`);
     }
 }
 
