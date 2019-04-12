@@ -21,12 +21,12 @@ class AddMeme {
         const discordUserID = message.author.id;
 
         if (!memeURL) {
-            cooldowns.get(this.name).delete(message.author.id);
+            KiramekiHelper.resetCommandCooldown(cooldowns, this.name, message.author.id);
             return message.channel.createEmbed(KiramekiHelper.generateHelpEmbed(this.help));
         }
 
         if (!validUrl.isWebUri(memeURL) || !KiramekiHelper.isValidImageURL(memeURL)) {
-            cooldowns.get(this.name).delete(message.author.id);
+            KiramekiHelper.resetCommandCooldown(cooldowns, this.name, message.author.id);
             return message.channel.createEmbed(KiramekiHelper.generateHelpEmbed(this.help));
         }
 
