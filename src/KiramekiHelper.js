@@ -30,6 +30,24 @@ class KiramekiHelper {
     }
 
     /**
+     * Abbreviate any number with appropriate units
+     * @param {number} number A number that should get abbreviated 
+     */
+    abbreviateNumber(number) {
+        const tier = Math.log10(number) / 3 | 0;
+
+        if (tier === 0) {
+            return number;
+        }
+
+        const suffix = this.other.MATH_ADDITIONS.SI_SYMBOLS[tier];
+        const scale  = Math.pow(10, tier * 3);
+        const scaled = number / scale;
+        
+        return scaled.toFixed(1).replace(/\.0$/, '') + suffix;
+    }
+
+    /**
      * Check whether an image URL ends on an image suffix
      * @param {string} url A URL that should be checked
      * @returns {boolean} True if it's a valid image URL 

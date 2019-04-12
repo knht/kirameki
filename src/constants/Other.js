@@ -22,5 +22,8 @@ module.exports = {
             "Outlook not so good",
             "Very doubtful"
         ]
+    },
+    MATH_ADDITIONS: {
+        SI_SYMBOLS: ["", "K", "M", "G", "T", "P", "E"]
     }
 }
