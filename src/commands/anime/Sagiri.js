@@ -16,10 +16,13 @@ class Sagiri {
         }
     }
 
-    async execute(message, kirCore) {
+    async execute(message, kirCore, cooldowns) {
         const [command, args] = KiramekiHelper.tailedArgs(message.content, ' ', 1);
 
-        if (!args) return message.channel.createEmbed(KiramekiHelper.generateHelpEmbed(this.help, this.help.inline));
+        if (!args) {
+            KiramekiHelper.resetCommandCooldown(cooldowns, this.name, message.author.id);
+            return message.channel.createEmbed(KiramekiHelper.generateHelpEmbed(this.help, this.help.inline));
+        }
 
         message.channel.sendTyping();
         Canvas.registerFont(__dirname + '/../../../fonts/GUTHEN.ttf', { family: 'GUTHEN' });
