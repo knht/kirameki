@@ -2,7 +2,7 @@ const KiramekiHelper = require('../../KiramekiHelper');
 const Canvas = require('canvas');
 const uniqid = require('uniqid');
 
-class CommandClassName {
+class Sagiri {
     constructor() {
         this.name = 'sagiri';
         this.permissions = ['attachFiles'];
@@ -43,4 +43,4 @@ class CommandClassName {
     }
 }
 
-module.exports = new CommandClassName();
+module.exports = new Sagiri();
