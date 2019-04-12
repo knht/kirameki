@@ -10,7 +10,7 @@ class RequestFeature {
         this.cooldown = 1800;
         this.help = {
             message: 'Request a new feature you\'d like to have added in Kirameki.',
-            usage: 'requestfeature',
+            usage: 'requestfeature <text>',
             example: 'requestfeature Please add private server support!',
             inline: false
         }
