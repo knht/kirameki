@@ -110,7 +110,7 @@ class MessageHandler {
 
         // Execute the command and register statistics in the database
         try {
-            command.execute(message, this.kirCore);
+            command.execute(message, this.kirCore, this.cooldowns);
 
             const doesCommandExist = await KiramekiHelper.preparedQuery(this.kirCore.DB, 'SELECT commandname FROM command_usage WHERE commandname = ?;', [commandName]);
 
