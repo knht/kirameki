@@ -16,6 +16,7 @@ class Embed {
 
     resolveColor(color) {
         if (typeof color === 'string') {
+            if (color === 'RANDOM') return Math.floor(Math.random() * (0xFFFFFF + 1));
             color = Colors[color] || parseInt(color.replace('#', ''), 16);
         }
 
