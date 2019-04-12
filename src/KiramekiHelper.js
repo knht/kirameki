@@ -30,6 +30,36 @@ class KiramekiHelper {
     }
 
     /**
+     * Render text on a canvas context with added line wrapping.
+     * @param {object} context A 2d Canvas context
+     * @param {string} text The text to be rendered on the canvas
+     * @param {number} x The x coordinate
+     * @param {number} y The y coordinate
+     * @param {number} maxWidth The max width in pixels the text should be allowed to take up
+     * @param {number} lineHeight The line height of the text
+     */
+    wrapCanvasText(context, text, x, y, maxWidth, lineHeight) {
+        let words = text.split(' ');
+        let line = '';
+
+        for (let i = 0; i < words.length; i++) {
+            let testLine = line + words[i] + ' ';
+            let metrics = context.measureText(testLine);
+            let testWidth = metrics.width;
+
+            if (testWidth > maxWidth && i > 0) {
+                context.fillText(line, x, y);
+                line = words[i] + ' ';
+                y += lineHeight;
+            } else {
+                line = testLine;
+            }
+        }
+
+        context.fillText(line, x, y);
+    }
+
+    /**
      * Get a random image from the weeb.sh Toph image API
      * @async
      * @param {string} category The weeb.sh image category to fetch from
