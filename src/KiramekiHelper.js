@@ -30,6 +30,15 @@ class KiramekiHelper {
     }
 
     /**
+     * Check whether an image URL ends on an image suffix
+     * @param {string} url A URL that should be checked
+     * @returns {boolean} True if it's a valid image URL 
+     */
+    isValidImageURL(url) {
+        return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
+    }
+
+    /**
      * Render text on a canvas context with added line wrapping.
      * @param {object} context A 2d Canvas context
      * @param {string} text The text to be rendered on the canvas
