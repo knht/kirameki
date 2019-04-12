@@ -30,6 +30,7 @@
     "mysql": "^2.16.0",
     "mysql2": "^1.6.4",
     "node-fetch": "^2.3.0",
+    "node-kitsu": "^1.1.1",
     "node-opus": "^0.3.1",
     "nodesu": "^0.6.4",
     "ojsama": "^1.2.1",
