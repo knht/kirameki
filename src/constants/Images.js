@@ -10,6 +10,7 @@ module.exports = {
     PSIKWOW: 'https://i.imgur.com/P5ikWow.jpg',
     KAEDE_BACKGROUND: 'https://img.kirameki.one/YGWA7GoH.jpg',
     SAGIRI_BACKGROUND: 'https://img.kirameki.one/bffOcH0D.png',
+    CHANGE_MY_MIND_BACKGROUND: 'https://img.kirameki.one/kFFwx3x2.png',
     PROFILE_CARD: {
         DEFAULT_BACKGROUND: 'https://img.kirameki.one/LTqHsfYS.jpg',
         GURU_BADGE: 'https://img.kirameki.one/gBd284Hs.png',
