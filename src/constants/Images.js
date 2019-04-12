@@ -12,6 +12,7 @@ module.exports = {
     SAGIRI_BACKGROUND: 'https://img.kirameki.one/bffOcH0D.png',
     CHANGE_MY_MIND_BACKGROUND: 'https://img.kirameki.one/kFFwx3x2.png',
     EINSTEIN_BACKGROUND: 'https://img.kirameki.one/q8mbEBDt.jpg',
+    SPONGEMOCK_BACKGROUND: 'https://img.kirameki.one/OgLYHzPd.png',
     PROFILE_CARD: {
         DEFAULT_BACKGROUND: 'https://img.kirameki.one/LTqHsfYS.jpg',
         GURU_BADGE: 'https://img.kirameki.one/gBd284Hs.png',
