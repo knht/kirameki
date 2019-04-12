@@ -9,6 +9,7 @@ module.exports = {
     LOVE_METER_OVERLAY: 'https://img.kirameki.one/n1p9sOzq.png',
     PSIKWOW: 'https://i.imgur.com/P5ikWow.jpg',
     KAEDE_BACKGROUND: 'https://img.kirameki.one/YGWA7GoH.jpg',
+    SAGIRI_BACKGROUND: 'https://img.kirameki.one/bffOcH0D.png',
     PROFILE_CARD: {
         DEFAULT_BACKGROUND: 'https://img.kirameki.one/LTqHsfYS.jpg',
         GURU_BADGE: 'https://img.kirameki.one/gBd284Hs.png',
