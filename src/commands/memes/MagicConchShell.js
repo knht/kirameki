@@ -2,13 +2,13 @@ const KiramekiHelper = require('../../KiramekiHelper');
 
 class MagicConchShell {
     constructor() {
-        this.name = 'mcs';
-        this.aliases = ['magicshell', 'conchshell', 'conch', '8ball'];
+        this.name = 'conch';
+        this.aliases = ['magicshell', 'conchshell', 'mcs', '8ball'];
         this.category = KiramekiHelper.categories.MEMES;
         this.help = {
             message: 'Ask the Magic Conch Shell from SpongeBob Squarepants a question and receive true enlightenment. The shell is always right and predicts the future 100% reliably. *cough*',
-            usage: 'mcs <question>',
-            example: 'mcs Can I have something to eat?',
+            usage: 'conch <question>',
+            example: 'conch Can I have something to eat?',
             inline: true
         }
     }
