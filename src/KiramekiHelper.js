@@ -30,6 +30,16 @@ class KiramekiHelper {
     }
 
     /**
+     * Manually reset the cooldown of a command for a specific user (e.g. in case the command wasn't fully executed yet).
+     * @param {Eris.Collection} cooldowns Nested command cooldowns 
+     * @param {string} commandName The name of the command for which the cooldown of the user should be reset
+     * @param {string} userID The user ID of the user whose command cooldown should be reset
+     */
+    resetCommandCooldown(cooldowns, commandName, userID) {
+        cooldowns.get(commandName).delete(userID);
+    }
+
+    /**
      * Abbreviate any number with appropriate units
      * @param {number} number A number that should get abbreviated 
      */
