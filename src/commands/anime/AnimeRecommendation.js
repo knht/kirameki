@@ -6,7 +6,7 @@ class AnimeRecommendation {
         this.name = 'animerec';
         this.aliases = ['animerecommend', 'animerecommendation', 'anirec'];
         this.category = KiramekiHelper.categories.ANIME;
-        this.cooldown = 3;
+        this.cooldown = 5;
         this.help = {
             message: 'Get a random anime recommendation including detailed information about it.',
             usage: 'animerec',
@@ -27,11 +27,11 @@ class AnimeRecommendation {
                 .setThumbnail(animeSearchResponse[0].attributes.posterImage.original)
                 .setDescription(`[${animeSearchResponse[0].attributes.canonicalTitle}](https://kitsu.io/anime/${animeSearchResponse[0].attributes.slug}) *(Type: ${animeSearchResponse[0].attributes.subtype.charAt(0).toUpperCase() + animeSearchResponse[0].attributes.subtype.slice(1)})*`)
                 .addField('Available Episodes', animeSearchResponse[0].attributes.episodeCount, true)
-                .addField("Episode Length", animeSearchResponse[0].attributes.episodeLength + " minutes", true)
-                .addField("Age Rating", animeSearchResponse[0].attributes.ageRatingGuide, true)
-                .addField("Status", animeSearchResponse[0].attributes.status.charAt(0).toUpperCase() + animeSearchResponse[0].attributes.status.slice(1), true)
+                .addField('Episode Length', `${animeSearchResponse[0].attributes.episodeLength} minutes`, true)
+                .addField('Age Rating', animeSearchResponse[0].attributes.ageRatingGuide, true)
+                .addField('Status', animeSearchResponse[0].attributes.status.charAt(0).toUpperCase() + animeSearchResponse[0].attributes.status.slice(1), true)
                 .addBlankField(false)
-                .addField("Description", (animeSearchResponse[0].attributes.synopsis.length > 550) ? `${animeSearchResponse[0].attributes.synopsis.substring(0, 550)}...` : animeSearchResponse[0].attributes.synopsis , false);
+                .addField('Description', (animeSearchResponse[0].attributes.synopsis.length > 550) ? `${animeSearchResponse[0].attributes.synopsis.substring(0, 550)}...` : animeSearchResponse[0].attributes.synopsis , false);
             
             searchingMessage.edit({
                 embed: responseEmbed
