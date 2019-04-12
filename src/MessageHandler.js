@@ -1,5 +1,6 @@
 const KiramekiHelper = require('./KiramekiHelper');
 const Eris           = require('eris');
+const juration       = require('juration');
 
 class MessageHandler {
     constructor(kirCore) {
@@ -97,10 +98,11 @@ class MessageHandler {
 
             if (now < expirationTime) {
                 const timeLeft = (expirationTime - now) / 1000;
+                const timeLeftFormatted = juration.stringify(timeLeft, { format: 'long', units: 1 });
 
                 return message.channel.createEmbed(new KiramekiHelper.Embed()
                     .setColor(0xFF9185)
-                    .setTitle(`Please wait **${timeLeft.toFixed(1)}** seconds before using **${command.name}** again`)
+                    .setTitle(`Please wait **${timeLeftFormatted}** before using **${command.name}** again`)
                 );
             }
         }
