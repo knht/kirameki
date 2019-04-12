@@ -113,7 +113,7 @@ class Profile {
             ctx.font = '16px Exo';
             ctx.textAlign = 'center';
             ctx.fillStyle = '#FFFFFF';
-            ctx.fillText(leaderboardRank, 150, 152);
+            ctx.fillText(KiramekiHelper.abbreviateNumber(leaderboardRank), 150, 152);
 
             // Age Label
             ctx.font = "10px Exo";
