@@ -15,6 +15,9 @@ Kirameki is an extremely powerful Discord & Twitch bot tailored to the needs of 
 # Usage
 This repository is ***not*** meant for self hosting purposes, as Kirameki heavily relies on other internal services which aren't part of this repository. As a result there is no support on getting Kirameki up and running for self hosting. Please bear in mind ***the license*** Kirameki ships with if parts of the code hosted here on GitHub were to be reused for personal projects.
 
+# Contributions
+*More info coming soon ...*
+
 # Community
 The Kirameki community is delighted about any single one of its valuable community members. Come [join us on Discord](https://discord.gg/kKPZdA6) and have a chat with us!
 
