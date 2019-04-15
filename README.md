@@ -16,7 +16,7 @@ Kirameki is an extremely powerful Discord & Twitch bot tailored to the needs of 
 This repository is ***not*** meant for self hosting purposes, as Kirameki heavily relies on other internal services which aren't part of this repository. As a result there is no support on getting Kirameki up and running for self hosting. Please bear in mind ***the license*** Kirameki ships with if parts of the code hosted here on GitHub were to be reused for personal projects.
 
 # Contributions
-*More info coming soon ...*
+Contributing to Kirameki is welcome if you think a certain feature or command is missing and needs to be added. Please bear in mind to only issue a pull request on the master branch and stick to the code style of Kirameki. Helper functions that could be reused anytime down the road **must** be put into the KiramekiHelper class. A command template can be found in the constants folder of this repository ([or click here](https://github.com/riyacchi/kirameki/blob/master/src/constants/Template.kirameki)). Unnecessary command properties e.g. `nsfw` or `owner` can simply be deleted.
 
 # Community
 The Kirameki community is delighted about any single one of its valuable community members. Come [join us on Discord](https://discord.gg/kKPZdA6) and have a chat with us!
