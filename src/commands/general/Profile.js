@@ -34,7 +34,7 @@ class Profile {
         // Create canvas and its context
         const canvas = Canvas.createCanvas(400, 170);
         const ctx = canvas.getContext('2d');
-        const userObject = await KiramekiHelper.preparedQuery(kirCore.DB, 'SELECT *, ( SELECT COUNT(*) FROM profile_xp AS x WHERE xp > profile_xp.xp ) + 1 AS rank FROM profile_xp WHERE discord_id = ?;', [message.author.id]);
+        const userObject = await KiramekiHelper.preparedQuery(kirCore.DB, 'SELECT *, ( SELECT COUNT(*) FROM profile_xp AS x WHERE xp > profile_xp.xp ) + 1 AS `rank` FROM profile_xp WHERE discord_id = ?;', [message.author.id]);
         const isGuruObject = await KiramekiHelper.preparedQuery(kirCore.DB, 'SELECT * FROM gurus WHERE discord_id = ? LIMIT 1;', [message.author.id]);
         const isPeacekeeper = await KiramekiHelper.preparedQuery(kirCore.DB, 'SELECT * FROM peacekeepers WHERE discord_id = ? LIMIT 1;', [message.author.id]);
 
