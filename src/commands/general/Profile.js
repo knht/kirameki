@@ -199,7 +199,7 @@ class Profile {
 
             // Send profile card
             await message.channel.createEmbed(new KiramekiHelper.Embed()
-                .setDescription("You can individualize your profile card on [Kirameki's Dashboard!](https://dashboard.kirameki.one/)")
+                .setDescription(`You can individualize your profile card on [Kirameki's Dashboard!](${KiramekiHelper.links.WEBSITE.DASHBOARD})`)
                 .setColor("#" + userObject[0].accent_color)
             );
 
