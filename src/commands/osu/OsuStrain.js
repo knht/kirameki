@@ -89,11 +89,22 @@ class OsuStrain {
 
         const modCanvas     = Canvas.createCanvas(800, 450);
         const ctx           = modCanvas.getContext('2d');
-        const bgImage       = await Canvas.loadImage(KiramekiHelper.images.OSU_STRAIN_GRAPH_BACKGROUND);
         const graphImage    = await Canvas.loadImage(graphBuffer);
 
+        let bgImage;
+
+        try {
+            bgImage = await Canvas.loadImage(`https://assets.ppy.sh/beatmaps/${beatmapStrainObject.map.beatmap_set_id}/covers/cover.jpg`); 
+        } catch (e) {
+            bgImage = await Canvas.loadImage(KiramekiHelper.images.OSU_STRAIN_GRAPH_BACKGROUND);
+        }
+
         // Draw background image
-        ctx.drawImage(bgImage, 0, 0, 800, 450);
+        ctx.drawImage(bgImage, modCanvas.width / 2 - (450 * bgImage.width / bgImage.height) / 2, 0, 450 * bgImage.width / bgImage.height, 450);
+
+        // Draw background alpha
+        ctx.fillStyle = 'rgba(9, 9, 9, .85)';
+        ctx.fillRect(0, 0, 800, 450);
 
         // Draw graph
         ctx.drawImage(graphImage, 0, 0, 800, 450);
