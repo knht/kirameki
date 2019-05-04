@@ -174,7 +174,7 @@ class Profile {
 
             // 100k XP Badge
             if (dbXP >= 100000) {
-                if (!isGuruObject.length > 0 && !isPeacekeeper.length > 0) {
+                if (!isGuruObject.length > 0 && !isPeacekeeper.length > 0 && !KiramekiHelper.checkIfOwner(message.author.id)) {
                     const ohkBadge = await Canvas.loadImage(KiramekiHelper.images.PROFILE_CARD.OHK_BADGE);
 
                     ctx.drawImage(ohkBadge, 342, 129, 26, 20);
