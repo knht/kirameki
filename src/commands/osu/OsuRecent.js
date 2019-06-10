@@ -66,14 +66,14 @@ class OsuRecent {
 
             try {
                 const userRecentResults = await kirCore.osu.raw('/get_user_recent', { u: osuUserID, m: 0, type: 'id', limit: 1 });
-                const mostRecentRank = KiramekiHelper.getEmoji(kirCore, '333219713872297986', `yachty_osu_${userRecentResults[0].rank}`);
+                const mostRecentRank = KiramekiHelper.emojis.OSU.RANKS[userRecentResults[0].rank];
                 const mostRecentBMID = userRecentResults[0].beatmap_id;
 
                 try {
                     const userRecentScore = await kirCore.osu.beatmaps.getByBeatmapId(mostRecentBMID);
                     const beatmapSetID = userRecentScore[0].beatmapset_id;
                     const beatmapRender = userRecentScore[0].artist + " - " + userRecentScore[0].title + " [" + userRecentScore[0].version + "]";
-                    const mostRecentDiffIcon = KiramekiHelper.getEmoji(kirCore, '333219713872297986', `yachty_osu_${KiramekiHelper.getOsuDiffIconDesc(parseFloat(userRecentScore[0].difficultyrating))}`);
+                    const mostRecentDiffIcon = KiramekiHelper.emojis.OSU.DIFFICULTIES[KiramekiHelper.getOsuDiffIconDesc(parseFloat(userRecentScore[0].difficultyrating))];
                     const beatmapData = await KiramekiHelper.obtainAndCacheOsuFile(mostRecentBMID);
 
                     let beatmapParser = new ojsama.parser();
@@ -132,10 +132,10 @@ class OsuRecent {
                             name: "Play Information",
                             value: beatmapStars.toString().split(" ", 1)[0] + mostRecentDiffIcon + mostRecentRank + " **" + formattedCalcAcc + "%** ***" + mapModifiers + "*** *(Score: " + KiramekiHelper.numberWithCommas(parseInt(userRecentResults[0].score)) + ")*\n" +
                                 "**Total Hits:** " +
-                                `${KiramekiHelper.getEmoji(kirCore, '333219713872297986', `yachty_osu_300`)} ${userRecentResults[0].count300} ` +
-                                `${KiramekiHelper.getEmoji(kirCore, '333219713872297986', `yachty_osu_100`)} ${userRecentResults[0].count100} ` +
-                                `${KiramekiHelper.getEmoji(kirCore, '333219713872297986', `yachty_osu_50`)} ${userRecentResults[0].count50} ` +
-                                `${KiramekiHelper.getEmoji(kirCore, '333219713872297986', `yachty_osu_x`)} ${userRecentResults[0].countmiss}`
+                                `${KiramekiHelper.emojis.OSU.HITS[300]} ${userRecentResults[0].count300} ` +
+                                `${KiramekiHelper.emojis.OSU.HITS[100]} ${userRecentResults[0].count100} ` +
+                                `${KiramekiHelper.emojis.OSU.HITS[50]} ${userRecentResults[0].count50} ` +
+                                `${KiramekiHelper.emojis.OSU.HITS.MISS} ${userRecentResults[0].countmiss}`
                         },
                         {
                             name: "Beatmap Information",

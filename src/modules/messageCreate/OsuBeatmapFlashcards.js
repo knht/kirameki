@@ -34,7 +34,7 @@ class OsuBeatmapFlashcards {
             }
 
             const beatmapSetID = beatmapData[0].beatmapset_id;
-            const difficultyIcon = KiramekiHelper.getEmoji(kirCore, '333219713872297986', `yachty_osu_${KiramekiHelper.getOsuDiffIconDesc(parseFloat(beatmapData[0].difficultyrating))}`);
+            const difficultyIcon = KiramekiHelper.emojis.OSU.DIFFICULTIES[KiramekiHelper.getOsuDiffIconDesc(parseFloat(beatmapData[0].difficultyrating))];
             const beatmapOsuFile = await KiramekiHelper.obtainAndCacheOsuFile(beatmapID);
             const beatmapParser = new ojsama.parser();
 
