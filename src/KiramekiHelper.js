@@ -537,17 +537,17 @@ class KiramekiHelper {
         const diffSanitized = parseFloat(diff);
 
         if (diffSanitized > 0 && diffSanitized <= 1.5) {
-            diffDesc = 'easy';
+            diffDesc = 'EASY';
         } else if (diffSanitized >= 1.51 && diffSanitized <= 2.25) {
-            diffDesc = 'normal';
+            diffDesc = 'NORMAL';
         } else if (diffSanitized >= 2.26 && diffSanitized <= 3.75) {
-            diffDesc = 'hard';
+            diffDesc = 'HARD';
         } else if (diffSanitized >= 3.76 && diffSanitized <= 5.25) {
-            diffDesc = 'insane';
+            diffDesc = 'INSANE';
         } else if (diffSanitized >= 5.26 && diffSanitized <= 6.75) {
-            diffDesc = 'expert';
+            diffDesc = 'EXPERT';
         } else if (diffSanitized >= 6.76) {
-            diffDesc = 'expertplus';
+            diffDesc = 'EXPERT_PLUS';
         } else {
             diffDesc = 'invalid';
         }
