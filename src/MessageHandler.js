@@ -51,7 +51,7 @@ class MessageHandler {
         }
 
         if (missingPermissions.length) {
-            return message.channel.createMessage(`Can't run command **${command.name}** because I lack following permissions: **${missingPermissions.join(', ')}**`);
+            return message.channel.createMessage(`Can't run command **${command.name}** because I lack following permissions: **${missingPermissions.join(', ')}**\nIf you want to make use of this feature please grant me the missing permissions.`);
         }
 
         // Check if the user has adequate permissions
