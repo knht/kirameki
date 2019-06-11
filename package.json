@@ -27,6 +27,7 @@
     "harmonia-osu": "^1.0.7",
     "juration": "^0.1.0",
     "md5": "^2.2.1",
+    "moment-timezone": "^0.5.25",
     "mysql": "^2.16.0",
     "mysql2": "^1.6.4",
     "node-fetch": "^2.3.0",
