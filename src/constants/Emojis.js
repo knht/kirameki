@@ -71,6 +71,11 @@ module.exports = {
             GRANDMASTER: '<:yachty_ov_grandmaster:450997227230330880>'
         }
     },
+    STATUS: {
+        OPERATIONAL: '<:kirameki_operational:587839837067804702>',
+        RESTRICTED: '<:kirameki_restricted:587839837005021196>',
+        UNOPERATIONAL: '<:kirameki_unoperational:587839836682059777>'
+    },
     REGIONAL_INDICATORS: {
         A: ':a:',
         B: ':b:',
