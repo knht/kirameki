@@ -68,12 +68,13 @@ class WeebShip {
         }
     }
 
-    async execute(message, kirCore) {
+    async execute(message, kirCore, cooldowns) {
         const userMentionArray = message.mentions;
         const lovePercentage = KiramekiHelper.randomIntFromInterval(1, 100);
         const loveQuote = this.calculateLoveText(lovePercentage);
 
         if (userMentionArray.length != 2) {
+            KiramekiHelper.resetCommandCooldown(cooldowns, this.name, message.author.id);
             return message.channel.createEmbed(new KiramekiHelper.Embed()
                 .setColor('RED')
                 .setTitle('Please specify **exactly** 2 users you want to ship (｡’▽’｡)♡')
@@ -84,6 +85,7 @@ class WeebShip {
         const shipTwo = userMentionArray[1];
 
         if (shipOne.bot || shipTwo.bot) {
+            KiramekiHelper.resetCommandCooldown(cooldowns, this.name, message.author.id);
             return message.channel.createEmbed(new KiramekiHelper.Embed()
                 .setColor('DEFAULT')
                 .setTitle('I..I can\'t say I support shipping robots!')
@@ -91,6 +93,7 @@ class WeebShip {
         }
 
         if (shipOne.id === kirCore.user.id || shipTwo.id === kirCore.user.id) {
+            KiramekiHelper.resetCommandCooldown(cooldowns, this.name, message.author.id);
             return message.channel.createEmbed(new KiramekiHelper.Embed()
                 .setColor('DEFAULT')
                 .setTitle('I..I don\'t want to ship with humans! Thanks ( •⌄• ू )✧')
