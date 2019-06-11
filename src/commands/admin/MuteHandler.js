@@ -84,10 +84,10 @@ class MuteHandler {
                     } catch (mysqlError) {
                         message.channel.createEmbed(new KiramekiHelper.Embed()
                             .setColor('RED')
-                            .setDescription(`Something went wrong while trying to mute the user. Please try again.\n\nIf this error persists please join the [Kirameki help server](${KiramekiHelper.links.INVITE}) and report this error. Thanks!`)
+                            .setDescription(`Something went wrong while trying to unmute the user. Please try again.\n\nIf this error persists please join the [Kirameki help server](${KiramekiHelper.links.INVITE}) and report this error. Thanks!`)
                         );
                     
-                        return KiramekiHelper.log(KiramekiHelper.LogLevel.ERROR, 'MUTE HANDLER ERROR', `Inserting the user into the database failed because of: ${mysqlError}`);
+                        return KiramekiHelper.log(KiramekiHelper.LogLevel.ERROR, 'MUTE HANDLER ERROR', `Deleting the user from the database failed because of: ${mysqlError}`);
                     }
                 } else {
                     return message.channel.createEmbed(new KiramekiHelper.Embed()
