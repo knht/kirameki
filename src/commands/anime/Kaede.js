@@ -16,7 +16,7 @@ class Kaede {
         }
     }
 
-    async execute(message, kirCore) {
+    async execute(message, kirCore, cooldowns) {
         const [command, args] = KiramekiHelper.tailedArgs(message.content, ' ', 1);
 
         if (!args) {
