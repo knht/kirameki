@@ -5,6 +5,7 @@ class KiramekiStatus {
     constructor() {
         this.name = 'status';
         this.category = KiramekiHelper.categories.GENERAL;
+        this.permissions = ['externalEmojis'];
         this.help = {
             message: 'Get information about the current status of Kirameki.',
             usage: 'status',
