@@ -16,31 +16,31 @@ class ModuleHandler {
         switch(wsEvent) {
             case this.wsEvents.READY: {
                 const readyModules = modules.filter(readyModule => readyModule.wsEvent === 'READY');
-                      readyModules.forEach(rm => rm.execute(message, this.kirCore));
+                    readyModules.forEach(rm => rm.execute(message, this.kirCore));
                 break;
             }
 
             case this.wsEvents.MESSAGE_CREATE: {
                 const messageCreateModules = modules.filter(messageCreateModule => messageCreateModule.wsEvent === 'MESSAGE_CREATE');
-                      messageCreateModules.forEach(mcm => mcm.execute(message, this.kirCore));
+                    messageCreateModules.forEach(mcm => mcm.execute(message, this.kirCore));
                 break;
             }
 
             case this.wsEvents.GUILD_CREATE: {
                 const guildCreateModules = modules.filter(guildCreateModule => guildCreateModule.wsEvent === 'GUILD_CREATE');
-                      guildCreateModules.forEach(gcm => gcm.execute(other.guild, this.kirCore));
+                    guildCreateModules.forEach(gcm => gcm.execute(other.guild, this.kirCore));
                 break;
             }
 
             case this.wsEvents.MESSAGE_UPDATE: {
                 const messageUpdateModules = modules.filter(messageUpdateModule => messageUpdateModule.wsEvent === 'MESSAGE_UPDATE');
-                      messageUpdateModules.forEach(mum => mum.execute(message, other.oldMessage, this.kirCore));
+                    messageUpdateModules.forEach(mum => mum.execute(message, other.oldMessage, this.kirCore));
                 break;
             }
 
             case this.wsEvents.USER_UPDATE: {
                 const userUpdateModules = modules.filter(userUpdateModule => userUpdateModule.wsEvent === 'USER_UPDATE');
-                      userUpdateModules.forEach(uum => uum.execute(other.newUser, this.kirCore));
+                    userUpdateModules.forEach(uum => uum.execute(other.newUser, this.kirCore));
                 break;
             }
         }
