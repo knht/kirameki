@@ -126,10 +126,13 @@ class Kirameki extends Eris.Client {
      * The main message listener. This method gets triggered for each pre-processed message
      * @param {object} message The message object emitted from the Discord API 
      */
-    _messageListener(message) {
+    async _messageListener(message) {
         try {
+            const isMuted = await KiramekiHelper.preparedQuery(this.DB, 'SELECT * FROM mute WHERE discord_id = ? AND guild_id = ?;', [message.author.id, message.channel.guild.id]);
+            
             if (message.channel.type != 0) return;
             if (message.author.bot) return;
+            if (isMuted.length > 0) return message.delete();
             if (!message.content.startsWith(this.prefix)) return;
             if (message.content == this.prefix) return;
 
