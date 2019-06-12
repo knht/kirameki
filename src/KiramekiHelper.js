@@ -28,6 +28,14 @@ class KiramekiHelper {
         this.categories = KiramekiCategories;
         this.weebSH = new Taihou(KiramekiConfig.weebSHApiKey, true, { userAgent: KiramekiConfig.userAgent });
     }
+    
+    /**
+     * Capitalize the first letter in a string
+     * @param {string} text A string of which the first letter should be capitalized  
+     */
+    capitalize(text) {
+        return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+    }
 
     /**
      * Manually reset the cooldown of a command for a specific user (e.g. in case the command wasn't fully executed yet).
