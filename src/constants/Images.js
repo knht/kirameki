@@ -14,6 +14,7 @@ module.exports = {
     EINSTEIN_BACKGROUND: 'https://img.kirameki.one/q8mbEBDt.jpg',
     SPONGEMOCK_BACKGROUND: 'https://img.kirameki.one/OgLYHzPd.png',
     OVERWATCH_LOGO: 'https://img.kirameki.one/AdnMGGPd.png',
+    URBAN_DICTIONARY_LOGO: 'https://img.kirameki.one/ukMhU5LU.jpg',
     PROFILE_CARD: {
         DEFAULT_BACKGROUND: 'https://img.kirameki.one/LTqHsfYS.jpg',
         GURU_BADGE: 'https://img.kirameki.one/gBd284Hs.png',
