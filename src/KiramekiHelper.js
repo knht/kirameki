@@ -13,6 +13,7 @@ const KiramekiLogLevels = require('./constants/LogLevels');
 const KiramekiEmojis = require('./constants/Emojis');
 const KiramekiOther = require('./constants/Other');
 const Taihou = require('taihou');
+const ud = require('urban');
 
 /**
  * Helper class for Kirameki.
@@ -27,6 +28,31 @@ class KiramekiHelper {
         this.LogLevel = KiramekiLogLevels;
         this.categories = KiramekiCategories;
         this.weebSH = new Taihou(KiramekiConfig.weebSHApiKey, true, { userAgent: KiramekiConfig.userAgent });
+    }
+
+    /**
+     * Filter out unwanted symbols from Urban Dictionary definitions picked up during parsing
+     * @param {string} definition A passed Urban Dictionary definition
+     */
+    sanitizeUrbanDefinition(definition) {
+        const trimmed = (definition.length > 950) ? `${definition.substring(0, 950)}...` : definition;
+        const slashed = trimmed.replace(/[\[\]']+/g, '');
+
+        return slashed;
+    }
+
+    /**
+     * Search Urban Dictionary by a provided query
+     * @param {string} query A search query to search Urban Dictionary for
+     */
+    getUrbanDefinition(query) {
+        return new Promise((resolve) => {
+            const udFetcher = ud(query);
+            
+            udFetcher.first((data) => {
+                resolve(data);
+            });
+        });
     }
     
     /**
