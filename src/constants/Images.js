@@ -34,5 +34,9 @@ module.exports = {
     MAGIC_CONCH_SHELL: {
         ICON: 'https://i.imgur.com/0KUTNHb.png',
         THUMBNAIL: 'https://i.imgur.com/6aMnknd.jpg'
+    },
+    FORTNITE: {
+        LOGO: 'https://img.kirameki.one/leYDOObl.jpg',
+        THUMBNAIL: 'https://img.kirameki.one/hJk8H4IT.jpg'
     }
 };
