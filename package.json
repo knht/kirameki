@@ -36,6 +36,7 @@
     "node-opus": "^0.3.1",
     "nodesu": "^0.6.4",
     "ojsama": "^1.2.1",
+    "owapi": "^2.0.3",
     "pako": "^1.0.8",
     "recursive-readdir": "^2.2.2",
     "sodium-native": "^2.2.4",
