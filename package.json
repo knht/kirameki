@@ -22,6 +22,7 @@
     "eris-additions": "^1.2.5",
     "erlpack": "github:abalabahaha/erlpack",
     "eventemitter3": "^3.1.0",
+    "fortnite": "^4.3.2",
     "fs-readdir-recursive": "^1.1.0",
     "get-urls": "^8.0.0",
     "harmonia-osu": "^1.0.7",
