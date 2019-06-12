@@ -6,6 +6,7 @@ module.exports = {
     fortniteApiKey: "",
     riotApiKey: "",
     weebSHApiKey: "",
+    yandexApiKey: "",
     userAgent: "",
     botOwner: "",
     debug: true,
