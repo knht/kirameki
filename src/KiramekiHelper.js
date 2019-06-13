@@ -700,10 +700,15 @@ class KiramekiHelper {
      * @returns {Promise} The found rows after doing the query asynchronously
      */
     async preparedQuery(database, userQuery, bindings) {
-        const query = util.promisify(database.query).bind(database);
-        const rows = await query(userQuery, bindings);
+        return new Promise((resolve, reject) => {
+            database.query(userQuery, bindings, (error, results, field) => {
+                if (error) {
+                    reject(error);
+                }
 
-        return rows;
+                resolve(results);
+            });
+        });
     }
 
     /**
@@ -714,10 +719,15 @@ class KiramekiHelper {
      * @returns {Promise} The found rows after doing the query asynchronously
      */
     async query(database, userQuery) {
-        const query = util.promisify(database.query).bind(database);
-        const rows = await query(userQuery);
+        return new Promise((resolve, reject) => {
+            database.query(userQuery, (error, results, field) => {
+                if (error) {
+                    reject(error);
+                }
 
-        return rows;
+                resolve(results);
+            });
+        });
     }
 
     /**
