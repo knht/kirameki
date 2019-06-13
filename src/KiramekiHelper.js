@@ -699,7 +699,7 @@ class KiramekiHelper {
      * @param {string[]} bindings All associated bindings
      * @returns {Promise} The found rows after doing the query asynchronously
      */
-    async preparedQuery(database, userQuery, bindings) {
+    preparedQuery(database, userQuery, bindings) {
         return new Promise((resolve, reject) => {
             database.query(userQuery, bindings, (error, results, field) => {
                 if (error) {
@@ -718,7 +718,7 @@ class KiramekiHelper {
      * @param {string} userQuery A raw SQL query to be executed
      * @returns {Promise} The found rows after doing the query asynchronously
      */
-    async query(database, userQuery) {
+    query(database, userQuery) {
         return new Promise((resolve, reject) => {
             database.query(userQuery, (error, results, field) => {
                 if (error) {
