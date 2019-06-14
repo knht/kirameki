@@ -132,7 +132,7 @@ class Kirameki extends Eris.Client {
             if (message.author.bot) return;
             
             const isMuted = await KiramekiHelper.preparedQuery(this.DB, 'SELECT * FROM mute WHERE discord_id = ? AND guild_id = ?;', [message.author.id, message.channel.guild.id]);
-            
+
             if (isMuted.length > 0) return message.delete();
             if (!message.content.startsWith(this.prefix)) return;
             if (message.content == this.prefix) return;
@@ -140,7 +140,6 @@ class Kirameki extends Eris.Client {
             this.messageHandler.handle(message, this.commands);
         } catch (messageListenerError) {
             KiramekiHelper.log(KiramekiHelper.LogLevel.ERROR, "MESSAGE LISTENER ERROR", `A message couldn't be processed because of: ${messageListenerError}`);
-            console.log(messageListenerError);
         }
     }
 
