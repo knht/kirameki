@@ -16,6 +16,11 @@ module.exports = {
     OVERWATCH_LOGO: 'https://img.kirameki.one/AdnMGGPd.png',
     URBAN_DICTIONARY_LOGO: 'https://img.kirameki.one/ukMhU5LU.jpg',
     WIKIPEDIA_LOGO: 'https://img.kirameki.one/zgqRn9cH.png',
+    WEATHER: {
+        getWeatherIcon: (iconName) => {
+            return `https://kirameki.one/weathericons/${iconName}.png?uts=${Math.floor(new Date() / 1000)}`
+        }
+    },
     PROFILE_CARD: {
         DEFAULT_BACKGROUND: 'https://img.kirameki.one/LTqHsfYS.jpg',
         GURU_BADGE: 'https://img.kirameki.one/gBd284Hs.png',
