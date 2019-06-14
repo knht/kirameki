@@ -31,8 +31,22 @@ class KiramekiHelper {
     }
 
     /**
+     * Trim a Wikipedia description body to an adequate reading length for Discord's Rich Embed
+     * @param {string} description A Wikipedia result set description
+     * @param {string} name A valid Wikipedia definition keyword name 
+     * @param {string} language A language in which the Wikipedia article should be displayed in
+     * @returns {string} A sanitized and trimmed Wikipedia description body
+     */
+    trimWikipediaDescription(description, name, language) {
+        return (description.length > 950) 
+            ? `${description.substring(0, 950)}... [Read more](https://${language}.wikipedia.org/wiki/${name.replace(/ /g, '_')})` 
+            : description;
+    }
+
+    /**
      * Filter out unwanted symbols from Urban Dictionary definitions picked up during parsing
      * @param {string} definition A passed Urban Dictionary definition
+     * @returns {string} A sanitized and trimmed Urban Dictionary definition body 
      */
     sanitizeUrbanDefinition(definition) {
         const trimmed = (definition.length > 950) ? `${definition.substring(0, 950)}...` : definition;
@@ -44,6 +58,7 @@ class KiramekiHelper {
     /**
      * Search Urban Dictionary by a provided query
      * @param {string} query A search query to search Urban Dictionary for
+     * @returns {Promise} A promise resolving with the fetched data from Urban Dictionary
      */
     getUrbanDefinition(query) {
         return new Promise((resolve) => {
@@ -58,6 +73,7 @@ class KiramekiHelper {
     /**
      * Capitalize the first letter in a string
      * @param {string} text A string of which the first letter should be capitalized  
+     * @returns {string} The originally passed string with its first letter capitalized
      */
     capitalize(text) {
         return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
@@ -76,6 +92,7 @@ class KiramekiHelper {
     /**
      * Abbreviate any number with appropriate units
      * @param {number} number A number that should get abbreviated 
+     * @returns {string} The abbreviation of a given number
      */
     abbreviateNumber(number) {
         const tier = Math.log10(number) / 3 | 0;
