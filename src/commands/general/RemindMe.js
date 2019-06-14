@@ -62,8 +62,7 @@ class RemindMe {
                 )
             );
 
-            setTimeout(async () => {
-                //const dmChannel = await message.author.getDMChannel();
+            setTimeout(() => {
                 confirmationMessage.delete();
                 message.channel.createMessage({ content: message.author.mention, embed: new KiramekiHelper.Embed().setColor('GREEN').setTitle('Ding Dong!').setDescription(`It's time! You wanted me to remind you about:\n\n**${parsedAnswerWhat}**`) });
             }, parsedTime * 1000);
