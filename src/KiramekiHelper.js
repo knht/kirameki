@@ -14,6 +14,8 @@ const KiramekiEmojis = require('./constants/Emojis');
 const KiramekiOther = require('./constants/Other');
 const Taihou = require('taihou');
 const ud = require('urban');
+const cheerio = require('cheerio');
+const axios = require('axios');
 
 /**
  * Helper class for Kirameki.
@@ -28,6 +30,37 @@ class KiramekiHelper {
         this.LogLevel = KiramekiLogLevels;
         this.categories = KiramekiCategories;
         this.weebSH = new Taihou(KiramekiConfig.weebSHApiKey, true, { userAgent: KiramekiConfig.userAgent });
+    }
+
+    /**
+     * Get a random element from an array
+     * @param {Array} elements An array of which a random element should be picked out of
+     * @returns {any} A random element from the given array 
+     */
+    getRandomElementFromArray(elements) {
+        return elements[Math.floor(Math.random() * elements.length)];
+    }
+
+    /**
+     * Scrape Bing images for a given search query and NSFW filter
+     * @param {string} query A search query 
+     * @param {boolean} nsfw Whether the search should include NSFW images or not
+     * @returns {Promise<string[]>} An array containing all fetched images
+     */
+    async scrapeBingImages(query, nsfw) {
+        const sanitizedQuery = query.trim();
+        const url = `http://www.bing.com/images/search?q=${encodeURIComponent(sanitizedQuery)}&view=detailv2&adlt=${(nsfw) ? 'off' : 'moderate'}`;
+        const responseBody = await axios.get(url);
+        const $ = cheerio.load(responseBody.data);
+        
+        let results = [];
+
+        $('.item a[class="thumb"]').each(function(element) {
+            const item = $(this).attr('href');
+            results.push(item);
+        });
+
+        return results;
     }
 
     /**
