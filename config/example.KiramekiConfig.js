@@ -3,6 +3,7 @@ module.exports = {
     token: "",
     osuApiKey: "",
     overwatchApiKey: "",
+    openWeatherMapApiKey: "",
     fortniteApiKey: "",
     riotApiKey: "",
     weebSHApiKey: "",
