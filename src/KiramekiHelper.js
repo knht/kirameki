@@ -32,6 +32,11 @@ class KiramekiHelper {
         this.weebSH = new Taihou(KiramekiConfig.weebSHApiKey, true, { userAgent: KiramekiConfig.userAgent });
     }
 
+    /**
+     * Convert a Unix epoch time stamp into a readable time of day
+     * @param {string} timestamp A Unix epoch time stamp
+     * @returns {string} A readable time of day
+     */
     convertTimeStamp(timestamp) {
         let d = new Date(timestamp * 1000),
             yyyy = d.getFullYear(),
