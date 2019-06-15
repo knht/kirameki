@@ -76,6 +76,14 @@ module.exports = {
         RESTRICTED: '<:kirameki_restricted:587839837005021196>',
         UNOPERATIONAL: '<:kirameki_unoperational:587839836682059777>'
     },
+    VOTE: {
+        YES: '<a:kirameki_accept:587839749335679007>',
+        NO: '<a:kirameki_deny:587839750463946772>',
+        AS_REACTION: {
+            YES: 'kirameki_accept:587839749335679007',
+            NO: 'kirameki_deny:587839750463946772'
+        }
+    },
     REGIONAL_INDICATORS: {
         A: ':a:',
         B: ':b:',
