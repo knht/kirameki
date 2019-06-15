@@ -72,7 +72,7 @@ class Embed {
     }
 
     setTimestamp(time = new Date()) {
-        this.date = time;
+        this.timestamp = time;
 
         return this;
     }
