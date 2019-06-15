@@ -16,6 +16,7 @@ module.exports = {
     OVERWATCH_LOGO: 'https://img.kirameki.one/AdnMGGPd.png',
     URBAN_DICTIONARY_LOGO: 'https://img.kirameki.one/ukMhU5LU.jpg',
     WIKIPEDIA_LOGO: 'https://img.kirameki.one/zgqRn9cH.png',
+    TRANSLATE_LOGO: 'https://img.kirameki.one/4MW9TpXp.png',
     WEATHER: {
         getWeatherIcon: (iconName) => {
             return `https://kirameki.one/weathericons/${iconName}.png?uts=${Math.floor(new Date() / 1000)}`
