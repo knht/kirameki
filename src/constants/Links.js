@@ -5,6 +5,7 @@ module.exports = {
         DASHBOARD: 'https://dashboard.kirameki.one/',
         COMMANDS: 'https://kirameki.one/commands.php',
         CONTACT: 'https://kirameki.one/contact.php',
+        TRANSLATIONS: 'https://kirameki.one/translate.php',
         LEADERBOARDS: {
             XP: 'https://kirameki.one/leaderboard.php',
             OSU: {
