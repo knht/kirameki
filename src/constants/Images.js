@@ -17,6 +17,7 @@ module.exports = {
     URBAN_DICTIONARY_LOGO: 'https://img.kirameki.one/ukMhU5LU.jpg',
     WIKIPEDIA_LOGO: 'https://img.kirameki.one/zgqRn9cH.png',
     TRANSLATE_LOGO: 'https://img.kirameki.one/4MW9TpXp.png',
+    POKEBALL_LOGO: 'https://img.kirameki.one/JNwz33yz.png',
     WEATHER: {
         getWeatherIcon: (iconName) => {
             return `https://kirameki.one/weathericons/${iconName}.png?uts=${Math.floor(new Date() / 1000)}`
