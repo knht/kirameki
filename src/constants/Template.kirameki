@@ -4,6 +4,7 @@ class CommandClassName {
     constructor() {
         this.name = '';
         this.aliases = [''];
+        this.subCommands = [''];
         this.permissions = [''];
         this.userPermissions = [''];
         this.category = KiramekiHelper.categories.?;
