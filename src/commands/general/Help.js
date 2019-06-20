@@ -51,6 +51,12 @@ class Help {
             }
 
             const helpEmbed = KiramekiHelper.generateHelpEmbed(foundCommand.help, (foundCommand.help.inline) ? true : false);
+
+            if (foundCommand.aliases && foundCommand.aliases.length) {
+                const commandAliases = foundCommand.aliases.map(alias => `\`${alias}\``)
+                helpEmbed.addField('Aliases', commandAliases.join(', '));
+            }
+
             message.channel.createEmbed(helpEmbed);
         }
         
