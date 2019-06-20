@@ -6,7 +6,7 @@ class Help {
         this.name = 'help';
         this.help = {
             message: 'Get either a general Help card or instructions for specified commands! Specifying a command is optional. If a command was specified its help text will show up.',
-            usage: 'help <command>',
+            usage: 'help [command]',
             example: ['help', 'help profile'],
             inline: true
         }
