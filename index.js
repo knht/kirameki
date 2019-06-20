@@ -128,14 +128,14 @@ class Kirameki extends Eris.Client {
      */
     async _messageListener(message) {
         try {
-            if (message.channel.type != 0) return;
+            if (message.channel.type !== 0) return;
             if (message.author.bot) return;
             
             const isMuted = await KiramekiHelper.preparedQuery(this.DB, 'SELECT * FROM mute WHERE discord_id = ? AND guild_id = ?;', [message.author.id, message.channel.guild.id]);
 
             if (isMuted.length > 0) return message.delete();
             if (!message.content.startsWith(this.prefix)) return;
-            if (message.content == this.prefix) return;
+            if (message.content === this.prefix) return;
 
             this.messageHandler.handle(message, this.commands);
         } catch (messageListenerError) {
