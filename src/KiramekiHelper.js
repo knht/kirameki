@@ -1,6 +1,5 @@
 const KiramekiConfig = require('../config/KiramekiConfig');
 const chalk = require('chalk');
-const util = require('util');
 const fs = require('fs');
 const fetch = require('node-fetch');
 const Embed = require('./extensions/Embed');
@@ -16,6 +15,7 @@ const Taihou = require('taihou');
 const ud = require('urban');
 const cheerio = require('cheerio');
 const axios = require('axios');
+const tesseract = require('node-tesseract');
 
 /**
  * Helper class for Kirameki.
@@ -30,6 +30,38 @@ class KiramekiHelper {
         this.LogLevel = KiramekiLogLevels;
         this.categories = KiramekiCategories;
         this.weebSH = new Taihou(KiramekiConfig.weebSHApiKey, true, { userAgent: KiramekiConfig.userAgent });
+    }
+
+    /**
+     * Scan an image for its text using node-tesseract.
+     * IMPORTANT: Kirameki (in production) uses a custom trained OCR LSTM module for better reliability. This module isn't part of this reposity and is private. 
+     * @param {string} image An image path 
+     * @returns {Promise<string>} A string containing the scanned image.
+     */
+    asyncTesseract(image) {
+        return new Promise((resolve, reject) => {
+            tesseract.process(image, (error, text) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(text);
+                    fs.unlink(image, (error) => {
+                        if (error) {
+                            this.log(this.LogLevel.ERROR, 'FS UNLINK ERROR', `Couldn't unlink the OCR image because of: ${error}`);
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    /**
+     * Scan a message's content for an osu! screenshot
+     * @param {string} message A message's content to check an osu! screenshot link for 
+     */
+    hasValidOsuScreenshot(message) {
+        const osuRegex = new RegExp(/https:\/\/osu\.ppy\.sh\/ss\/[1-9]\d*/gi);
+        return osuRegex.test(message);
     }
 
     /**
