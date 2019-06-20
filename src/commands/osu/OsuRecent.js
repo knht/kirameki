@@ -139,7 +139,7 @@ class OsuRecent {
                         },
                         {
                             name: "Beatmap Information",
-                            value: "Length: **" + KiramekiHelper.secToMin(userRecentScore[0].total_length) + "**, AR: **" + userRecentScore[0].diff_approach + "**, OD: **" + userRecentScore[0].diff_overall + "**, CS: **" + userRecentScore[0].diff_size + "**, BPM: **" + userRecentScore[0].bpm + "**, HP: **" + userRecentScore[0].diff_drain + "**"
+                            value: `Length: **${KiramekiHelper.secToMin(userRecentScore[0].total_length)}**, AR: **${userRecentScore[0].diff_approach}**, OD: **${userRecentScore[0].diff_overall}**, CS: **${userRecentScore[0].diff_size}**, BPM: **${userRecentScore[0].bpm}**, HP: **${userRecentScore[0].diff_drain}**`
                         },
                         {
                             name: "Performance",
