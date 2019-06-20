@@ -6,6 +6,7 @@ module.exports = {
         COMMANDS: 'https://kirameki.one/commands.php',
         CONTACT: 'https://kirameki.one/contact.php',
         TRANSLATIONS: 'https://kirameki.one/translate.php',
+        EVENT_MODULES: 'https://kirameki.one/events.php',
         LEADERBOARDS: {
             XP: 'https://kirameki.one/leaderboard.php',
             OSU: {
