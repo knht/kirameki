@@ -22,7 +22,28 @@ class Profile {
      * @param {object} message Message object emitted from the Discord API
      * @param {object} kirCore Kirameki instance 
      */
-    async execute(message, kirCore) {
+    async execute(message, kirCore, cooldowns) {
+        const [command, target] = KiramekiHelper.tailedArgs(message.content, ' ', 1);
+        let profileCardUser;
+
+        if (target) {
+            if (message.mentions.length) {
+                profileCardUser = message.mentions[0];
+            } else {
+                profileCardUser = message.author;
+            }
+        } else {
+            profileCardUser = message.author;
+        }
+
+        if (profileCardUser.bot) {
+            KiramekiHelper.resetCommandCooldown(cooldowns, this.name, message.author.id);
+            return message.channel.createEmbed(new KiramekiHelper.Embed()
+                .setColor('RED')
+                .setTitle('Bots don\'t have profile cards!')
+            );
+        }
+
         // Register all needed fonts
         Canvas.registerFont(__dirname + '/../../../fonts/ARIAL.TTF', { family: 'Arial' });
         Canvas.registerFont(__dirname + '/../../../fonts/ARIALBD.TTF', { family: 'Arial Bold' });
@@ -34,23 +55,26 @@ class Profile {
         // Create canvas and its context
         const canvas = Canvas.createCanvas(400, 170);
         const ctx = canvas.getContext('2d');
-        const userObject = await KiramekiHelper.preparedQuery(kirCore.DB, 'SELECT *, ( SELECT COUNT(*) FROM profile_xp AS x WHERE xp > profile_xp.xp ) + 1 AS `rank` FROM profile_xp WHERE discord_id = ?;', [message.author.id]);
-        const isGuruObject = await KiramekiHelper.preparedQuery(kirCore.DB, 'SELECT * FROM gurus WHERE discord_id = ? LIMIT 1;', [message.author.id]);
-        const isPeacekeeper = await KiramekiHelper.preparedQuery(kirCore.DB, 'SELECT * FROM peacekeepers WHERE discord_id = ? LIMIT 1;', [message.author.id]);
+        const userObject = await KiramekiHelper.preparedQuery(kirCore.DB, 'SELECT *, ( SELECT COUNT(*) FROM profile_xp AS x WHERE xp > profile_xp.xp ) + 1 AS `rank` FROM profile_xp WHERE discord_id = ?;', [profileCardUser.id]);
+        const isGuruObject = await KiramekiHelper.preparedQuery(kirCore.DB, 'SELECT * FROM gurus WHERE discord_id = ? LIMIT 1;', [profileCardUser.id]);
+        const isPeacekeeper = await KiramekiHelper.preparedQuery(kirCore.DB, 'SELECT * FROM peacekeepers WHERE discord_id = ? LIMIT 1;', [profileCardUser.id]);
 
         // If the user never has spoken before abort
         if (!userObject.length) {
             return message.channel.createEmbed(new KiramekiHelper.Embed()
                 .setColor("RED")
                 .setTitle("Profile Card")
-                .setDescription("This is the very first time Kirameki has ever noticed your presence. Please write at least once a regular message to have your new profile card generated for you!")
+                .setDescription(
+                    `This is the very first time Kirameki has ever noticed ${(profileCardUser === message.author) ? 'your' : profileCardUser.username + '\'s'} presence. ` + 
+                    `Please bear in mind one has to write at least once a regular message to have a new profile card generated!`
+                )
             );
         }
 
         try {
             // Profile card data
             const bgImg                     = await Canvas.loadImage(userObject[0].bg_img);
-            const avatar                    = await Canvas.loadImage(message.author.dynamicAvatarURL('jpg', 128));
+            const avatar                    = await Canvas.loadImage(profileCardUser.dynamicAvatarURL('jpg', 128));
             const dbLevel                   = userObject[0].level;
             const dbXP                      = userObject[0].xp;
             const dbLevelMinPoints          = 0.01 * (Math.pow((dbLevel * 100), 2));
@@ -75,13 +99,13 @@ class Profile {
             // Username
             ctx.font = '16px Arial';
             ctx.fillStyle = '#FFFFFF';
-            ctx.fillText(message.author.username, 136, 95);
-            const usernameLength = ctx.measureText(message.author.username).width;
+            ctx.fillText(profileCardUser.username, 136, 95);
+            const usernameLength = ctx.measureText(profileCardUser.username).width;
 
             // Usertag
             ctx.font = '10px Exo';
             ctx.fillStyle = '#FFFFFF';
-            ctx.fillText('#' + message.author.discriminator, 136 + usernameLength, 95);
+            ctx.fillText('#' + profileCardUser.discriminator, 136 + usernameLength, 95);
 
             // Levelbar Background
             ctx.fillStyle = "rgba(132, 132, 132, .4)";
@@ -162,7 +186,7 @@ class Profile {
             }
 
             // Bot Owner Icon
-            if (KiramekiHelper.checkIfOwner(message.author.id)) {
+            if (KiramekiHelper.checkIfOwner(profileCardUser.id)) {
                 const ownerBadge = await Canvas.loadImage(KiramekiHelper.images.PROFILE_CARD.OWNER_BADGE);
 
                 ctx.drawImage(ownerBadge, 343, 126, 16, 12);
@@ -174,7 +198,7 @@ class Profile {
 
             // 100k XP Badge
             if (dbXP >= 100000) {
-                if (!isGuruObject.length > 0 && !isPeacekeeper.length > 0 && !KiramekiHelper.checkIfOwner(message.author.id)) {
+                if (!isGuruObject.length > 0 && !isPeacekeeper.length > 0 && !KiramekiHelper.checkIfOwner(profileCardUser.id)) {
                     const ohkBadge = await Canvas.loadImage(KiramekiHelper.images.PROFILE_CARD.OHK_BADGE);
 
                     ctx.drawImage(ohkBadge, 342, 129, 26, 20);
@@ -198,18 +222,19 @@ class Profile {
             ctx.restore();
 
             // Send profile card
-            await message.channel.createEmbed(new KiramekiHelper.Embed()
-                .setDescription(`You can individualize your profile card on [Kirameki's Dashboard!](${KiramekiHelper.links.WEBSITE.DASHBOARD})`)
-                .setColor("#" + userObject[0].accent_color)
-            );
+            if (profileCardUser === message.author) {
+                await message.channel.createEmbed(new KiramekiHelper.Embed()
+                    .setDescription(`You can individualize your profile card on [Kirameki's Dashboard!](${KiramekiHelper.links.WEBSITE.DASHBOARD})`)
+                    .setColor("#" + userObject[0].accent_color)
+                );
+            }
 
             message.channel.createMessage(undefined, { file: canvas.toBuffer(), name: `${uniqid()}.png` });
             KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, 'PROFILE CARD', `${KiramekiHelper.userLogCompiler(message.author)} requested his profile card on Guild ${message.channel.guild.name} (${message.channel.name}).`);
         } catch (profileGeneratorError) {
             message.channel.createEmbed(new KiramekiHelper.Embed()
                 .setColor("RED")
-                .setTitle("Profile Card")
-                .setDescription("This is the very first time Kirameki has ever noticed your presence. Please write at least once a regular message to have your new profile card generated for you!")
+                .setDescription("Something went wrong when trying to generate your profile card. This is probably because of an unsuported image type set in the dashboard. Please try to use either a png, jpg or gif image for your profile card banner.")
             );
 
             KiramekiHelper.log(KiramekiHelper.LogLevel.ERROR, 'PROFILE CARD ERROR', `Generating a profile card failed because of: ${profileGeneratorError}`);
