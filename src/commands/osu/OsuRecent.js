@@ -18,22 +18,16 @@ class OsuRecent {
     }
 
     async execute(message, kirCore) {
-        message.channel.sendTyping();
-
         const [command, osuName] = KiramekiHelper.tailedArgs(message.content, ' ', 1);
         const userLinkage = await KiramekiHelper.getOsuUser(kirCore.DB, message.author.id);
         let userToLookup;
 
         if (!osuName && !userLinkage) {
-            return message.channel.createEmbed(new KiramekiHelper.Embed()
-                .setColor(0xF06DA8)
-                .setAuthor("osu! Most Recent", KiramekiHelper.images.OSU_LOGO)
-                .setDescription(
-                    "You haven't provided an osu! username! Please link your osu! account with your Discord account or provide a username!\n\n**Usage:** `&osusetup <osuName>`\n\n**Example:** `&osusetup Riya`"
-                )
-            );
+            return message.channel.createEmbed(KiramekiHelper.generateOsuLinkageEmbed('osu! Most Recent'));
         }
         
+        message.channel.sendTyping();
+
         if (osuName) {
             if (message.mentions.length) {
                 const mentionedUser = message.mentions[0];
