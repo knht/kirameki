@@ -7,6 +7,13 @@ module.exports = {
         CONTACT: 'https://kirameki.one/contact.php',
         TRANSLATIONS: 'https://kirameki.one/translate.php',
         EVENT_MODULES: 'https://kirameki.one/events.php',
+        API: {
+            OSU: {
+                generateSpectatorLink: (osuUserId) => {
+                    return `https://kirameki.one/api/osu/initSpectate.php?osu_player_id=${osuUserId}`
+                }
+            }
+        },
         LEADERBOARDS: {
             XP: 'https://kirameki.one/leaderboard.php',
             OSU: {
