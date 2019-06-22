@@ -32,6 +32,11 @@ class KiramekiHelper {
         this.weebSH = new Taihou(KiramekiConfig.weebSHApiKey, true, { userAgent: KiramekiConfig.userAgent });
     }
 
+    /**
+     * Calculate the accuracy of a score in osu! Standard
+     * @param {object} resultObject A score result object from the osu! API
+     * @returns {string} The calculated accuracy with two decimal points 
+     */
     calculateOsuAccuracy(resultObject) {
         return (((
             (parseInt(resultObject.count300)  * 300) +
