@@ -32,6 +32,54 @@ class KiramekiHelper {
         this.weebSH = new Taihou(KiramekiConfig.weebSHApiKey, true, { userAgent: KiramekiConfig.userAgent });
     }
 
+    calculateOsuAccuracy(resultObject) {
+        return (((
+            (parseInt(resultObject.count300)  * 300) +
+            (parseInt(resultObject.count100)  * 100) +
+            (parseInt(resultObject.count50)   * 50)  +
+            (parseInt(resultObject.countmiss) * 0))  /
+            ((
+                parseInt(resultObject.count300) +
+                parseInt(resultObject.count100) +
+                parseInt(resultObject.count50)  +
+                parseInt(resultObject.countmiss)
+            ) * 300)) * 100).toFixed(2);
+    }
+
+    /**
+     * Generate a user not found information Embed for osu! commands and modules
+     * @param {string} moduleName Which osu! Module this Embed should be generated for
+     * @returns {object} A finished user not found Rich Embed
+     */
+    generateOsuUserNotFoundEmbed(moduleName, username) {
+        return new this.Embed()
+            .setColor(0xF06DA8)
+            .setAuthor(moduleName, this.images.OSU_LOGO)
+            .setDescription(
+                `***We couldn't find the user you were looking for. (${username})***\n\n` +
+                `There are a few possible reasons for this:\n\n` +
+                `*• They may have changed their username.*\n` +
+                `*• The account may be temporarily unavailable.*\n` +
+                `*• You may have made a typo!*` 
+            )
+            .setThumbnail(this.images.OSU_PIPPI_SAD)
+    }
+
+    /**
+     * Generate a linkage information Embed for osu! commands and modules
+     * @param {string} moduleName Which osu! Module this Embed should be generated for
+     * @returns {object} A finished linkage help Rich Embed
+     */
+    generateOsuLinkageEmbed(moduleName) {
+        return new this.Embed()
+            .setColor(0xF06DA8)
+            .setAuthor(moduleName, this.images.OSU_LOGO)
+            .setDescription(
+                `You haven't provided an osu! username. Please link your osu! account with your Discord account or provide a username when using this command!\n\n` +
+                `**Usage:** \`${KiramekiConfig.prefix}osusetup <osuName>\`\n\n**Example:** \`${KiramekiConfig.prefix}osusetup Riya\``
+            );
+    }
+
     /**
      * Scan an image for its text using node-tesseract.
      * IMPORTANT: Kirameki (in production) uses a custom trained OCR LSTM module for better reliability. This module isn't part of this reposity and is private. 
