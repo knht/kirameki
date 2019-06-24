@@ -32,6 +32,11 @@ class KiramekiHelper {
         this.weebSH = new Taihou(KiramekiConfig.weebSHApiKey, true, { userAgent: KiramekiConfig.userAgent });
     }
 
+    /**
+     * Turns a beatmap result object from the Kirameki database into a neatly organized array
+     * @param {object} beatmapQuery Kirameki database beatmap results object
+     * @returns {Array<string>} An array containg all provided beatmaps formatted nicely for Rich Embeds
+     */
     formatOsuSearchResults(beatmapQuery) {
         let beatmaps = [];
         let sanitizedBeatmaps = [];
