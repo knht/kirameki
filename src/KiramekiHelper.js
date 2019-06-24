@@ -32,6 +32,25 @@ class KiramekiHelper {
         this.weebSH = new Taihou(KiramekiConfig.weebSHApiKey, true, { userAgent: KiramekiConfig.userAgent });
     }
 
+    formatOsuSearchResults(beatmapQuery) {
+        let beatmaps = [];
+        let sanitizedBeatmaps = [];
+        
+        for (let i = 0; i < beatmapQuery.length; i++) {
+            beatmaps.push(`\`${i + 1}.\` ${beatmapQuery[i].beatmap_artist} - ${beatmapQuery[i].beatmap_title} [${beatmapQuery[i].beatmap_difficulty}]`)
+        }
+
+        for (let beatmap of beatmaps) {
+            if (beatmap.length > 75) {
+                sanitizedBeatmaps.push(`${beatmap.substring(0, 35)}**...**${beatmap.substring(beatmap.length - 35)}`);
+            } else {
+                sanitizedBeatmaps.push(beatmap);
+            }
+        }
+
+        return sanitizedBeatmaps;
+    }
+
     /**
      * Calculate the accuracy of a score in osu! Standard
      * @param {object} resultObject A score result object from the osu! API
