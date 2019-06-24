@@ -10,7 +10,18 @@ module.exports = {
         API: {
             OSU: {
                 generateSpectatorLink: (osuUserId) => {
-                    return `https://kirameki.one/api/osu/initSpectate.php?osu_player_id=${osuUserId}`
+                    return `https://kirameki.one/api/osu/initSpectate.php?osu_player_id=${osuUserId}`;
+                },
+                BEATMAP_DOWNLOADS: {
+                    viaOsuDirect: (beatmapSetID) => {
+                        return `https://kirameki.one/api/osu/osuDirectDownload.php?osu_bms_id=${beatmapSetID}`;
+                    },
+                    viaOsuWebsite: (beatmapID, mode) => {
+                        return `https://osu.ppy.sh/b/${beatmapID}?m=${mode}`;
+                    },
+                    viaBloodcat: (beatmapSetID) => {
+                        return `https://bloodcat.com/osu/s/${beatmapSetID}`;
+                    }
                 }
             }
         },
