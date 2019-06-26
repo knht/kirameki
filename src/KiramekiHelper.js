@@ -389,9 +389,7 @@ class KiramekiHelper {
      * @returns {string} Random color in hex
      */
     getRandomColor() {
-        return "#000000".replace(/0/g, () => {
-            return (~~(Math.random() * 16)).toString(16);
-        }).toUpperCase();
+        return '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
     }
 
     /**
