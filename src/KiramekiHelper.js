@@ -534,7 +534,6 @@ class KiramekiHelper {
         try {
             const osuDiscordLinks = await this.query(kirAPI_DB, 'SELECT * FROM osu_discord_links;');
 
-            // Fetch all guild members
             message.guild.fetchAllMembers();
 
             let memberIDsWithLinkage = [];
