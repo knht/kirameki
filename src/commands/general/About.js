@@ -26,7 +26,7 @@ class About {
             .addField("Uptime", juration.stringify(kirCore.uptime / 1000, { format: 'micro', units: 2 }), true)
             .addField("Active Servers", kirCore.guilds.size, true)
             .addBlankField(false)
-            .addField("Command List", `[Click Here](${KiramekiHelper.links.WEBSITE.COMMANDS})`, true)
+            .addField("Command List", `[Click Here](${KiramekiHelper.links.WEBSITE.COMMANDS})\nOr use \`${kirCore.prefix}commands\``, true)
             .addField("Homepage", `[kirameki.one](${KiramekiHelper.links.WEBSITE.BASE})`, true)
             .addField("Dashboard", `[Click Here](${KiramekiHelper.links.WEBSITE.DASHBOARD})`, true)
             .addField("Discord Server", `[Kirameki Help Guild](${KiramekiHelper.links.INVITE})`, true)

@@ -4,7 +4,7 @@ module.exports = {
     OSU_STRAIN_GRAPH_BACKGROUND: 'https://img.kirameki.one/IizpW6sj.jpg',
     DEFAULT_DISCORD: 'https://img.kirameki.one/tJIX0aeZ.png',
     LEVEL_UP_OVERLAY: 'https://img.kirameki.one/9XzqmSAt.png',
-    KIRAMEKI_MASCOT: 'https://kirameki.one/images/kirameki.png',
+    KIRAMEKI_MASCOT: 'https://img.kirameki.one/AchEKt3g.png',
     KIRAMEKI_SAD: 'https://img.kirameki.one/oL0cbCuW.gif',
     LOVE_METER_OVERLAY: 'https://img.kirameki.one/n1p9sOzq.png',
     PSIKWOW: 'https://i.imgur.com/P5ikWow.jpg',
