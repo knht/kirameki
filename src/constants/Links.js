@@ -33,5 +33,13 @@ module.exports = {
                 }
             }
         }
+    },
+    OSU: {
+        generateBeatmapThumbnail: (beatmapSetID) => {
+            return `https://b.ppy.sh/thumb/${beatmapSetID}l.jpg?uts=${Math.floor(new Date() / 1000)}`;
+        },
+        generateUserThumbnail: (userID) => {
+            return `https://a.ppy.sh/${userID}?uts=${Math.floor(new Date() / 1000)}`;
+        }
     }
 };
