@@ -249,5 +249,11 @@ module.exports = {
     },
     MATH_ADDITIONS: {
         SI_SYMBOLS: ["", "K", "M", "G", "T", "P", "E"]
+    },
+    OSU: {
+        ACCURACY: {
+            MIN: 16.67,
+            MAX: 100
+        }
     }
 }
