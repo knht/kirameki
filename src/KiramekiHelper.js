@@ -1,16 +1,17 @@
 const KiramekiConfig = require('../config/KiramekiConfig');
-const chalk = require('chalk');
-const fs = require('fs');
-const fetch = require('node-fetch');
-const Embed = require('./extensions/Embed');
-const ojsama = require('./extensions/OjsamaPlus');
-const KiramekiImages = require('./constants/Images');
-const md5 = require('md5');
 const KiramekiLinks = require('./constants/Links');
 const KiramekiCategories = require('./constants/Categories');
 const KiramekiLogLevels = require('./constants/LogLevels');
 const KiramekiEmojis = require('./constants/Emojis');
 const KiramekiOther = require('./constants/Other');
+const KiramekiReactionHandler = require('./extensions/ReactionHandler');
+const KiramekiImages = require('./constants/Images');
+const chalk = require('chalk');
+const fs = require('fs');
+const fetch = require('node-fetch');
+const Embed = require('./extensions/Embed');
+const ojsama = require('./extensions/OjsamaPlus');
+const md5 = require('md5');
 const Taihou = require('taihou');
 const ud = require('urban');
 const cheerio = require('cheerio');
@@ -29,6 +30,7 @@ class KiramekiHelper {
         this.other = KiramekiOther;
         this.LogLevel = KiramekiLogLevels;
         this.categories = KiramekiCategories;
+        this.reactionHandler = KiramekiReactionHandler;
         this.weebSH = new Taihou(KiramekiConfig.weebSHApiKey, true, { userAgent: KiramekiConfig.userAgent });
     }
 
