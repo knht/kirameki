@@ -5,6 +5,7 @@ const KiramekiLogLevels = require('./constants/LogLevels');
 const KiramekiEmojis = require('./constants/Emojis');
 const KiramekiOther = require('./constants/Other');
 const KiramekiReactionHandler = require('./extensions/ReactionHandler');
+const KiramekiPaginationEmbed = require('./extensions/PaginationEmbed');
 const KiramekiImages = require('./constants/Images');
 const chalk = require('chalk');
 const fs = require('fs');
@@ -31,6 +32,7 @@ class KiramekiHelper {
         this.LogLevel = KiramekiLogLevels;
         this.categories = KiramekiCategories;
         this.reactionHandler = KiramekiReactionHandler;
+        this.PaginationEmbed = KiramekiPaginationEmbed;
         this.weebSH = new Taihou(KiramekiConfig.weebSHApiKey, true, { userAgent: KiramekiConfig.userAgent });
     }
 
