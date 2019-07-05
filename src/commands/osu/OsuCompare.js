@@ -89,45 +89,56 @@ class OsuCompare {
         });
 
         const userScoreResultsSanitized = userScoreResultsPre.reverse();
-        const userScoreResultsRank = KiramekiHelper.emojis.OSU.RANKS[userScoreResultsSanitized[0].rank];
         const userScoreMapData = await kirCore.osu.beatmaps.getByBeatmapId(latestBeatmapID);
         const beatmapSetID = userScoreMapData[0].beatmapset_id;
         const beatmapRender = `${userScoreMapData[0].artist} - ${userScoreMapData[0].title} [${userScoreMapData[0].version}]`;
         const diffIcon = KiramekiHelper.emojis.OSU.DIFFICULTIES[KiramekiHelper.getOsuDiffIconDesc(parseFloat(userScoreMapData[0].difficultyrating))];
-        const usedMods = (KiramekiHelper.numberToMod(userScoreResultsSanitized[0].enabled_mods).length > 0) ? `+${KiramekiHelper.numberToMod(userScoreResultsSanitized[0].enabled_mods).join(',')}` : 'Nomod';
-        const accuracy = KiramekiHelper.calculateOsuAccuracy(userScoreResultsSanitized[0]);
 
-        message.channel.createEmbed(new KiramekiHelper.Embed()
-            .setColor('OSU')
-            .setTitle(`Comparing scores in osu! **Standard** set by **${osuUserDisplayName}**`)
-            .setDescription(`[${beatmapRender}](${KiramekiHelper.links.WEBSITE.API.OSU.BEATMAP_DOWNLOADS.viaOsuWebsite(latestBeatmapID)})`)
-            .setThumbnail(KiramekiHelper.links.OSU.generateBeatmapThumbnail(beatmapSetID))
-            .addField(
-                'Play Information',
-                `${parseFloat(userScoreMapData[0].difficultyrating).toFixed(2)}${diffIcon}${userScoreResultsRank} **${accuracy}%** ***${usedMods}*** *(Score: ${KiramekiHelper.numberWithCommas(parseInt(userScoreResultsSanitized[0].score))})*\n` +
-                `**Total Hits:** ` +
-                `${KiramekiHelper.emojis.OSU.HITS[300]} ${userScoreResultsSanitized[0].count300} ` +
-                `${KiramekiHelper.emojis.OSU.HITS[100]} ${userScoreResultsSanitized[0].count100} ` +
-                `${KiramekiHelper.emojis.OSU.HITS[50]} ${userScoreResultsSanitized[0].count50} `   +
-                `${KiramekiHelper.emojis.OSU.HITS.MISS} ${userScoreResultsSanitized[0].countmiss}`
-            )
-            .addField(
-                'Beatmap Information',
-                `Length: **${KiramekiHelper.secToMin(userScoreMapData[0].total_length)}**, AR: **${userScoreMapData[0].diff_approach}**, OD: **${userScoreMapData[0].diff_overall}**, CS: **${userScoreMapData[0].diff_size}**, BPM: **${userScoreMapData[0].bpm}**, HP: **${userScoreMapData[0].diff_drain}**`
-            )
-            .addField(
-                'Performance',
-                (!userScoreResultsSanitized[0].pp) ? 'No PP from osu! API' : `**${parseFloat(userScoreResultsSanitized[0].pp).toFixed(2)}pp**`,
-                true
-            )
-            .addField(
-                'Combo',
-                `**${userScoreResultsSanitized[0].maxcombo}x** / *${userScoreMapData[0].max_combo}x*`,
-                true
-            )
-            .setTimestamp(`${userScoreResultsSanitized[0].date.replace(' ', 'T')}.000Z`)
-            .setFooter(`${osuUsername} #${osuUser.pp_rank} Global, #${osuUser.pp_country_rank} ${osuUserCountryName}`, KiramekiHelper.links.OSU.generateUserThumbnail(osuUserID))
-        );
+        let collectedScores = [];
+
+        for (let i = 0; i < userScoreResultsSanitized.length; i++) {
+            const userScoreResultsRank = KiramekiHelper.emojis.OSU.RANKS[userScoreResultsSanitized[i].rank];
+            const usedMods = (KiramekiHelper.numberToMod(userScoreResultsSanitized[i].enabled_mods).length > 0) ? `+${KiramekiHelper.numberToMod(userScoreResultsSanitized[i].enabled_mods).join(',')}` : 'Nomod';
+            const accuracy = KiramekiHelper.calculateOsuAccuracy(userScoreResultsSanitized[i]);
+
+            collectedScores.push(new KiramekiHelper.Embed()
+                .setColor('OSU')
+                .setTitle(`Comparing scores in osu! **Standard** set by **${osuUserDisplayName}**`)
+                .setDescription(`[${beatmapRender}](${KiramekiHelper.links.WEBSITE.API.OSU.BEATMAP_DOWNLOADS.viaOsuWebsite(latestBeatmapID)})`)
+                .setThumbnail(KiramekiHelper.links.OSU.generateBeatmapThumbnail(beatmapSetID))
+                .addField(
+                    'Play Information',
+                    `${parseFloat(userScoreMapData[0].difficultyrating).toFixed(2)}${diffIcon}${userScoreResultsRank} **${accuracy}%** ***${usedMods}*** *(Score: ${KiramekiHelper.numberWithCommas(parseInt(userScoreResultsSanitized[i].score))})*\n` +
+                    `**Total Hits:** ` +
+                    `${KiramekiHelper.emojis.OSU.HITS[300]} ${userScoreResultsSanitized[0].count300} ` +
+                    `${KiramekiHelper.emojis.OSU.HITS[100]} ${userScoreResultsSanitized[0].count100} ` +
+                    `${KiramekiHelper.emojis.OSU.HITS[50]} ${userScoreResultsSanitized[0].count50} `   +
+                    `${KiramekiHelper.emojis.OSU.HITS.MISS} ${userScoreResultsSanitized[0].countmiss}`
+                )
+                .addField(
+                    'Beatmap Information',
+                    `Length: **${KiramekiHelper.secToMin(userScoreMapData[0].total_length)}**, AR: **${userScoreMapData[0].diff_approach}**, OD: **${userScoreMapData[0].diff_overall}**, CS: **${userScoreMapData[0].diff_size}**, BPM: **${userScoreMapData[0].bpm}**, HP: **${userScoreMapData[0].diff_drain}**`
+                )
+                .addField(
+                    'Performance',
+                    (!userScoreResultsSanitized[i].pp) ? 'No PP from osu! API' : `**${parseFloat(userScoreResultsSanitized[i].pp).toFixed(2)}pp**`,
+                    true
+                )
+                .addField(
+                    'Combo',
+                    `**${userScoreResultsSanitized[i].maxcombo}x** / *${userScoreMapData[0].max_combo}x*`,
+                    true
+                )
+                .setTimestamp(`${userScoreResultsSanitized[i].date.replace(' ', 'T')}.000Z`)
+                .setFooter(`${osuUsername} #${osuUser.pp_rank} Global, #${osuUser.pp_country_rank} ${osuUserCountryName}`, KiramekiHelper.links.OSU.generateUserThumbnail(osuUserID))
+            );
+        }
+
+        if (collectedScores.length < 2) {
+            message.channel.createEmbed(collectedScores[0]);
+        } else {
+            KiramekiHelper.PaginationEmbed(message, collectedScores);
+        }
         
         KiramekiHelper.updateOsuUser(kirCore.DB, osuUser);
         KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, 'osu! COMPARE', `${KiramekiHelper.userLogCompiler(message.author)} used the ${this.name} command.`);
