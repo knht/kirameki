@@ -5,6 +5,9 @@ class PaginationEmbed {
         this.pages = pages;
         this.invoker = message;
         this.options = options;
+        this.firstButton = '⏮';
+        this.lastButton = '⏭';
+        this.trashButton = '🗑';
         this.back = options.backButton || '⬅';
         this.forth = options.forthButton || '➡';
         this.page = options.startPage || 1;
@@ -33,26 +36,43 @@ class PaginationEmbed {
         }
         
         this.message = await this.invoker.channel.createMessage({
-            content: (this.showPageNumbers) ? `Page **${this.page}** of **${this.pages.length}**` : undefined,
+            content: (this.showPageNumbers) ? `Showing Score **${this.page}** of **${this.pages.length}**` : undefined,
             embed: this.pages[this.page - 1]
         });
 
         this.handler = new ReactionHandler.continuousReactionStream(this.message, (userID) => userID === this.invoker.author.id, { maxMatches: this.maxMatches, time: this.timeout });
 
+        await this.message.addReaction(this.firstButton);
         await this.message.addReaction(this.back);
         await this.message.addReaction(this.forth);
+        await this.message.addReaction(this.lastButton);
+        await this.message.addReaction(this.trashButton);
     }
 
     run() {
         this.handler.on('reacted', async (event) => {
             switch (event.emoji.name) {
+                case this.firstButton: {
+                    await this.message.removeReaction(this.firstButton, this.invoker.author.id);
+                    
+                    if (this.page > 1) {
+                        this.page = 1;
+                        this.message.edit({
+                            content: (this.showPageNumbers) ? `Showing Score **${this.page}** of **${this.pages.length}**` : undefined,
+                            embed: this.pages[this.page - 1]
+                        });
+                    }
+
+                    break;
+                }
+
                 case this.back: {
                     await this.message.removeReaction(this.back, this.invoker.author.id);
 
                     if (this.page > 1) {
                         this.page--;
                         this.message.edit({
-                            content: (this.showPageNumbers) ? `Page **${this.page}** of **${this.pages.length}**` : undefined,
+                            content: (this.showPageNumbers) ? `Showing Score **${this.page}** of **${this.pages.length}**` : undefined,
                             embed: this.pages[this.page - 1]
                         });
                     }
@@ -66,12 +86,34 @@ class PaginationEmbed {
                     if (this.page < this.pages.length) {
                         this.page++;
                         this.message.edit({
-                            content: (this.showPageNumbers) ? `Page **${this.page}** of **${this.pages.length}**` : undefined,
+                            content: (this.showPageNumbers) ? `Showing Score **${this.page}** of **${this.pages.length}**` : undefined,
                             embed: this.pages[this.page - 1]
                         });
                     }
 
                     break;
+                }
+
+                case this.lastButton: {
+                    await this.message.removeReaction(this.lastButton, this.invoker.author.id);
+                    
+                    if (this.page < this.pages.length) {
+                        this.page = this.pages.length;
+                        this.message.edit({
+                            content: (this.showPageNumbers) ? `Showing Score **${this.page}** of **${this.pages.length}**` : undefined,
+                            embed: this.pages[this.page - 1]
+                        });
+                    }
+
+                    break;
+                }
+                
+                case this.trashButton: {
+                    return new Promise((resolve) => {
+                        this.message.removeReactions().then(() => {
+                            resolve();
+                        });
+                    });
                 }
             }
         });
