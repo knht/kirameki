@@ -12,9 +12,9 @@ module.exports = {
             D: '<:yachty_osu_D:451021071530065920>',
             F: '<:yachty_osu_F:477882995588595717>',
             S: '<:yachty_osu_S:451021073555652608>',
-            SS: '<:yachty_osu_X:451021073601921035>',
+            X: '<:yachty_osu_X:451021073601921035>',
             SH: '<:yachty_osu_SH:451021073710841858>',
-            SSH: '<:yachty_osu_XH:451021074004443136>'
+            XH: '<:yachty_osu_XH:451021074004443136>'
         },
         HITS: {
             50: '<:yachty_osu_50:477884733670424588>',
