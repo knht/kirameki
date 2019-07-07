@@ -18,6 +18,10 @@ class OsuProfile {
     async execute(message, kirCore) {
         const [command, osuMode, osuName] = KiramekiHelper.tailedArgs(message.content, ' ', 2);
 
+        /**
+         * @todo Finish command
+         */
+
         KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, 'osu! PROFILE', `${KiramekiHelper.userLogCompiler(message.author)} used the ${this.name} command.`);
     }
 }
