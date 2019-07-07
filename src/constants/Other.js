@@ -254,6 +254,12 @@ module.exports = {
         ACCURACY: {
             MIN: 16.67,
             MAX: 100
+        },
+        GAME_MODES: {
+            STD: 0,
+            TAIKO: 1,
+            CTB: 2,
+            MANIA: 3
         }
     }
 }
