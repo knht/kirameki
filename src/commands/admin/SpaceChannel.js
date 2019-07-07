@@ -17,7 +17,7 @@ class SpaceChannel {
     }
 
     async execute(message, kirCore) {
-        const newChannelName = message.channel.name.replace(/\-|\_/g, '\u2009\u2009');
+        const newChannelName = message.channel.name.replace(/[-_]/g, '\u2009\u2009');
 
         message.channel.edit({ name: newChannelName });
 
