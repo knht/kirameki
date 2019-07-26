@@ -37,6 +37,25 @@ class KiramekiHelper {
     }
 
     /**
+     * OwOify any given text
+     * @param {string} text The text that should be owoified
+     * @returns {string} The owoified text 
+     */
+    owoify(text) {
+        const suffixes = ['(*^ω^)', '(◕‿◕✿)', '(◕ᴥ◕)', 'ʕ•ᴥ•ʔ', 'ʕ￫ᴥ￩ʔ', '(*^.^*)', 'owo', 'OwO', '(｡♥‿♥｡)', 'uwu', 'UwU', '(*￣з￣)', '>w<', '^w^', '(つ✧ω✧)つ', '(/ =ω=)/'];
+
+        text = text.replace(/(?:l|r)/g, 'w');
+        text = text.replace(/(?:L|R)/g, 'W');
+        text = text.replace(/n([aeiou])/g, 'ny$1');
+        text = text.replace(/N([aeiou])/g, 'Ny$1');
+        text = text.replace(/N([AEIOU])/g, 'Ny$1');
+        text = text.replace(/ove/g, 'uv');
+        text = text.replace(/!+/g, ` ${this.getRandomElementFromArray(suffixes)} `);
+
+        return text;
+    }
+
+    /**
      * Turns a beatmap result object from the Kirameki database into a neatly organized array
      * @param {object} beatmapQuery Kirameki database beatmap results object
      * @returns {Array<string>} An array containg all provided beatmaps formatted nicely for Rich Embeds
