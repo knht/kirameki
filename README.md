@@ -5,7 +5,7 @@
     <a href="https://www.gnu.org/licenses/agpl-3.0.html"><img src="https://img.shields.io/badge/license-AGPL%20v3-FF9175.svg"></a>
     <a href="https://abal.moe/Eris/"><img src="https://img.shields.io/badge/library-Eris-FF9175.svg"></a>
     <a href="https://github.com/riyacchi/chariot.js"><img src="https://img.shields.io/badge/framework-Chariot.js-FF9185.svg"></a>
-    <img src="https://img.shields.io/badge/database-MySQL-FF9185.svg">
+    <img src="https://img.shields.io/badge/database-MariaDB-FF9185.svg">
     <img src="https://img.shields.io/badge/node-10.15.3-FF9185.svg">
 </div>
 
