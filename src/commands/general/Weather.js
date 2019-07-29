@@ -10,18 +10,24 @@ class Weather {
         this.category = KiramekiHelper.categories.GENERAL;
         this.cooldown = 5;
         this.help = {
-            message: 'Get the current weather information for a specified location.',
-            usage: 'weather <city>',
-            example: 'weather Tokyo',
+            message: `Get the current weather information for a specified location. Specifying a location is optional if a location has been set before with the \`${KiramekiConfig.prefix}setweather\` command.`,
+            usage: 'weather [location]',
+            example: ['weather', 'weather Tokyo'],
             inline: true
         }
     }
 
     async execute(message, kirCore) {
-        const [command, city] = KiramekiHelper.tailedArgs(message.content, ' ', 1);
-        
-        if (!city) {
+        const [command, location] = KiramekiHelper.tailedArgs(message.content, ' ', 1);
+        const weatherLocation = await KiramekiHelper.preparedQuery(kirCore.DB, 'SELECT * FROM weather_locations WHERE discord_id = ?;', [message.author.id]);
+        let city;
+
+        if (!location && !weatherLocation.length) {
             return message.channel.createEmbed(KiramekiHelper.generateHelpEmbed(this.help, this.help.inline));
+        } else if (!location) {
+            city = weatherLocation[0].location;
+        } else {
+            city = location;
         }
 
         try {
