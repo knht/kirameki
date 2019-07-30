@@ -1,8 +1,8 @@
 const KiramekiHelper    = require('../../KiramekiHelper');
-const KiramekiConfig    = require('../../../config/KiramekiConfig');
 const countrynames      = require('countrynames');
 const chalk             = require('chalk');
 const ojsama            = require('ojsama');
+const uniqid            = require('uniqid');
 
 class OsuRecent {
     constructor() {
@@ -197,15 +197,17 @@ class OsuRecent {
             KiramekiHelper.updateLastOsuRecentBMID(kirCore.DB, message.author.id, mostRecentBMID, message.channel.id);
             KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, "osu! RECENTS", `${KiramekiHelper.userLogCompiler(message.author)} checked recent plays for osu! user ${chalk.bold(userToLookup)}!`);
         } catch (beatmapFetchError) {
+            const bugIdentifier = uniqid();
+
             message.channel.createEmbed(new KiramekiHelper.Embed()
                 .setColor(0xF06DA8)
                 .setAuthor("osu! Most Recent", KiramekiHelper.images.OSU_LOGO)
                 .setDescription(
-                    "Something went wrong while calculating your potential PP. This could very well be because the osu! beatmap data API is currently down or in bad state. Please check **@osustatus** on Twitter if this problem persists."
+                    `Something went wrong while calculating your potential PP. This could very well be because the osu! beatmap data API is currently down or in bad state. Please check **@osustatus** on Twitter or join the [official Kirameki support server](${KiramekiHelper.links.INVITE}) and report a bug if this problem persists.\n\nPlease provide following code: **${bugIdentifier}**`
                 )
             );
 
-            KiramekiHelper.log(KiramekiHelper.LogLevel.ERROR, "osu! RECENTS ERROR", `Recents failed because of ojsama not being able to calculate PP. Reason: ${chalk.bold(beatmapFetchError)}!`);
+            KiramekiHelper.log(KiramekiHelper.LogLevel.ERROR, "osu! RECENTS ERROR", `[ ${bugIdentifier} ] Recents failed because of ojsama not being able to calculate PP. Reason: ${chalk.bold(beatmapFetchError)}!`);
             console.error(beatmapFetchError);
         }
     }
