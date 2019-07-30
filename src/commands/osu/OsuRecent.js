@@ -55,7 +55,7 @@ class OsuRecent {
 
         if (!userResults) {
             message.channel.createEmbed(KiramekiHelper.generateOsuUserNotFoundEmbed('osu! Recent', userToLookup));
-            return KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, "osu! RECENTS LOOKUP", `Fetching the user from the osu! API failed because of: ${chalk.bold(osuUserFetchError)}`);
+            return KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, "osu! RECENTS LOOKUP", `Fetching the user from the osu! API failed because of: ${chalk.bold('User Not Found!')}`);
         }
 
         const osuUsername = userResults.username;
