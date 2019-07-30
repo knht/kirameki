@@ -58,11 +58,11 @@ class OsuRecent {
             return KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, "osu! RECENTS LOOKUP", `Fetching the user from the osu! API failed because of: ${chalk.bold('User Not Found!')}`);
         }
 
-        const osuUsername = userResults.username;
-        const osuUserID = userResults.user_id;
-        const osuUserDisplayname = ':flag_' + userResults.country.toLowerCase() + ': ' + userResults.username;
-        const userWrittenName = countrynames.getName(userResults.country).charAt(0).toUpperCase() + countrynames.getName(userResults.country).slice(1).toLowerCase();
-        const userRecentResults = await kirCore.osu.raw('/get_user_recent', { u: osuUserID, m: 0, type: 'id', limit: 1 });
+        const osuUsername           = userResults.username;
+        const osuUserID             = userResults.user_id;
+        const osuUserDisplayname    = ':flag_' + userResults.country.toLowerCase() + ': ' + userResults.username;
+        const userWrittenName       = countrynames.getName(userResults.country).charAt(0).toUpperCase() + countrynames.getName(userResults.country).slice(1).toLowerCase();
+        const userRecentResults     = await kirCore.osu.raw('/get_user_recent', { u: osuUserID, m: 0, type: 'id', limit: 1 });
 
         if (!userRecentResults.length) {
             message.channel.createEmbed(new KiramekiHelper.Embed()
@@ -81,21 +81,20 @@ class OsuRecent {
         const mostRecentBMID = userRecentResults[0].beatmap_id;
 
         try {
-            const userRecentScore = await kirCore.osu.beatmaps.getByBeatmapId(mostRecentBMID);
-            const beatmapSetID = userRecentScore[0].beatmapset_id;
-            const beatmapRender = userRecentScore[0].artist + " - " + userRecentScore[0].title + " [" + userRecentScore[0].version + "]";
-            const mostRecentDiffIcon = KiramekiHelper.emojis.OSU.DIFFICULTIES[KiramekiHelper.getOsuDiffIconDesc(parseFloat(userRecentScore[0].difficultyrating))];
-            const beatmapData = await KiramekiHelper.obtainAndCacheOsuFile(mostRecentBMID);
+            const userRecentScore       = await kirCore.osu.beatmaps.getByBeatmapId(mostRecentBMID);
+            const beatmapSetID          = userRecentScore[0].beatmapset_id;
+            const beatmapRender         = userRecentScore[0].artist + " - " + userRecentScore[0].title + " [" + userRecentScore[0].version + "]";
+            const mostRecentDiffIcon    = KiramekiHelper.emojis.OSU.DIFFICULTIES[KiramekiHelper.getOsuDiffIconDesc(parseFloat(userRecentScore[0].difficultyrating))];
+            const beatmapData           = await KiramekiHelper.obtainAndCacheOsuFile(mostRecentBMID);
 
-            let beatmapParser = new ojsama.parser();
-            beatmapParser.feed(beatmapData);
-            let beatmapMap = beatmapParser.map;
-            let enabledMods = parseInt(userRecentResults[0].enabled_mods);
-            let beatmapStars = new ojsama.diff().calc({ map: beatmapMap, mods: enabledMods });
-            let recentMaxCombo = parseInt(userRecentResults[0].maxcombo);
-            let recentMisses = parseInt(userRecentResults[0].countmiss);
-
-            let recentAccuracy = parseFloat((((
+            let beatmapParser   = new ojsama.parser();
+                beatmapParser.feed(beatmapData);
+            let beatmapMap      = beatmapParser.map;
+            let enabledMods     = parseInt(userRecentResults[0].enabled_mods);
+            let beatmapStars    = new ojsama.diff().calc({ map: beatmapMap, mods: enabledMods });
+            let recentMaxCombo  = parseInt(userRecentResults[0].maxcombo);
+            let recentMisses    = parseInt(userRecentResults[0].countmiss);
+            let recentAccuracy  = parseFloat((((
                 (parseInt(userRecentResults[0].count300)  * 300) +
                 (parseInt(userRecentResults[0].count100)  * 100) +
                 (parseInt(userRecentResults[0].count50)   * 50)  +
@@ -119,17 +118,17 @@ class OsuRecent {
                     parseInt(userRecentResults[0].countmiss)
                 ) * 300)) * 100));
 
-            let beatmapPP = ojsama.ppv2({ stars: beatmapStars, combo: recentMaxCombo, nmiss: recentMisses, acc_percent: recentAccuracy });
-            let maxPPPossible = ojsama.ppv2({ map: beatmapMap, stars: beatmapStars });
-            let beatmapACCPP = ojsama.ppv2({ stars: beatmapStars, combo: parseInt(beatmapMap.max_combo()), nmiss: 0, acc_percent: recentAccuracyForFC });
-            let potentialPP = beatmapACCPP.toString().split(" ", 1)[0];
-            let max_combo = beatmapMap.max_combo();
-            let formattedCalcAcc = beatmapPP.computed_accuracy.toString().split("%", 1)[0];
-            let formattedPPmin = beatmapPP.toString().split(" ", 1)[0];
-            let formattedPPMax = maxPPPossible.toString().split(" ", 1)[0];
-            let mapModifiers = (KiramekiHelper.numberToMod(userRecentResults[0].enabled_mods).length > 0) ? "+" + KiramekiHelper.numberToMod(userRecentResults[0].enabled_mods).join(',') : "Nomod";
-            let allHits = parseInt(userRecentResults[0].count50) + parseInt(userRecentResults[0].count100) + parseInt(userRecentResults[0].count300) + parseInt(userRecentResults[0].countmiss);
-            let mapCompletion = parseFloat(KiramekiHelper.getMapCompletion(beatmapData, allHits)).toFixed(2) + '%';
+            let beatmapPP           = ojsama.ppv2({ stars: beatmapStars, combo: recentMaxCombo, nmiss: recentMisses, acc_percent: recentAccuracy });
+            let maxPPPossible       = ojsama.ppv2({ map: beatmapMap, stars: beatmapStars });
+            let beatmapACCPP        = ojsama.ppv2({ stars: beatmapStars, combo: parseInt(beatmapMap.max_combo()), nmiss: 0, acc_percent: recentAccuracyForFC });
+            let potentialPP         = beatmapACCPP.toString().split(" ", 1)[0];
+            let max_combo           = beatmapMap.max_combo();
+            let formattedCalcAcc    = beatmapPP.computed_accuracy.toString().split("%", 1)[0];
+            let formattedPPmin      = beatmapPP.toString().split(" ", 1)[0];
+            let formattedPPMax      = maxPPPossible.toString().split(" ", 1)[0];
+            let mapModifiers        = (KiramekiHelper.numberToMod(userRecentResults[0].enabled_mods).length > 0) ? "+" + KiramekiHelper.numberToMod(userRecentResults[0].enabled_mods).join(',') : "Nomod";
+            let allHits             = parseInt(userRecentResults[0].count50) + parseInt(userRecentResults[0].count100) + parseInt(userRecentResults[0].count300) + parseInt(userRecentResults[0].countmiss);
+            let mapCompletion       = parseFloat(KiramekiHelper.getMapCompletion(beatmapData, allHits)).toFixed(2) + '%';
 
             message.channel.createEmbed({
                 title: "Most recent play in osu! **Standard** by **" + osuUserDisplayname + "**",
