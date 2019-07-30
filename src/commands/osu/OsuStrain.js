@@ -32,6 +32,17 @@ class OsuStrain {
         }
 
         const loadingMessage        = await message.channel.createEmbed(new KiramekiHelper.Embed().setColor("GREEN").setTitle("Calculating ..."));
+        const doesChartAlreadyExist = await KiramekiHelper.preparedQuery(kirCore.DB, 'SELECT beatmap_title, graph FROM osu_strain_graphs WHERE beatmap_id = ? AND mods = ? LIMIT 1;', [beatmapID, strainMods]);
+
+        if (doesChartAlreadyExist.length > 0) {
+            const databaseGraph = Buffer.from(doesChartAlreadyExist[0].graph, 'base64');
+
+            await message.channel.createMessage(undefined, { file: databaseGraph, name: `${uniqid()}.png` });
+            loadingMessage.edit({ embed: new KiramekiHelper.Embed().setColor("GREEN").setTitle(`Finished processing **${doesChartAlreadyExist[0].beatmap_title}**`) });
+
+            return KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, 'osu! STRAIN CACHED', `${KiramekiHelper.userLogCompiler(message.author)} used the osu! Strain command on a cached map!`);
+        }
+
         const chartNode             = new ChartjsNode(800, 450);
         const beatmapOsuFile        = await KiramekiHelper.obtainAndCacheOsuFile(beatmapID);
         const beatmapStrainObject   = KiramekiHelper.getBeatmapStrain(beatmapOsuFile, strainMods);
@@ -109,9 +120,12 @@ class OsuStrain {
         // Draw graph
         ctx.drawImage(graphImage, 0, 0, 800, 450);
 
-        await message.channel.createMessage(undefined, { file: modCanvas.toBuffer(), name: `${uniqid()}.png` });
+        const graphResult = modCanvas.toBuffer();
+
+        await message.channel.createMessage(undefined, { file: graphResult, name: `${uniqid()}.png` });
         loadingMessage.edit({ embed: new KiramekiHelper.Embed().setColor("GREEN").setTitle(`Finished processing **${beatmapStrainObject.map.title}**`) });
-        KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, 'osu! STRAIN', `${KiramekiHelper.userLogCompiler(message.author)} used the osu! Strain command!`);
+        KiramekiHelper.preparedQuery(kirCore.DB, 'INSERT INTO osu_strain_graphs (id, beatmap_id, beatmap_title, mods, graph) VALUES (NULL, ?, ?, ?, ?);', [beatmapID, beatmapStrainObject.map.title, strainMods, graphResult.toString('base64')]);
+        KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, 'osu! STRAIN UNCACHED', `${KiramekiHelper.userLogCompiler(message.author)} used the osu! Strain command on an uncached map!`);
     }
 }
 
