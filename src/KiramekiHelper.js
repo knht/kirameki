@@ -42,7 +42,7 @@ class KiramekiHelper {
      * @returns {string} The owoified text 
      */
     owoify(text) {
-        const suffixes = ['(*^ω^)', '(◕‿◕✿)', '(◕ᴥ◕)', 'ʕ•ᴥ•ʔ', 'ʕ￫ᴥ￩ʔ', '(*^.^*)', 'owo', 'OwO', '(｡♥‿♥｡)', 'uwu', 'UwU', '(*￣з￣)', '>w<', '^w^', '(つ✧ω✧)つ', '(/ =ω=)/'];
+        const suffixes = this.emojis.KAOMOJI.AS_SUFFIX;
 
         text = text.replace(/(?:l|r)/g, 'w');
         text = text.replace(/(?:L|R)/g, 'W');
