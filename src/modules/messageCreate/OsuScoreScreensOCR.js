@@ -17,16 +17,17 @@ class OsuScoreScreensOCR {
         if (message.content.startsWith(kirCore.prefix)) return;
         if (message.content === kirCore.prefix) return;
 
-        try {
-            const isEnabled = await KiramekiHelper.preparedQuery(kirCore.DB, 'SELECT * FROM osu_channel_ocr WHERE channel_id = ?;', [message.channel.id]);
-            const isLinked  = await KiramekiHelper.preparedQuery(kirCore.DB, 'SELECT * FROM osu_discord_links WHERE discord_id = ? LIMIT 1;', [message.author.id]);
+        const isEnabled = await KiramekiHelper.preparedQuery(kirCore.DB, 'SELECT * FROM osu_channel_ocr WHERE channel_id = ?;', [message.channel.id]);
+        const isLinked  = await KiramekiHelper.preparedQuery(kirCore.DB, 'SELECT * FROM osu_discord_links WHERE discord_id = ? LIMIT 1;', [message.author.id]);
 
-            if (!isEnabled.length || !isLinked.length) return;
-            if (!KiramekiHelper.hasValidOsuScreenshot(message.content)) return;
-
+        if (!isEnabled.length || !isLinked.length) return;
+        if (!KiramekiHelper.hasValidOsuScreenshot(message.content)) return;
+        
+        const checking = await message.channel.createEmbed(new KiramekiHelper.Embed().setColor('GREEN').setTitle('Scanning for a valid osu! Screenshot ...'));
+         
+        try {    
             const osuScreenshotUrl  = getUrls(message.content).values().next().value;
             const temporaryFilePath = `ocr/${uniqid()}.jpg`;
-            const checking          = await message.channel.createEmbed(new KiramekiHelper.Embed().setColor('GREEN').setTitle('Scanning for osu! Screenshot ...'));
             const enhancedImage     = await jimp.read(osuScreenshotUrl);
 
             enhancedImage.crop(0, 0, (enhancedImage.bitmap.width * 0.7), (enhancedImage.bitmap.height * 0.12));
@@ -145,8 +146,8 @@ class OsuScoreScreensOCR {
             KiramekiHelper.updateOsuUser(kirCore.DB, userResults);
             KiramekiHelper.updateLastOsuRecentBMID(kirCore.DB, message.author.id, beatmapIdOfScoreScreen, message.channel.id);
         } catch (osuOCRError) {
+            checking.delete();
             KiramekiHelper.log(KiramekiHelper.LogLevel.ERROR, 'osu! OCR ERROR', `Analyzing a score screen failed because of: ${osuOCRError}`);
-            console.log(osuOCRError);
         }
     }
 }   
