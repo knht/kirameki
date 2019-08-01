@@ -46,7 +46,7 @@ class AnimeSearch {
             if (choice > picks.length || choice < 1 || !choice) {
                 return message.channel.createEmbed(new KiramekiHelper.Embed()
                     .setColor('RED')
-                    .setTitle(`Invalid numerical choice.`)
+                    .setTitle(`Invalid numerical choice. Aborting ...`)
                 );
             }
 
