@@ -41,7 +41,6 @@ class Kirameki extends Eris.Client {
 
         this.DB.connect(this._initKiramekiDatabase);
         this._addEventListeners();
-        this._addIntervals();
         this._registerKiramekiCommands();
         this._registerKiramekiModules();
         this._catchUnhandledRejections();
@@ -72,9 +71,10 @@ class Kirameki extends Eris.Client {
      * Catches all unhandled promise rejections in case any were to pop up 
      */
     _catchUnhandledRejections() {
-        if (!KiramekiConfig.debug) {
+        if (KiramekiConfig.debug) {
             process.on('unhandledRejection', (error, promise) => {
                 KiramekiHelper.log(KiramekiHelper.LogLevel.ERROR, 'UNHANDLED PROMISE REJECTION', `An unhandled promise rejection occurred. Promise: ${promise} | Rejection: ${error}`);
+                process.exit(1);
             });
         }
     }
@@ -89,23 +89,6 @@ class Kirameki extends Eris.Client {
         }
 
         KiramekiHelper.log(KiramekiHelper.LogLevel.EVENT, "DATABASE CONNECTION", "Successfully connected to the database!");
-    }
-
-    /**
-     * All continuously running utility methods e.g. database heartbeats, posting stats, et cetera.
-     */
-    _addIntervals() {
-        setInterval(async () => {
-            try {
-                const databaseHeartbeat = await KiramekiHelper.query(this.DB, "SELECT 1;");
-
-                if (databaseHeartbeat) {
-                    KiramekiHelper.log(KiramekiHelper.LogLevel.EVENT, "KIRAMEKI HEARTBEAT", "Queried the database to keep connection alive!");
-                }
-            } catch (kirDBError) {
-                KiramekiHelper.log(KiramekiHelper.LogLevel.ERROR, "KIRAMEKI HEARTBEAT", `Querying the database failed because of ${kirDBError}!`);
-            }
-        }, 1800000);
     }
 
     /**
