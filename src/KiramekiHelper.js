@@ -37,6 +37,33 @@ class KiramekiHelper {
     }
 
     /**
+     * Format Performance Points coming from the osu! API to a more aesthetically pleasing look
+     * @param {string} pp The PP value of a user coming from the osu! API 
+     * @returns {string} The formatted PP value
+     */
+    formatPerformancePoints(pp) {
+        return pp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    /**
+     * Converts a given amount of seconds to the Hours, minutes, seconds format
+     * @param {number|string} time The amount of seconds to be converted to Hours, minutes & seconds
+     * @returns {string} The converted number
+     */
+    secondsToHMS(time) {
+        const value   = Number(time);
+        const hours   = Math.floor(value / 3600);
+        const minutes = Math.floor(value % 3600 / 60);
+        const seconds = Math.floor(value % 3600 % 60);
+        
+        const formattedHours   = (hours > 0) ? hours + (hours === 1 ? ' Hour, ' : ' Hours, ') : ''; 
+        const formattedMinutes = (minutes > 0) ? `${minutes}m, ` : '';
+        const formattedSeconds = (seconds > 0) ? `${seconds}s` : '';
+
+        return formattedHours + formattedMinutes + formattedSeconds;
+    }
+
+    /**
      * OwOify any given text
      * @param {string} text The text that should be owoified
      * @returns {string} The owoified text 
