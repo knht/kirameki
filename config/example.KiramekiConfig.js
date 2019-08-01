@@ -8,6 +8,7 @@ module.exports = {
     yandexApiKey: "",
     openWeatherMapApiKey: "",
     geoNamesApplicationID: "",
+    dbggAuthToken: "",
     botOwner: "",
     userAgent: "",
     debug: true,
