@@ -110,10 +110,10 @@ class OsuCompare {
                     'Play Information',
                     `${parseFloat(userScoreMapData[0].difficultyrating).toFixed(2)}${diffIcon}${userScoreResultsRank} **${accuracy}%** ***${usedMods}*** *(Score: ${KiramekiHelper.numberWithCommas(parseInt(userScoreResultsSanitized[i].score))})*\n` +
                     `**Total Hits:** ` +
-                    `${KiramekiHelper.emojis.OSU.HITS[300]} ${userScoreResultsSanitized[0].count300} ` +
-                    `${KiramekiHelper.emojis.OSU.HITS[100]} ${userScoreResultsSanitized[0].count100} ` +
-                    `${KiramekiHelper.emojis.OSU.HITS[50]} ${userScoreResultsSanitized[0].count50} `   +
-                    `${KiramekiHelper.emojis.OSU.HITS.MISS} ${userScoreResultsSanitized[0].countmiss}`
+                    `${KiramekiHelper.emojis.OSU.HITS[300]} ${userScoreResultsSanitized[i].count300} ` +
+                    `${KiramekiHelper.emojis.OSU.HITS[100]} ${userScoreResultsSanitized[i].count100} ` +
+                    `${KiramekiHelper.emojis.OSU.HITS[50]} ${userScoreResultsSanitized[i].count50} `   +
+                    `${KiramekiHelper.emojis.OSU.HITS.MISS} ${userScoreResultsSanitized[i].countmiss}`
                 )
                 .addField(
                     'Beatmap Information',
