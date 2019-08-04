@@ -33,6 +33,10 @@ class Summoner {
         /**
          * @todo Find workaround for missing Riot API endpoints and rewrite all of the League of Legends commands.
          */
+        message.channel.createEmbed(new KiramekiHelper.Embed()
+            .setColor('RED')
+            .setTitle('Currently under maintenance')
+        );
 
         KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, 'SUMMONER', `${KiramekiHelper.userLogCompiler(message.author)} used the ${this.name} command.`);
     }
