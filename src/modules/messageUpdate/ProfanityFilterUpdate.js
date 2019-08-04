@@ -7,7 +7,9 @@ class ProfanityFilterUpdate {
     }
 
     async execute(message, oldMessage, kirCore) {
+        if (!message) return;
         if (message.channel.type != 0) return;
+        if (!message.author) return;
         if (message.author.bot) return;
         if (oldMessage === null) return;
 
@@ -18,7 +20,9 @@ class ProfanityFilterUpdate {
         if (wordExists.length > 0) {
             for (let i = 0; i < wordExists.length; i++) {
                 if (sanitizedContent.includes(wordExists[i].word.toLowerCase()) && !isMuted.length) {
-                    return message.delete();
+                    return message.delete().catch((error) => {
+                        KiramekiHelper.log(KiramekiHelper.LogLevel.ERROR, 'PROFANITY FILTER', `Couldn't delete message because of: ${error}`);
+                    });
                 }
             }
         }
