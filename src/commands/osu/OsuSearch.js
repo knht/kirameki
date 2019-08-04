@@ -65,7 +65,15 @@ class OsuSearch {
         const beatmapSetID  = beatmapQuery[choice - 1].beatmapset_id;
         const beatmapMeta   = await KiramekiHelper.obtainAndCacheOsuFile(beatmapID);
         const beatmapObject = await kirCore.osu.beatmaps.getByBeatmapId(beatmapID);
-        const beatmapRender = (!beatmapObject[0]) ? 'Unknown' : `${beatmapObject[0].title} [${beatmapObject[0].version || ''}]`;
+
+        if (!beatmapObject[0]) {
+            return message.channel.createEmbed(new KiramekiHelper.Embed()
+                .setColor('RED')
+                .setTitle('The requested beatmap doesn\'t exist anymore on osu!')
+            );
+        }
+
+        const beatmapRender = `${beatmapObject[0].title} [${beatmapObject[0].version}]`;
         const diffIcon      = KiramekiHelper.emojis.OSU.DIFFICULTIES[KiramekiHelper.getOsuDiffIconDesc(beatmapObject[0].difficultyrating)];
         const beatmapParser = new ojsama.parser();
 
