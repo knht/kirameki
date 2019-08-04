@@ -137,7 +137,14 @@ class OsuCompare {
         if (collectedScores.length < 2) {
             message.channel.createEmbed(collectedScores[0]);
         } else {
-            KiramekiHelper.PaginationEmbed(message, collectedScores);
+            if (message.channel.permissionsOf(kirCore.user.id).has('manageMessages')) {
+                KiramekiHelper.PaginationEmbed(message, collectedScores);
+            } else {
+                message.channel.createMessage({ 
+                    content: 'Could not intialize paginator. Falling back to single result.\n\n**Missing Permissions:** `Manage Messages` (For deleting reactions)',
+                    embed: collectedScores[0]
+                 });
+            }
         }
         
         KiramekiHelper.updateOsuUser(kirCore.DB, osuUser);
