@@ -6,7 +6,7 @@ class OsuCompare {
     constructor() {
         this.name = 'compare';
         this.aliases = ['c', 'osuc', 'osucompare'];
-        this.permissions = ['externalEmojis'];
+        this.permissions = ['externalEmojis', 'addReactions'];
         this.category = KiramekiHelper.categories.OSU;
         this.cooldown = 3;
         this.help = {
