@@ -37,7 +37,9 @@ class MessageHandler {
                 .setDescription(`It appears you have been banned from using **Kirameki** indefinitely. A complete exclusion of Kirameki takes only place when the bot and/or its infrastructure have been heavily abused.\n\nIf you feel like this is an error, you may feel free to appeal over the [Contact Form on Kirameki's Website](${KiramekiHelper.links.WEBSITE.CONTACT})`)
                 .setThumbnail(KiramekiHelper.images.KIRAMEKI_SAD)
                 .addField('Reason', `\`\`\`${isBanned[0].ban_reason}\`\`\``, false)
-            );
+            ).catch((error) => {
+                KiramekiHelper.log(KiramekiHelper.LogLevel.ERROR, 'MUTED', 'Cannot speak at all.')
+            });
         }
         
         // Check if the bot has adequate permissions
@@ -51,7 +53,9 @@ class MessageHandler {
         }
 
         if (missingPermissions.length) {
-            return message.channel.createMessage(`Can't run command **${command.name}** because I lack following permissions: **${missingPermissions.join(', ')}**\nIf you want to make use of this feature please grant me the missing permissions.`);
+            return message.channel.createMessage(`Can't run command **${command.name}** because I lack following permissions: **${missingPermissions.join(', ')}**\nIf you want to make use of this feature please grant me the missing permissions.`).catch((error) => {
+                KiramekiHelper.log(KiramekiHelper.LogLevel.ERROR, 'MUTED', 'Cannot speak at all.')
+            });
         }
 
         // Check if the user has adequate permissions
