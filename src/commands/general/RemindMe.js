@@ -37,6 +37,17 @@ class RemindMe {
 
         try {
             const parsedTime = juration.parse(parsedAnswerWhen);
+
+            if (parseInt(parsedTime) > 604800) {
+                whenMessage.delete();
+                message.channel.createEmbed(new KiramekiHelper.Embed()
+                    .setColor('RED')
+                    .setTitle(`I can't remind you if it's longer than for 7 days!`)
+                );
+
+                return KiramekiHelper.resetCommandCooldown(cooldowns, this.name, message.author.id);
+            }
+
             const whatMessage = await message.channel.createEmbed(new KiramekiHelper.Embed()
                 .setColor('GREEN')
                 .setTitle('What should I remind you about?')
