@@ -13,6 +13,7 @@ module.exports = {
     SAGIRI_BACKGROUND: 'https://img.kirameki.one/bffOcH0D.png',
     CHANGE_MY_MIND_BACKGROUND: 'https://img.kirameki.one/kFFwx3x2.png',
     EINSTEIN_BACKGROUND: 'https://img.kirameki.one/q8mbEBDt.jpg',
+    HESTIA_BACKGROUND: 'https://img.kirameki.one/OTknBeHC.png',
     SPONGEMOCK_BACKGROUND: 'https://img.kirameki.one/OgLYHzPd.png',
     OVERWATCH_LOGO: 'https://img.kirameki.one/AdnMGGPd.png',
     URBAN_DICTIONARY_LOGO: 'https://img.kirameki.one/ukMhU5LU.jpg',
