@@ -25,7 +25,7 @@ class OsuRecommend {
                 .setColor('OSU')
                 .setAuthor('osu! Recommendations', KiramekiHelper.images.OSU_LOGO)
                 .setDescription(
-                    `Using osu! Recommendations requires an account linkage!\n\n`
+                    `Using osu! Recommendations requires an account linkage!\n\n` +
                     `**Usage:** \`${kirCore.prefix}osusetup <osuName>\`\n\n**Example:** \`${kirCore.prefix}osusetup Riya\``
                 )
             );
