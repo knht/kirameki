@@ -444,7 +444,9 @@ class KiramekiHelper {
         const createdMessage = await message.channel.createEmbed(embed);
 
         setTimeout(() => {
-            createdMessage.delete();
+            createdMessage.delete().catch((error) => {
+                this.log(this.LogLevel.ERROR, 'MESSAGE DELETE ERROR', `Couldn't delete message because of: ${error}`);
+            });
         }, time * 1000);
     }
 
