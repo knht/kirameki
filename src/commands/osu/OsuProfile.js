@@ -1,5 +1,6 @@
 const KiramekiHelper = require('../../KiramekiHelper');
 const countrynames = require('countrynames');
+const uniqid = require('uniqid');
 
 class OsuProfile {
     constructor() {
@@ -98,33 +99,44 @@ class OsuProfile {
             return message.channel.createEmbed(KiramekiHelper.generateOsuUserNotFoundEmbed('osu! Profile Lookup', osuName));
         }
 
-        const osuUserID             = userResults.user_id;
-        const osuUserRank           = (userResults.pp_rank > 0) ? `#${userResults.pp_rank}` : 'Inactive';
-        const osuUserCountryRank    = (userResults.pp_country_rank > 0) ? `#${userResults.pp_country_rank}` : 'Inactive';
-        const osuUserAvatarURL      = KiramekiHelper.links.OSU.generateUserThumbnail(userResults.user_id);
-        const osuUserDisplayName    = `:flag_${userResults.country.toLowerCase()}: [${userResults.username}](https://osu.ppy.sh/users/${osuUserID})`;
-        const osuUserPerformance    = KiramekiHelper.formatPerformancePoints(Math.ceil(userResults.pp_raw));
-        const osuUserLevel          = Math.trunc(userResults.level);
-        const osuUserAccuracy       = userResults.accuracy;
-        
-        message.channel.createEmbed(new KiramekiHelper.Embed()
-            .setColor('OSU')
-            .setAuthor('osu! Player Lookup', KiramekiHelper.images.OSU_LOGO)
-            .setDescription(`Account standing in osu! **${osuModeWritten}**`)
-            .addBlankField(false)
-            .addField('Player Name', osuUserDisplayName, true)
-            .addField('Rank', osuUserRank, true)
-            .addField('Level', osuUserLevel, true)
-            .addField('Country Rank', `${osuUserCountryRank} ${KiramekiHelper.capitalize(countrynames.getName(userResults.country))}`, true)
-            .addField('Accuracy', `${(Math.ceil(osuUserAccuracy * 100) / 100).toFixed(2)}%`, true)
-            .addField('Performance', (userResults.pp_rank > 0) ? `${osuUserPerformance}pp` : 'Inactive', true)
-            .addField('Play Time', KiramekiHelper.secondsToHMS(userResults.total_seconds_played) || 'Unknown', true)
-            .addField('Play Count', userResults.playcount, true)
-            .addBlankField(false)
-            .addField(`Looking for ${userResults.username}'s best plays?`, `Use the \`${kirCore.prefix}top\` command to get detailed information!`)
-            .setThumbnail(osuUserAvatarURL)
-            .setFooter(`osu! Player Lookup requested by: ${message.author.username}`, message.author.dynamicAvatarURL('jpg', 16))
-        );
+        try {
+            const osuUserID             = userResults.user_id;
+            const osuUserRank           = (userResults.pp_rank > 0) ? `#${userResults.pp_rank}` : 'Inactive';
+            const osuUserCountryRank    = (userResults.pp_country_rank > 0) ? `#${userResults.pp_country_rank}` : 'Inactive';
+            const osuUserAvatarURL      = KiramekiHelper.links.OSU.generateUserThumbnail(userResults.user_id);
+            const osuUserDisplayName    = `:flag_${userResults.country.toLowerCase()}: [${userResults.username}](https://osu.ppy.sh/users/${osuUserID})`;
+            const osuUserPerformance    = KiramekiHelper.formatPerformancePoints(Math.ceil(userResults.pp_raw));
+            const osuUserLevel          = Math.trunc(userResults.level);
+            const osuUserAccuracy       = userResults.accuracy;
+            
+            message.channel.createEmbed(new KiramekiHelper.Embed()
+                .setColor('OSU')
+                .setAuthor('osu! Player Lookup', KiramekiHelper.images.OSU_LOGO)
+                .setDescription(`Account standing in osu! **${osuModeWritten}**`)
+                .addBlankField(false)
+                .addField('Player Name', osuUserDisplayName, true)
+                .addField('Rank', osuUserRank, true)
+                .addField('Level', osuUserLevel, true)
+                .addField('Country Rank', `${osuUserCountryRank} ${KiramekiHelper.capitalize(countrynames.getName(userResults.country))}`, true)
+                .addField('Accuracy', `${(Math.ceil(osuUserAccuracy * 100) / 100).toFixed(2)}%`, true)
+                .addField('Performance', (userResults.pp_rank > 0) ? `${osuUserPerformance}pp` : 'Inactive', true)
+                .addField('Play Time', KiramekiHelper.secondsToHMS(userResults.total_seconds_played) || 'Unknown', true)
+                .addField('Play Count', userResults.playcount, true)
+                .addBlankField(false)
+                .addField(`Looking for ${userResults.username}'s best plays?`, `Use the \`${kirCore.prefix}top\` command to get detailed information!`)
+                .setThumbnail(osuUserAvatarURL)
+                .setFooter(`osu! Player Lookup requested by: ${message.author.username}`, message.author.dynamicAvatarURL('jpg', 16))
+            );
+        } catch (embedBuilderError) {
+            const identifier = uniqid();
+
+            message.channel.createEmbed(new KiramekiHelper.Embed()
+                .setColor('RED')
+                .setDescription(`Something went wrong while trying to process your request. Please join the [Kirameki support guild](${KiramekiHelper.links.INVITE}) and report this bug if this behavior persists over a prolonged time and provide following error code:\n\n**Identifier:** \`${identifier}\``)
+            );
+
+            KiramekiHelper.log(KiramekiHelper.LogLevel.ERROR, 'OSU PROFILE GENERATOR ERROR', `[ ${identifier} ] ${embedBuilderError}`);
+        }
 
         KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, 'osu! PROFILE', `${KiramekiHelper.userLogCompiler(message.author)} used the ${this.name} command.`);
     }
