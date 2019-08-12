@@ -35,8 +35,8 @@ class SetStatus {
         if (!description) return message.channel.createEmbed(new KiramekiHelper.Embed().setColor("RED").setTitle("Please specify a valid description!"));
 
         try {
-            const insertion = await Util.preparedAsyncMysqlQuery(
-                kirAPI_DB, 
+            const insertion = await KiramekiHelper.preparedQuery(
+                kirCore.DB, 
                 'INSERT INTO status (id, status, date, description) VALUES (NULL, ?, ?, ?);', 
                 [status, Math.floor(Date.now() / 1000), description]
             );
