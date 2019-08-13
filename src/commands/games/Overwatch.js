@@ -64,6 +64,16 @@ class Overwatch {
 
                     break;
                 }
+
+                default: {
+                    message.channel.createEmbed(new KiramekiHelper.Embed()
+                        .setColor('RED')
+                        .setTitle(`Something went wrong processing the result from the Overwatch API!`)
+                        .setDescription(`Please try again later. If this problem persists, please join the official [Kirameki support guild](${KiramekiHelper.links.INVITE}) and report this issue!`)
+                    );
+
+                    break;
+                }
             }
 
             return KiramekiHelper.log(KiramekiHelper.LogLevel.ERROR, 'OVERWATCH API ERROR', `Fetching Data from the Overwatch API failed because of: ${overwatchAPIerror}`);
