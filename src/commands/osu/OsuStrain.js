@@ -31,7 +31,7 @@ class OsuStrain {
             );
         }
 
-        const loadingMessage        = await message.channel.createEmbed(new KiramekiHelper.Embed().setColor("GREEN").setTitle("Calculating ..."));
+        const loadingMessage        = await message.channel.createEmbed(new KiramekiHelper.Embed().setColor("GREEN").setTitle(`${KiramekiHelper.emojis.STATUS.LOADING} Calculating ...`));
         const doesChartAlreadyExist = await KiramekiHelper.preparedQuery(kirCore.DB, 'SELECT beatmap_title, graph FROM osu_strain_graphs WHERE beatmap_id = ? AND mods = ? LIMIT 1;', [beatmapID, strainMods]);
 
         if (doesChartAlreadyExist.length > 0) {
