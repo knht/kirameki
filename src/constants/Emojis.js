@@ -74,7 +74,8 @@ module.exports = {
     STATUS: {
         OPERATIONAL: '<:kirameki_operational:587839837067804702>',
         RESTRICTED: '<:kirameki_restricted:587839837005021196>',
-        UNOPERATIONAL: '<:kirameki_unoperational:587839836682059777>'
+        UNOPERATIONAL: '<:kirameki_unoperational:587839836682059777>',
+        LOADING: '<a:kir_loading:611585962971103242>'
     },
     VOTE: {
         YES: '<a:kirameki_accept:587839749335679007>',
