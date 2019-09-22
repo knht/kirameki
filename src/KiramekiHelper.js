@@ -765,7 +765,7 @@ class KiramekiHelper {
                 await this.preparedQuery(kirAPI_DB, "INSERT INTO `osu_recents` (`id`, `discord_id`, `beatmap_id`, `channel_id`) VALUES (NULL, ?, ?, ?);", [messageAuthorID, beatmapID, messageChannelID]);
             }
         } catch (lastBMIDError) {
-            this.log(this.LogLevel.ERROR, "BEATMAP ID UPDATE ERROR", `Updating the beatmap id failed because of: ${error}`);
+            this.log(this.LogLevel.ERROR, "BEATMAP ID UPDATE ERROR", `Updating the beatmap id failed because of: ${lastBMIDError}`);
         }
     }
 
