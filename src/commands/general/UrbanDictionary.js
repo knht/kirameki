@@ -37,8 +37,8 @@ class UrbanDictionary {
             .addField('Word', KiramekiHelper.sanitizeUrbanDefinition(udResult.word), false)
             .addField('Definition', KiramekiHelper.sanitizeUrbanDefinition(udResult.definition), false)
             .addField('Example', KiramekiHelper.sanitizeUrbanDefinition(udResult.example), false)
-            .addField('Thumbs Up', udResult.thumbs_up, true)
-            .addField('Thumbs Down', udResult.thumbs_down, true)
+            .addField('Thumbs Up', udResult.thumbs_up || '0', true)
+            .addField('Thumbs Down', udResult.thumbs_down || '0', true)
             .setThumbnail(KiramekiHelper.images.URBAN_DICTIONARY_LOGO)
             .setFooter(`Submitted by: ${KiramekiHelper.sanitizeUrbanDefinition(udResult.author)}`)
         );
