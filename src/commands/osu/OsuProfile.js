@@ -122,6 +122,7 @@ class OsuProfile {
                 .addField('Performance', (userResults.pp_rank > 0) ? `${osuUserPerformance}pp` : 'Inactive', true)
                 .addField('Play Time', KiramekiHelper.secondsToHMS(userResults.total_seconds_played) || 'Unknown', true)
                 .addField('Play Count', userResults.playcount, true)
+                .addBlankField(true)
                 .addBlankField(false)
                 .addField(`Looking for ${userResults.username}'s best plays?`, `Use the \`${kirCore.prefix}top\` command to get detailed information!`)
                 .setThumbnail(osuUserAvatarURL)
