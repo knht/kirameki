@@ -59,6 +59,11 @@ class OsuBeatmapFlashcards {
                         inline: true
                     },
                     {
+                        name: "\u200B",
+                        value: "\u200B",
+                        inline: true
+                    },
+                    {
                         name: 'Mapper',
                         value: beatmapData[0].creator,
                         inline: true
@@ -66,6 +71,11 @@ class OsuBeatmapFlashcards {
                     {
                         name: 'Max Combo',
                         value: beatmapData[0].max_combo,
+                        inline: true
+                    },
+                    {
+                        name: "\u200B",
+                        value: "\u200B",
                         inline: true
                     },
                     {
