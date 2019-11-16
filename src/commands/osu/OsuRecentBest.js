@@ -166,6 +166,11 @@ class OsuRecentBest {
                     inline: true
                 },
                 {
+                    name: "\u200B",
+                    value: "\u200B",
+                    inline: true
+                },
+                {
                     name: "Combo",
                     value: "**" + userBestRecentResults[0].maxcombo + "x** / *" + max_combo + "x*",
                     inline: true
@@ -173,6 +178,11 @@ class OsuRecentBest {
                 {
                     name: "Potential Performance",
                     value: "**" + potentialPP + "pp** for **" + recentAccuracyForFC.toFixed(2) + "%**",
+                    inline: true
+                },
+                {
+                    name: "\u200B",
+                    value: "\u200B",
                     inline: true
                 },
                 {
