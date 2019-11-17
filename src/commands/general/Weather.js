@@ -67,6 +67,7 @@ class Weather {
                     `${parseFloat((owmResult.main.temp * (9/5) + 32)).toFixed(2)} °F`,
                     true
                 )
+                .addBlankField(true)
                 .addField(
                     'Wind',
                     `${parseFloat((owmResult.wind.speed) * 3.6).toFixed(2)} km/h\n` +
@@ -74,8 +75,10 @@ class Weather {
                     true
                 )
                 .addField('Weather condition', owmResult.weather[0].description, true)
+                .addBlankField(true)
                 .addField('Humidity', `${owmResult.main.humidity}%`, true)
                 .addField('Sunrise',sunriseTime, true)
+                .addBlankField(true)
                 .addField('Sunset', sunsetTime, true)
                 .setFooter(`Weather was requested by: ${message.author.username}`, message.author.dynamicAvatarURL('jpg', 16))
             );
