@@ -26,7 +26,7 @@ const read              = require('fs-readdir-recursive');
  */
 class Kirameki extends Eris.Client {
     constructor() {
-        super(KiramekiConfig.token);
+        super(KiramekiConfig.token, KiramekiConfig.erisOptions);
         this.eligibleForXp  = new Set();
         this.commands       = new Eris.Collection();
         this.modules        = new Eris.Collection();
