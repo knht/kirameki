@@ -3,7 +3,7 @@ const KiramekiHelper = require('../../KiramekiHelper');
 class Leaderboards {
     constructor() {
         this.name = 'leaderboard';
-        this.aliases = ['leaderboards'];
+        this.aliases = ['leaderboards', 'lb'];
         this.category = KiramekiHelper.categories.GENERAL;
         this.help = {
             message: 'Access all the different kinds of leaderboards available on Kirameki.\nCurrently available leaderboards: `osu`, `xp`, `guild` or `server`',
