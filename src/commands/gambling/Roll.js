@@ -14,7 +14,7 @@ class Roll {
 
     async execute(message, kirCore) {
         const rolledNumber  = KiramekiHelper.randomIntFromInterval(1, 100);
-        const pointPlural   = (rolledNumber === 1) ? 'poin' : 'points';
+        const pointPlural   = (rolledNumber === 1) ? 'point' : 'points';
 
         message.channel.createEmbed(new KiramekiHelper.Embed()
             .setColor(KiramekiHelper.getRandomColor())
