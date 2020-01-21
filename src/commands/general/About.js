@@ -30,7 +30,7 @@ class About {
             .addField("Homepage", `[kirameki.one](${KiramekiHelper.links.WEBSITE.BASE})`, true)
             .addField("Dashboard", `[Click Here](${KiramekiHelper.links.WEBSITE.DASHBOARD})`, true)
             .addField("Discord Server", `[Kirameki Help Guild](${KiramekiHelper.links.INVITE})`, true)
-            .addField("Invite Kirameki", `[Click Here](${KiramekiHelper.links.WEBSITE.INVITE})`)
+            .addField("Invite Kirameki", `[Click Here](${KiramekiHelper.links.WEBSITE.INVITE})`, true)
             .setThumbnail(KiramekiHelper.images.KIRAMEKI_MASCOT)
             .setFooter("Rocking 451 libraries, 19 APIs and a lot of love ❤️")
         );
