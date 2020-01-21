@@ -32,7 +32,7 @@ class About {
             .addField("Discord Server", `[Kirameki Help Guild](${KiramekiHelper.links.INVITE})`, true)
             .addField("Invite Kirameki", `[Click Here](${KiramekiHelper.links.WEBSITE.INVITE})`)
             .setThumbnail(KiramekiHelper.images.KIRAMEKI_MASCOT)
-            .setFooter("Rocking 451 libraries, 19 API's and a lot of love ❤️")
+            .setFooter("Rocking 451 libraries, 19 APIs and a lot of love ❤️")
         );
 
         KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, 'ABOUT', `${KiramekiHelper.userLogCompiler(message.author)} used the about command.`);
