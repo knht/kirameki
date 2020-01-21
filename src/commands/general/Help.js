@@ -19,7 +19,7 @@ class Help {
             return message.channel.createEmbed(new KiramekiHelper.Embed()
                 .setColor('DEFAULT')
                 .setAuthor('Kirameki Help', KiramekiHelper.images.KIRAMEKI_MASCOT)
-                .addField('Command List', `[Click Here](${KiramekiHelper.links.WEBSITE.COMMANDS})`, true)
+                .addField('Command List', `[Click Here](${KiramekiHelper.links.WEBSITE.COMMANDS})\nOr use \`${kirCore.prefix}commands\``, true)
                 .addField('Help Discord', `[Join Here](${KiramekiHelper.links.INVITE})`, true)
                 .addField('Dashboard', `[Click Here](${KiramekiHelper.links.WEBSITE.DASHBOARD})`, true)
                 .addField('Pro Tip', `You can use \`${kirCore.prefix}help <command>\` for more detailed command help!`)
