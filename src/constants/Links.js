@@ -1,5 +1,10 @@
 module.exports = {
     INVITE: 'https://discord.gg/kKPZdA6',
+    SOURCE: {
+        REPOSITORY: {
+            GITHUB: 'https://github.com/riyacchi/kirameki'
+        }
+    },
     WEBSITE: {
         BASE: 'https://kirameki.one/',
         DASHBOARD: 'https://dashboard.kirameki.one/',
