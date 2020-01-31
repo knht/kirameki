@@ -31,6 +31,7 @@ class About {
             .addField("Dashboard", `[Click Here](${KiramekiHelper.links.WEBSITE.DASHBOARD})`, true)
             .addField("Discord Server", `[Kirameki Help Guild](${KiramekiHelper.links.INVITE})`, true)
             .addField("Invite Kirameki", `[Click Here](${KiramekiHelper.links.WEBSITE.INVITE})`, true)
+            .addField("Source", `[GitHub](https://github.com/riyacchi/kirameki)`, true)
             .setThumbnail(KiramekiHelper.images.KIRAMEKI_MASCOT)
             .setFooter("Rocking 451 libraries, 19 APIs and a lot of love ❤️")
         );
