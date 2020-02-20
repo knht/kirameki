@@ -32,7 +32,24 @@ class OsuTop {
 
         if (play) {
             if (isNaN(play)) {
-                userToLookup = play;
+                if (message.mentions.length) {
+                    const mentionedUser = message.mentions[0];
+                    const mentionedUserLinkage = await KiramekiHelper.getOsuUser(kirCore.DB, mentionedUser.id);
+    
+                    if (!mentionedUserLinkage) {
+                        return message.channel.createEmbed(new KiramekiHelper.Embed()
+                            .setColor('OSU')
+                            .setAuthor("osu! Top Play", KiramekiHelper.images.OSU_LOGO)
+                            .setDescription(
+                                "The user you have mentioned hasn't linked their osu! account with Kirameki!"
+                            )
+                        );
+                    } else {
+                        userToLookup = mentionedUserLinkage.osu_username;
+                    }
+                } else {
+                    userToLookup = play;
+                }
             } else {
                 if (parseInt(play) < 1 || parseInt(play) > 100) {
                     return message.channel.createEmbed(KiramekiHelper.generateHelpEmbed(this.help, this.help.inline));
