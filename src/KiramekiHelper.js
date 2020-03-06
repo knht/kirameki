@@ -863,7 +863,7 @@ class KiramekiHelper {
             diffDesc = 'INSANE';
         } else if (diffSanitized >= 5.26 && diffSanitized <= 6.75) {
             diffDesc = 'EXPERT';
-        } else if (diffSanitized >= 6.76) {
+        } else if (diffSanitized > 6.75) {
             diffDesc = 'EXPERT_PLUS';
         } else {
             diffDesc = 'invalid';
