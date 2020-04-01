@@ -21,11 +21,14 @@ class OsuBan {
 
         const osuUser = await kirCore.osu.user.get(username, 0, undefined, 'string');
 
-        if (osuUser) {
+        /**
+         * APRIL FOOLS
+         */
+        if (!osuUser) {
             message.channel.createEmbed(new KiramekiHelper.Embed()
                 .setColor('OSU')
                 .setAuthor('osu! Ban Checker', KiramekiHelper.images.OSU_LOGO)
-                .setDescription(`**Looking Good!** User **${osuUser.username}** (ID: ${osuUser.user_id}) isn't restricted!`)
+                .setDescription(`**Looking Good!** User **${(!osuUser) ? username : osuUser.username}** (ID: ${(!osuUser) ? 69420727 : osuUser.user_id}) isn't restricted!`)
             );
         } else {
             message.channel.createEmbed(new KiramekiHelper.Embed()
@@ -34,6 +37,20 @@ class OsuBan {
                 .setDescription(`User **${username}** seems to be restricted right now **or** you may have made a typo.`)
             );
         }
+
+        // if (osuUser) {
+        //     message.channel.createEmbed(new KiramekiHelper.Embed()
+        //         .setColor('OSU')
+        //         .setAuthor('osu! Ban Checker', KiramekiHelper.images.OSU_LOGO)
+        //         .setDescription(`**Looking Good!** User **${osuUser.username}** (ID: ${osuUser.user_id}) isn't restricted!`)
+        //     );
+        // } else {
+        //     message.channel.createEmbed(new KiramekiHelper.Embed()
+        //         .setColor('OSU')
+        //         .setAuthor('osu! Ban Checker', KiramekiHelper.images.OSU_LOGO)
+        //         .setDescription(`User **${username}** seems to be restricted right now **or** you may have made a typo.`)
+        //     );
+        // }
 
         KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, 'osu! BAN', `${KiramekiHelper.userLogCompiler(message.author)} used the osu! Ban command.`);
     }
