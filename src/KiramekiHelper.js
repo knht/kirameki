@@ -938,13 +938,14 @@ class KiramekiHelper {
 
         if (number & 1 << 0) modList.push('NF');
         if (number & 1 << 1) modList.push('EZ');
+        if (number & 1 << 2) modList.push('TD');
         if (number & 1 << 3) modList.push('HD');
         if (number & 1 << 4) modList.push('HR');
         if (number & 1 << 5) modList.push('SD');
-        if (number & 1 << 9) modList.push('NC');
         if (number & 1 << 6) modList.push('DT');
         if (number & 1 << 7) modList.push('RX');
         if (number & 1 << 8) modList.push('HT');
+        if (number & 1 << 9) modList.push('NC');
         if (number & 1 << 10) modList.push('FL');
         if (number & 1 << 12) modList.push('SO');
         if (number & 1 << 14) modList.push('PF');
