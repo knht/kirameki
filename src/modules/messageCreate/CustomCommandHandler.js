@@ -13,7 +13,7 @@ class CustomCommandMessageHandler {
             
             const isMuted = await KiramekiHelper.preparedQuery(kirCore.DB, 'SELECT * FROM mute WHERE discord_id = ? AND guild_id = ?;', [message.author.id, message.channel.guild.id]);
 
-            if (isMuted.length > 0) return message.delete();
+            if (isMuted.length > 0) return await message.delete();
             if (!message.content.startsWith(kirCore.prefix)) return;
             if (message.content === kirCore.prefix) return;
 
