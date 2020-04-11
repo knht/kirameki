@@ -949,6 +949,7 @@ class KiramekiHelper {
         if (number & 1 << 10) modList.push('FL');
         if (number & 1 << 12) modList.push('SO');
         if (number & 1 << 14) modList.push('PF');
+        if (number & 1 << 29) modList.push('Score V2');        
 
         if (modList.includes('NC')) {
             let dtIndex = modList.indexOf('DT');
