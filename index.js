@@ -37,9 +37,8 @@ class Kirameki extends Eris.Client {
         this.prefix         = KiramekiConfig.prefix;
         this.commandFiles   = read('./src/commands').filter(file => file.endsWith('.js'));
         this.moduleFiles    = read('./src/modules').filter(file => file.endsWith('.js'));
-        this.DB             = mysql.createConnection(KiramekiConfig.mysqlOptions);
+        this.DB             = mysql.createPool(KiramekiConfig.mysqlOptions);
 
-        this.DB.connect(this._initKiramekiDatabase);
         this._addEventListeners();
         this._registerKiramekiCommands();
         this._registerKiramekiModules();
@@ -77,18 +76,6 @@ class Kirameki extends Eris.Client {
                 process.exit(1);
             });
         }
-    }
-
-    /**
-     * Connection handler for the database
-     * @param {*} connectionError A possible error thrown by the database connector
-     */
-    _initKiramekiDatabase(connectionError) {
-        if (connectionError) {
-            KiramekiHelper.log(KiramekiHelper.LogLevel.ERROR, "DATABASE ERROR", `A connection error surfaced: ${connectionError}`);
-        }
-
-        KiramekiHelper.log(KiramekiHelper.LogLevel.EVENT, "DATABASE CONNECTION", "Successfully connected to the database!");
     }
 
     /**
