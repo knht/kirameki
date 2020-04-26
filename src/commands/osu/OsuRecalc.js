@@ -9,7 +9,7 @@ class OsuRecalc {
         this.category = KiramekiHelper.categories.OSU;
         this.cooldown = 3;
         this.help = {
-            message: 'Recalculate the potnetial PP of a previously posted osu! Standard score or beatmap with custom specifiable accuracy and map modifiers. Providing mods is optional.',
+            message: 'Recalculate the potential PP of a previously posted osu! Standard score or beatmap with custom specifiable accuracy and map modifiers. Providing mods is optional.',
             usage: 'recalc <accuracy>, [mapModifiers]',
             example: ['recalc 99.45%', 'recalc 100% +HD,HR,DT'],
             inline: false
