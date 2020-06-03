@@ -8,7 +8,7 @@ class OsuNetPP {
         this.category = KiramekiHelper.categories.OSU;
         this.owner = false;
         this.nsfw = false;
-        this.cooldown = 3;
+        this.cooldown = 5;
         this.help = {
             message: 'Calculate the theoretical weighted PP in your Top 100 plays of a new top play. Using this command requires a Kirameki osu! Linkage!',
             usage: 'netpp <pp>',
