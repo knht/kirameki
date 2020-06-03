@@ -24,6 +24,13 @@ class OsuNetPP {
         if (!pp || isNaN(pp)) return message.channel.createEmbed(KiramekiHelper.generateHelpEmbed(this.help));
         if (!userLinkage) return message.channel.createEmbed(KiramekiHelper.generateOsuLinkageEmbed('osu! Weighted PP'));
 
+        if (Number(pp) > 2500 || Number(pp) <= 0) {
+            return message.channel.createEmbed(new KiramekiHelper.Embed()
+                .setColor('RED')
+                .setTitle('Only positive PP values ranging from 0pp to 2500pp are supported!')
+            );
+        }
+
         message.channel.sendTyping();
 
         const osuUserBest = await kirCore.osu.raw('/get_user_best', { u: userLinkage.osu_id, m: 0, type: 'id', limit: 100 });
