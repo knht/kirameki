@@ -27,6 +27,11 @@ class MessageHandler {
         
         if ((isChannelIgnored.length > 0) && !message.member.permission.has('administrator')) return;
 
+        // Check if the command is currently being ignored in the channel
+        const isCommandIgnoredInChannel = await KiramekiHelper.preparedQuery(this.kirCore.DB, 'SELECT * FROM ignored_commands WHERE channel_id = ? AND command_name = ?;', [message.channel.id, command.name.toLowerCase()]);
+
+        if ((isCommandIgnoredInChannel.length > 0) && !message.member.permission.has('administrator')) return;
+
         // Check if the user is banned from using Kirameki
         const isBanned = await KiramekiHelper.preparedQuery(this.kirCore.DB, 'SELECT * FROM banned WHERE user_id = ? LIMIT 1;', [message.author.id]);
 
