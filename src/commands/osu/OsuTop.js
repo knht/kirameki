@@ -9,15 +9,36 @@ class OsuTop {
         this.category = KiramekiHelper.categories.OSU;
         this.cooldown = 3;
         this.help = {
-            message: 'Retrieve a Top 10 best plays list in **osu! Standard** or a specific top play of a user or yourself by specifying the play\'s rank in the Top 100. \n\nProviding a username is optional if an account has been linked to Kirameki.',
-            usage: 'top [playNumber] [username]',
-            example: ['top', 'top 17', 'top Mathi', 'top 3 Mathi'],
+            message: 'Retrieve a Top 10 best plays list in **osu! Standard** or a specific top play of a user or yourself by specifying the play\'s rank in the Top 100.\n\nListing all Top 10 scores defaults to Standard. You can override the mode by appending one of the mode-flags: `--taiko`, `--mania`, `--ctb` \n\nProviding a username is optional if an account has been linked to Kirameki.',
+            usage: 'top [playNumber] [username] [--mode<taiko|mania|ctb>]',
+            example: ['top', 'top 17', 'top Mathi', 'top 3 Mathi', 'top --mania', 'top Accalix --taiko'],
             inline: false
         }
     }
 
     async execute(message, kirCore) {
-        const [command, play, osuName] = KiramekiHelper.tailedArgs(message.content, ' ', 2);
+        let mode = {};
+        let newContent;
+
+        if (message.content.toLowerCase().includes('--taiko')) {
+            mode.id = 1;
+            mode.name = 'Taiko';
+            newContent = message.content.slice(0, message.content.indexOf(' --taiko'));
+        } else if (message.content.toLowerCase().includes('--ctb')) {
+            mode.id = 2;
+            mode.name = 'Catch the Beat';
+            newContent = message.content.slice(0, message.content.indexOf(' --ctb'));
+        } else if (message.content.toLowerCase().includes('--mania')) {
+            mode.id = 3;
+            mode.name = 'Mania';
+            newContent = message.content.slice(0, message.content.indexOf(' --mania'));
+        } else {
+            mode.id = 0;
+            mode.name = 'Standard';
+            newContent = message.content.slice(0, message.content.indexOf(' --'));
+        }
+
+        const [command, play, osuName] = KiramekiHelper.tailedArgs(newContent, ' ', 2);
         const userLinkage = await KiramekiHelper.getOsuUser(kirCore.DB, message.author.id);
         let userToLookup;
         let singleTopPlay = false;
@@ -171,18 +192,18 @@ class OsuTop {
             KiramekiHelper.updateLastOsuRecentBMID(kirCore.DB, message.author.id, osuBestMapObject.beatmap_id, message.channel.id);
             KiramekiHelper.log(KiramekiHelper.LogLevel.COMMAND, 'osu! TOP', `${KiramekiHelper.userLogCompiler(message.author)} used the ${this.name} command.`);
         } else {
-            const osuUser = await kirCore.osu.user.get(userToLookup, 0, undefined, 'string');
+            const osuUser = await kirCore.osu.user.get(userToLookup, mode.id, undefined, 'string');
 
             if (!osuUser) {
                 return message.channel.createEmbed(KiramekiHelper.generateOsuUserNotFoundEmbed('osu! Top Play', userToLookup));
             }
 
-            const osuUserBest = await kirCore.osu.raw('/get_user_best', { u: osuUser.user_id, m: 0, type: 'id', limit: 10 });
+            const osuUserBest = await kirCore.osu.raw('/get_user_best', { u: osuUser.user_id, m: mode.id, type: 'id', limit: 10 });
             
             if (!osuUserBest.length) {
                 return message.channel.createEmbed(new KiramekiHelper.Embed()
                     .setColor('OSU')
-                    .setAuthor(`**${osuUser.username}** hasn't got enough top plays!`, KiramekiHelper.images.OSU_LOGO)
+                    .setAuthor(`${osuUser.username} hasn't got enough top plays in mode ${mode.name}!`, KiramekiHelper.images.OSU_LOGO)
                 );
             }
 
@@ -217,7 +238,7 @@ class OsuTop {
 
             message.channel.createEmbed(new KiramekiHelper.Embed()
                 .setColor('OSU')
-                .setTitle(`**Top 10** best scores in osu! **Standard** set by **${osuUserDisplayname}**`)
+                .setTitle(`**Top 10** best scores in osu! **${mode.name}** set by **${osuUserDisplayname}**`)
                 .setDescription(renderedResults.join('\n\n'))
                 .setFooter(`${osuUser.username} #${osuUser.pp_rank} Global, #${osuUser.pp_country_rank} ${KiramekiHelper.capitalize(countryNames.getName(osuUser.country))}`, `https://a.ppy.sh/${osuUser.user_id}?uts=${Math.floor(new Date() / 1000)}`)
             );
