@@ -23,19 +23,19 @@ class OsuTop {
         if (message.content.toLowerCase().includes('--taiko')) {
             mode.id = 1;
             mode.name = 'Taiko';
-            newContent = message.content.slice(0, message.content.indexOf(' --taiko'));
+            newContent = message.content.slice(0, message.content.toLowerCase().indexOf(' --taiko'));
         } else if (message.content.toLowerCase().includes('--ctb')) {
             mode.id = 2;
             mode.name = 'Catch the Beat';
-            newContent = message.content.slice(0, message.content.indexOf(' --ctb'));
+            newContent = message.content.slice(0, message.content.toLowerCase().indexOf(' --ctb'));
         } else if (message.content.toLowerCase().includes('--mania')) {
             mode.id = 3;
             mode.name = 'Mania';
-            newContent = message.content.slice(0, message.content.indexOf(' --mania'));
+            newContent = message.content.slice(0, message.content.toLowerCase().indexOf(' --mania'));
         } else {
             mode.id = 0;
             mode.name = 'Standard';
-            newContent = message.content.slice(0, message.content.indexOf(' --'));
+            newContent = (message.content.indexOf(' --') >= 0) ? message.content.slice(0, message.content.indexOf(' --')) : message.content;
         }
 
         const [command, play, osuName] = KiramekiHelper.tailedArgs(newContent, ' ', 2);
