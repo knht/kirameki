@@ -177,6 +177,7 @@ class Kirameki extends Eris.Client {
         this.on('guildCreate', this._runGuildCreateOperators);
         this.on('userUpdate', this._runUserUpdateOperators);
         this.on('messageUpdate', this._runMessageUpdateOperators);
+        this.on('error', (error) => KiramekiHelper.log(KiramekiHelper.LogLevel.DEBUG, 'SHARD ERROR', `A shard error appeared but re-established connection: ${error}`));
     }
 }
 
