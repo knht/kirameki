@@ -31,7 +31,7 @@
     "iso-language-converter": "^1.1.0",
     "jimp": "^0.10.0",
     "juration": "^0.1.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "md5": "^2.2.1",
     "moment-timezone": "^0.5.25",
     "mysql": "^2.16.0",
